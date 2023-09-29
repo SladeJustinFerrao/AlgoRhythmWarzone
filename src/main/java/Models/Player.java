@@ -189,7 +189,7 @@ public class Player {
     public List<String> getCountryNames(){
         List<String> l_countryNames=new ArrayList<String>();
         for(Country c: d_coutriesOwned){
-            // need to call and add by getting country names from country class WIP
+            l_countryNames.add(c.d_countryName);
         }
         return l_countryNames;
     }
@@ -205,7 +205,7 @@ public class Player {
         List<String> l_continentNames = new ArrayList<String>();
         if (d_continentsOwned != null) {
             for(Continent c: d_continentsOwned){
-                // need to call and add by getting continents names from country class WIP
+                l_continentNames.add(c.d_continentName);
             }
             return l_continentNames;
         }
