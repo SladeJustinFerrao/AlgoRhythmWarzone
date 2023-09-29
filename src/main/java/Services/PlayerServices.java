@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class PlayerService {
+public class PlayerServices {
 
     public boolean isPlayerNameUnique(List<Player> p_existingPlayerList, String p_playerName) {
         boolean l_isUnique = true;
