@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import Constants.GameConstants;
-import Services.PlayerService;
+import Services.PlayerServices;
 import Utils.Command;
 
 
@@ -222,7 +222,7 @@ public class Player {
 	 */
     public void issue_order() throws IOException {
         BufferedReader l_reader = new BufferedReader(new InputStreamReader(System.in));
-        PlayerService l_playerService = new PlayerService();
+        PlayerServices l_playerService = new PlayerServices();
         System.out.println("\nPlease enter command to deploy reinforcement armies on the map for player : "
                 + this.getPlayerName());
         String l_commandEntered = l_reader.readLine();
