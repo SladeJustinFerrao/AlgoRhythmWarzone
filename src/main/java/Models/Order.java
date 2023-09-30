@@ -103,4 +103,33 @@ public class Order {
     public void setD_ArmiesToPlace(Integer p_ArmiesToPlace) {
         this.d_ArmiesToPlace = p_ArmiesToPlace;
     }
+
+    /**
+     * Enact the order object and change the state of game accordingly
+     * @param p_gameState current state of the game
+     * @param p_player player whose order is being executed
+     */
+    public void execute(GameState p_gameState, Player p_player) {
+
+    }
+
+    /**
+     * Method to check if the country armies are deployed belongs to player or not
+     * @param p_player player whose order is being executed
+     * @param p_order order given by the player to be executed
+     * @return true or false
+     */
+    public boolean doesPlayerHaveDeployCountry(Player p_player, Order p_order) {
+        return false;
+    }
+
+    /**
+     * Method to execute the order and update the state of the game
+     * @param p_order order given by the player to be executed
+     * @param p_gameState current state of the game
+     * @param p_player player whose order is being executed
+     */
+    public void executeDeployedOrder(Order p_order, GameState p_gameState, Player p_player) {
+
+    }
 }
