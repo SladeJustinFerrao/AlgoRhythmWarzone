@@ -5,8 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+
 public class PlayerServices {
 
+    /**
+     *
+     * @param p_existingPlayerList  check if it is existing or not
+     * @param p_playerName    input the player name who is playing
+     * @return  if the player is unique or not
+     */
     public boolean isPlayerNameUnique(List<Player> p_existingPlayerList, String p_playerName) {
         boolean l_isUnique = true;
         if (!(p_existingPlayerList==null) || p_existingPlayerList.isEmpty()) {
@@ -20,7 +27,13 @@ public class PlayerServices {
         return l_isUnique;
     }
 
-
+    /**
+     *
+     * @param p_existingPlayerList  list of existing players
+     * @param p_operation  type of operation to be performed
+     * @param p_argument  arguments which gives list of studenst
+     * @return
+     */
     public List<Player> addRemovePlayers(List<Player> p_existingPlayerList, String p_operation, String p_argument) {
         List<Player> l_updatedPlayers = new ArrayList<>();
         if (!(p_existingPlayerList==null) || p_existingPlayerList.isEmpty())
@@ -75,7 +88,11 @@ public class PlayerServices {
         }
     }
 
-
+    /**
+     *
+     * @param p_gameState game state or phase of the current game
+     * @return boolean if the player is available or not
+     */
     public boolean checkPlayersAvailability(GameState p_gameState) {
         if (p_gameState.getD_players() == null || p_gameState.getD_players().isEmpty()) {
             System.out.println("Please add players before assigning countries");
@@ -84,6 +101,10 @@ public class PlayerServices {
         return true;
     }
 
+    /**
+     * this method assigns colors to the players and the parameter is gameState
+     * @param p_gameState
+     */
     public void assignColors(GameState p_gameState){
         if (!checkPlayersAvailability(p_gameState)) return;
 
@@ -128,7 +149,11 @@ public class PlayerServices {
                                                     }
     }
 
-
+    /**
+     * This method assigns the continent
+     * @param p_players  list of players
+     * @param p_continents list of continents
+     */
     private void performContinentAssignment(List<Player> p_players, List<Continent> p_continents) {
         for (Player l_pl : p_players) {
 			List<String> l_countriesOwned = new ArrayList<>();
@@ -152,6 +177,11 @@ public class PlayerServices {
     }
 
 
+    /**
+     * it creates and deploy order of the game
+     * @param p_commandEntered get the parameter of the command given by the user
+     * @param p_player object of the player
+     */
     public void createDeployOrder(String p_commandEntered, Player p_player) {
         List<Order> l_orders = p_player.getD_ordersToExecute().size()==0 ? new ArrayList<>()
 				: p_player.getD_ordersToExecute();
@@ -239,7 +269,11 @@ public class PlayerServices {
         }
     }
 
-
+    /**
+     * This method is to check if the map is loaded properly
+     * @param p_gameState
+     * @return boolean if map is loaded or not
+     */
     public boolean isMapLoaded(GameState p_gameState) {
         return !(p_gameState.getD_map()==null);
     }
