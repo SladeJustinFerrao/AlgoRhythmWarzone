@@ -5,17 +5,38 @@ import Models.Country;
 import Models.GameState;
 import Models.Map;
 
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * The MapService Class holds all operations for the map.
  */
 public class MapService {
 
+    /**
+     * Method used to modify the Map
+     *
+     * @param p_gameState Current State of the game
+     * @param p_editFile File name
+     * @throws IOException
+     */
     public void editMap(GameState p_gameState, String p_editFile) throws IOException {
 
+        String l_filePath = getFilePath(p_editFile);
+        File l_fileToBeEdited = new File(l_filePath);
+
+        if (l_fileToBeEdited.createNewFile()) {
+            Map l_map = new Map();
+            l_map.setD_mapFile(p_editFile);
+            p_gameState.setD_map(l_map);
+            System.out.println("New Map File has been Created");
+        } else {
+            System.out.println("Map File is present");
+            this.loadMap(p_gameState, l_filePath);
+            p_gameState.setD_map(new Map());
+            p_gameState.getD_map().setD_mapFile(p_editFile);
+        }
     }
 
     public void editContinent(GameState p_gameState, String p_argument, String p_operation) throws IOException {
@@ -57,15 +78,39 @@ public class MapService {
     private void writeContinentdata(GameState p_gameState, FileWriter p_writer) throws IOException {
 
     }
-    public Map loadMap(GameState p_gameState, String p_loadFileName) {
-        Map l_map = new Map();
 
+    /**
+     * Method to load Existing Map file
+     *
+     * @param p_gameState Current State of the Game
+     * @param p_filePath Path of the filename provided
+     * @return
+     */
+    public Map loadMap(GameState p_gameState, String p_filePath) {
+        Map l_map = new Map();
+        List<String> l_linesOfFile = loadFile(p_filePath);
+
+        //Set Map content
         return l_map;
     }
 
-    public List<String> loadFile(String p_loadFileName) {
+    /**
+     * Method to extract contents of the file
+     *
+     * @param p_filePath Path of the filename provided
+     * @return
+     */
+    public List<String> loadFile(String p_filePath) {
         List<String> l_fileLines = new ArrayList<>();
 
+        BufferedReader l_reader;
+        try {
+            l_reader = new BufferedReader(new FileReader(p_filePath));
+            l_fileLines = l_reader.lines().collect(Collectors.toList());
+            l_reader.close();
+        } catch (IOException l_e1) {
+            System.out.println("File not Found!");
+        }
         return l_fileLines;
     }
 
@@ -87,6 +132,10 @@ public class MapService {
 
     public List<Country> parseNeighbourData(List<Country> p_countriesList, List<String> p_bordersList) {
         return p_countriesList;
+    }
+
+    public static String getFilePath(String p_fileName) {
+        return new File("").getAbsolutePath() + File.separator + "src/main/resources" + File.separator + p_fileName;
     }
 
 }
