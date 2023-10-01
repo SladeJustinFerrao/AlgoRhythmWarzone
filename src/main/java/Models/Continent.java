@@ -1,8 +1,10 @@
 package Models;
 
 import java.util.List;
+import java.util.ArrayList;
 
 public class Continent {
+
     /**
      * Continent ID
      */
@@ -19,15 +21,15 @@ public class Continent {
     Integer d_continentValue;
 
     /**
-     * Countries ID in Continent
+     * List of countries
      */
-    List<Integer> d_countries;
+    List<Country> d_countries;
 
     /**
      * Constructor
      *
-     * @param d_continentID Continent ID
-     * @param d_continentName Continent name
+     * @param d_continentID    Continent ID
+     * @param d_continentName  Continent name
      * @param d_continentValue Continent value
      */
     public Continent(Integer d_continentID, String d_continentName, Integer d_continentValue) {
@@ -35,7 +37,7 @@ public class Continent {
         this.d_continentName = d_continentName;
         this.d_continentValue = d_continentValue;
     }
-  
+
     /**
      * Default constructor
      */
@@ -57,7 +59,7 @@ public class Continent {
      *
      * @return Continent ID
      */
-    public Integer getD_continentID(){
+    public Integer getD_continentID() {
         return d_continentID;
     }
 
@@ -111,7 +113,7 @@ public class Continent {
      *
      * @return List of Countries
      */
-    public List<Integer> getD_countries() {
+    public List<Country> getD_countries() {
         return d_countries;
     }
 
@@ -120,25 +122,52 @@ public class Continent {
      *
      * @param p_countries List of Countries
      */
-    public void setD_countries(List<Integer> p_countries) {
+    public void setD_countries(List<Country> p_countries) {
         this.d_countries = p_countries;
     }
 
 
-    public void addCountry(int p_country) {
-        if(d_countries!=null) {
+    /**
+     * Adds a country
+     *
+     * @param p_country Country to be added
+     */
+    public void addCountry(Country p_country) {
+        if (d_countries != null) {
             d_countries.add(p_country);
         } else {
-            d_countries = new ArrayList<Integer>();
+            d_countries = new ArrayList<Country>();
             d_countries.add(p_country);
         }
     }
 
-    public void removeCountries (int p_country) {
-        if(d_countries==null) {
+    /**
+     * Removes the country
+     *
+     * @param p_country Country to be removed
+     */
+    public void removeCountries(Country p_country) {
+        if (d_countries == null) {
             System.out.println("There are no countries to remove");
         } else {
             d_countries.remove(p_country);
+        }
+    }
+
+    /**
+     * Removes the country ID from the list of neighbours for all the countries in the continent
+     *
+     * @param p_countryID ID of the country to remove
+     */
+    public void removeCountryForAllNeighbours(Integer p_countryID) {
+        if (d_countries != null && !d_countries.isEmpty()) {
+            for (Country country : d_countries) {
+                if (country.d_neighbourCountryId == null) {
+                    if (country.getD_neighbourCountryId().contains(p_countryID)) {
+                        country.removeNeighbourFromCountry(p_countryID);
+                    }
+                }
+            }
         }
     }
 }
