@@ -5,11 +5,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import Constants.GameConstants;
 import Services.PlayerServices;
 import Utils.Command;
 
-
+/**
+ * This class contains data members and functions of player.
+ */
 public class Player {
     /**
      * color to show details with on map.
