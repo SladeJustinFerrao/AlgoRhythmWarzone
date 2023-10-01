@@ -1,9 +1,5 @@
 package Models;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.HashMap;
-
 public class Map {
     /**
      * stores the map file name.
