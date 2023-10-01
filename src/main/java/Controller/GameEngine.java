@@ -71,15 +71,15 @@ public class GameEngine {
 
 		switch (l_rootCommand) {
 			case "editmap": {
-				//edit map
+				performMapEdit(l_command);
 				break;
 			}
 			case "editcontinent": {
 				if (!l_isMapLoaded) {
-					System.out.println("Can not Edit Continent, please perform `editmap` first");
+					System.out.println("Can not edit continent, please perform `editmap` first");
 					break;
 				}
-				//edit continent edit
+				performEditContinent(l_command);
 				break;
 			}
 			case "savemap": {
@@ -87,53 +87,51 @@ public class GameEngine {
 					System.out.println("No map found to save, Please `editmap` first");
 					break;
 				}
-
-				// save map
+				performSaveMap(l_command);
 				break;
 			}
 			case "loadmap": {
-				// load map
+				performLoadMap(l_command);
 				break;
 			}
 			case "validatemap": {
 				if (!l_isMapLoaded) {
-					System.out.println("No map found to validate, Please `loadmap` & `editmap` first");
+					System.out.println("No map is found for validation, Please loadmap & editmap first");
 					break;
 				}
-				//validat map
 				break;
 			}
 			case "editcountry": {
 				if (!l_isMapLoaded) {
-					System.out.println("Can not Edit Country, please perform `editmap` first");
+					System.out.println("Can not edit country, please perform editmap first");
 					break;
 				}
-				//edit country
+				performValidateMap(l_command);
 				break;
 			}
 			case "editneighbour": {
 				if (!l_isMapLoaded) {
-					System.out.println("Can not Edit Neighbors, please perform `editmap` first");
+					System.out.println("Can not edit neighbors, please perform editmap first");
 					break;
 				}
-				//edit neighbour
+				performEditNeighbour(l_command);
 				break;
 			}
 			case "gameplayer": {
 				if (!l_isMapLoaded) {
-					System.out.println("No map found, Please `loadmap` before adding game players");
+					System.out.println("No map found, Please loadmap before adding game players");
 					break;
 				}
-				//create player in the game
+				createPlayers(l_command);
 				break;
 			}
 		case "assigncountries": {
-			//assign countries
+			assignCountries(l_command);
 			break;
 		}
 		case "showmap": {
-			// map view class instantiation
-	
+			MapView l_mapView = new MapView(d_gameState);
+			l_mapView.showMap();
 			break;
 		}
 		case "exit": {
