@@ -15,6 +15,10 @@ public class Country {
      * continent ID
      */
     int d_continentId;
+    /**
+     * How much armies it contains
+     */
+    int d_armies;
 
     /**
      * parameterised constructor contains 3 parameters
@@ -47,6 +51,20 @@ public class Country {
      */
     public Country(String p_countryName) {
         this.d_countryName = p_countryName;
+    }
+    /**
+     * getter method to get the armies.
+     * @return armies
+     */
+    public int getD_armies() {
+        return d_armies;
+    }
+    /**
+     * setter method to set armies
+     * @param p_armies armies
+     */
+    public void setD_armies(int p_armies) {
+        this.d_armies = p_armies;
     }
 }
  
