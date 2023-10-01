@@ -60,16 +60,16 @@ public class Order {
      * Method to get name of the targeted country
      * @return name of the targeted country
      */
-    public String getD_CountriesTargeted() {
+    public String getD_CountryTargeted() {
         return d_CountryTargeted;
     }
 
     /**
      * Method to set name of the targeted country
-     * @param p_CountriesTargeted name of the targeted country
+     * @param p_CountryTargeted name of the targeted country
      */
-    public void setD_CountriesTargeted(String p_CountriesTargeted) {
-        this.d_CountryTargeted = p_CountriesTargeted;
+    public void setD_CountryTargeted(String p_CountryTargeted) {
+        this.d_CountryTargeted = p_CountryTargeted;
     }
 
     /**
@@ -110,7 +110,21 @@ public class Order {
      * @param p_player player whose order is being executed
      */
     public void execute(GameState p_gameState, Player p_player) {
-
+        switch(this.d_ActionOfOrder) {
+            case "deploy": {
+                if (this.doesPlayerHaveDeployCountry(p_player, this)) {
+                    this.executeDeployedOrder(this, p_gameState, p_player);
+                    System.out.println("Order has successfull been executed. " + this.getD_ArmiesToPlace() + " numbers of armies are deployed to target country " + this.getD_CountryTargeted());
+                }
+                else {
+                    System.out.println("Target country does not belong to player: " + p_player.getPlayerName());
+                }
+                break;
+            }
+            default: {
+                System.out.println("Invalid order command");
+            }
+        }
     }
 
     /**
