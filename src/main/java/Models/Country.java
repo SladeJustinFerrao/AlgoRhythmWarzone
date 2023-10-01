@@ -127,7 +127,7 @@ public class Country {
         this.d_continentId = p_continentId;
     }
      /**
-     * removeNeighbour method removes country Id from  neighbour Country Id list.
+     * remove Neighbour method removes country Id from  neighbour Country Id list.
      *
      * @param p_countryId country Id which is to be removed
      */
@@ -138,6 +138,15 @@ public class Country {
         }else{
             d_neighbourCountryId.remove(d_neighbourCountryId.indexOf(p_countryId));
         }
+    }
+    /**
+     * addNeighbourToCountry method adds neighbour to already present country ID
+     *
+     * @param p_countryId country ID which is to be added
+     */
+    public void addNeighbourToCountry(int p_countryId){
+        if(!d_neighbourCountryId.contains(p_countryId))
+            d_neighbourCountryId.add(p_countryId);
     }
      
 }
