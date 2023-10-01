@@ -95,6 +95,19 @@ public class Map {
         }
         return l_countryIDs;
     }
+    /**
+     * shows Info related to all countries
+     */
+    public void showCountriesInfo() {
+        for (Country country: d_countries) {
+            System.out.println("Country Id "+ country.getD_countryId());
+            System.out.println("Continent Id "+country.getD_continentId());
+            System.out.println("Neighbours:");
+            for (int i: country.getD_neighbourCountryId()) {
+                System.out.println(i);
+            }
+        }
+    }
 
     /**
      * Adds the continent to the list of continents
