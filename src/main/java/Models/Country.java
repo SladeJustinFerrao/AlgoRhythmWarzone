@@ -126,6 +126,19 @@ public class Country {
     public void setD_continentId(int p_continentId) {
         this.d_continentId = p_continentId;
     }
+     /**
+     * removeNeighbour method removes country Id from  neighbour Country Id list.
+     *
+     * @param p_countryId country Id which is to be removed
+     */
+    public void removeNeighbourFromCountry(Integer p_countryId){
+        if(!d_neighbourCountryId.contains(p_countryId)){
+            System.out.println("Neighbour does not Exists");
+
+        }else{
+            d_neighbourCountryId.remove(d_neighbourCountryId.indexOf(p_countryId));
+        }
+    }
      
 }
  
