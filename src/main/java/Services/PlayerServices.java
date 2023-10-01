@@ -116,7 +116,15 @@ public class PlayerServices {
     }
 
     public void assignCountries(GameState p_gameState) {
-        //WIP... dependend on map class
+        if (!checkPlayersAvailability(p_gameState))
+			return;
+
+		List<Country> l_countries = p_gameState.getD_map().getD_countries();
+		int l_countriesPerPlayer = Math.floorDiv(l_countries.size(), p_gameState.getD_players().size());
+
+		this.performRandomCountryAssignment(l_countriesPerPlayer, l_countries, p_gameState.getD_players());
+		this.performContinentAssignment(p_gameState.getD_players(), p_gameState.getD_map().getD_continents());
+		System.out.println("Countries have been assigned to Players.");
 
 
     }
