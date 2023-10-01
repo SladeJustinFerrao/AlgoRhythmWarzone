@@ -72,6 +72,29 @@ public class Map {
     public void setD_countries(List<Country> d_countries) {
         this.d_countries = d_countries;
     }
+    /**
+     * adds country to the list of countries
+     *
+     * @param p_country country to append
+     */
+    public void appendCountry(Country p_country){
+        d_countries.add(p_country);
+    }
+
+    /**
+     * Gives you list of all country Ids in a List.
+     *
+     * @return countryId List
+     */
+    public List<Integer> retriveCountryID(){
+        List<Integer> l_countryIDs = new ArrayList<>();
+        if(!d_countries.isEmpty()){
+            for(Country country: d_countries){
+                l_countryIDs.add(country.getD_countryId());
+            }
+        }
+        return l_countryIDs;
+    }
 
     /**
      * Adds the continent to the list of continents
