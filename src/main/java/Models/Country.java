@@ -19,6 +19,10 @@ public class Country {
      * How much armies it contains
      */
     int d_armies;
+    /**
+     * list of countries neighbour to the given country
+     */
+    List<Integer> d_neighbourCountryId = new ArrayList<Integer>();
 
     /**
      * parameterised constructor contains 3 parameters
@@ -66,5 +70,62 @@ public class Country {
     public void setD_armies(int p_armies) {
         this.d_armies = p_armies;
     }
+    /**
+      * getter method to get country ID
+      * @return country ID
+     */
+    public int getD_countryId() {
+        return d_countryId;
+    }
+    /**
+     * getter method which gives us country Name
+     * @return country Name
+     */
+    public String getD_countryName() {
+        return d_countryName;
+    }
+    /**
+     * getter method to get the continent Id.
+     * @return continent Id
+     */
+    public int getD_continentId() {
+        return d_continentId;
+    }
+    /**
+     * getter method which gives us neighbour country Ids
+     * @return  neighbour Country Id
+     */
+    public List<Integer> getD_neighbourCountryId() {
+        return d_neighbourCountryId;
+    }
+    /**
+     * setter which sets neighbour country Id.
+     * @param p_neighbourCountryId all neighbour country Id
+     */
+    public void setD_neighbourCountryId(List<Integer> p_neighbourCountryId) {
+        this.d_neighbourCountryId = p_neighbourCountryId;
+    }
+    /**
+     * setter method to set country Id
+     * @param p_countryId country Id
+     */
+    public void setD_countryId(int p_countryId) {
+        this.d_countryId = p_countryId;
+    }
+    /**
+     * setter method to set country Name
+     * @param p_countryName country Name
+     */
+    public void setD_countryName(String p_countryName) {
+        this.d_countryName = p_countryName;
+    }
+    /**
+     * setter method to set continent Id
+     * @param p_continentId continent Id
+     */
+    public void setD_continentId(int p_continentId) {
+        this.d_continentId = p_continentId;
+    }
+     
 }
  
