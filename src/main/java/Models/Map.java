@@ -97,4 +97,13 @@ public class Map {
         return l_continentID;
     }
 
+    /**
+     * Check continents in play
+     */
+    public void continentChecker() {
+        for(Continent continent: d_continents) {
+            System.out.println(continent.getD_continentID());
+        }
+    }
+
 }
