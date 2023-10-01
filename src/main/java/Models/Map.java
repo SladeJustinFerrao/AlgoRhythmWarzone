@@ -1,5 +1,6 @@
 package Models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Map {
@@ -71,4 +72,29 @@ public class Map {
     public void setD_countries(List<Country> d_countries) {
         this.d_countries = d_countries;
     }
+
+    /**
+     * Adds the continent to the list of continents
+     *
+     * @param p_continent Continent to add to list
+     */
+    public void appendContinent(Continent p_continent) {
+        d_continents.add(p_continent);
+    }
+
+    /**
+     * Obtain a list of all the Continent IDs in play
+     *
+     * @return List of continent IDs
+     */
+    public List<Integer> retrieveContinentID() {
+        List<Integer> l_continentID = new ArrayList<>();
+        if (!d_continents.isEmpty()) {
+            for (Continent continent : d_continents) {
+                l_continentID.add(continent.getD_continentID());
+            }
+        }
+        return l_continentID;
+    }
+
 }
