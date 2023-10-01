@@ -105,36 +105,54 @@ public class PlayerServices {
     }
 
 
-    private void performRandomCountryAssignment(int p_countriesPerPlayer, List<Country> p_countries,
-                                                List<Player> p_players) {
-        List<Country> l_unassignedCountries = new ArrayList<>(p_countries);
-        for (Player l_pl : p_players) {
-            if (l_unassignedCountries.isEmpty())
-                break;
-            // Based on number of countries to be assigned to player, it generates random
-            // country and assigns to player
-            for (int i = 0; i < p_countriesPerPlayer; i++) {
-                Random l_random = new Random();
-                int l_randomIndex = l_random.nextInt(l_unassignedCountries.size());
-                Country l_randomCountry = l_unassignedCountries.get(l_randomIndex);
-
-                if (l_pl.getD_coutriesOwned() == null)
-                    l_pl.setD_coutriesOwned(new ArrayList<>());
-                l_pl.getD_coutriesOwned().add(l_randomCountry);
-                // depended on Country class WIP...
-                l_unassignedCountries.remove(l_randomCountry);
-            }
-        }
-        // If any countries are still left for assignment, it will redistribute those
-        // among players
-        if (!l_unassignedCountries.isEmpty()) {
-            performRandomCountryAssignment(1, l_unassignedCountries, p_players);
-        }
+    private void performRandomCountryAssignment(int p_countriesPerPlayer, List<Country> p_countries, List<Player> p_players) {
+                                                    List<Country> l_unassignedCountries = new ArrayList<>(p_countries);
+                                                    for (Player l_pl : p_players) {
+                                                        if (l_unassignedCountries.isEmpty())
+                                                            break;
+                                                        // Based on number of countries to be assigned to player, it generates random
+                                                        // country and assigns to player
+                                                        for (int i = 0; i < p_countriesPerPlayer; i++) {
+                                                            Random l_random = new Random();
+                                                            int l_randomIndex = l_random.nextInt(l_unassignedCountries.size());
+                                                            Country l_randomCountry = l_unassignedCountries.get(l_randomIndex);
+                                            
+                                                            if (l_pl.getD_coutriesOwned() == null)
+                                                                l_pl.setD_coutriesOwned(new ArrayList<>());
+                                                            l_pl.getD_coutriesOwned().add(l_randomCountry);
+                                                            System.out.println("Player : " + l_pl.getPlayerName() + " is assigned with country : "
+                                                                    + l_randomCountry.getD_countryName());
+                                                            l_unassignedCountries.remove(l_randomCountry);
+                                                        }
+                                                    }
+                                                    // If any countries are still left for assignment, it will redistribute those
+                                                    // among players
+                                                    if (!l_unassignedCountries.isEmpty()) {
+                                                        performRandomCountryAssignment(1, l_unassignedCountries, p_players);
+                                                    }
     }
 
 
     private void performContinentAssignment(List<Player> p_players, List<Continent> p_continents) {
-        // depended on Country class WIP...
+        for (Player l_pl : p_players) {
+			List<String> l_countriesOwned = new ArrayList<>();
+			if (l_pl.getD_coutriesOwned().size()!=0) {
+				l_pl.getD_coutriesOwned().forEach(l_country -> l_countriesOwned.add(l_country.getD_countryName()));
+
+				for (Continent l_cont : p_continents) {
+					List<String> l_countriesOfContinent = new ArrayList<>();
+					l_cont.getD_countries().forEach(l_count -> l_countriesOfContinent.add(l_count.getD_countryName()));
+					if (l_countriesOwned.containsAll(l_countriesOfContinent)) {
+						if (l_pl.getD_continentsOwned() == null)
+							l_pl.setD_continentsOwned(new ArrayList<>());
+
+						l_pl.getD_continentsOwned().add(l_cont);
+						System.out.println("Player : " + l_pl.getPlayerName() + " is assigned with continent : "
+								+ l_cont.getD_continentName());
+					}
+				}
+			}
+		}
     }
 
 
@@ -163,17 +181,17 @@ public class PlayerServices {
 
     public int calculateArmiesForPlayer(Player p_player) {
         int l_armies = 0;
-        if (!p_player.getD_coutriesOwned().isEmpty()) {
-            l_armies = Math.max(3, Math.round((float) (p_player.getD_coutriesOwned().size()) / 3));
-        }
-        if (!p_player.getD_continentsOwned().isEmpty()) {
-            int l_continentCtrlValue = 0;
-            for (Continent l_continent : p_player.getD_continentsOwned()) {
-                //WIP for classes continent
-            }
-            l_armies = l_armies + l_continentCtrlValue;
-        }
-        return l_armies;
+		if (p_player.getD_coutriesOwned().size()!=0) {
+			l_armies = Math.max(3, Math.round((p_player.getD_coutriesOwned().size()) / 3));
+		}
+		if (p_player.getD_continentsOwned().size()!=0) {
+			int l_continentCtrlValue = 0;
+			for (Continent l_continent : p_player.getD_continentsOwned()) {
+				l_continentCtrlValue = l_continentCtrlValue + l_continent.getD_continentValue();
+			}
+			l_armies = l_armies + l_continentCtrlValue;
+		}
+		return l_armies;
     }
 
 
