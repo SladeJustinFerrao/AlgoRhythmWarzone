@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Services class for Player to fetch the sepcific methods to be used for players in the game
+ * @author Darshan Kansara
+ */
 public class PlayerServices {
 
     /**
