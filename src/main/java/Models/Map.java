@@ -28,6 +28,10 @@ public class Map {
     public String getD_mapFile() {
         return d_mapFile;
     }
+    /**
+     * All countries one can reach from exiting position are put in a hashmap.
+     */
+    HashMap<Integer, Boolean> d_countryConnectedStatus = new HashMap<Integer, Boolean>();
 
     /**
      * setter method for map file.
@@ -200,6 +204,71 @@ public class Map {
                  }
              }
          }
+    }
+    /**
+     * Retrieve neighbour Country Objects.
+     *
+     * @param p_country neighbour country
+     * @return list of neighbour Country Objects
+     */
+    public List<Country> getNeighbourCountry(Country p_country){
+        List<Country> l_neighbourCountries = new ArrayList<Country>();
+
+        if (p_country.getD_neighbourCountryId().size() > 0) {
+            for (int i : p_country.getD_neighbourCountryId()) {
+                l_neighbourCountries.add(retrieveCountry(i));
+            }
+        } else {
+            System.out.println(p_country.getD_countryName() + " doesn't contain any neighbour countries");
+        }
+        return l_neighbourCountries;
+    }
+
+    /**
+     * Dfs search is applied to input data
+     *
+     * @param p_country First country visited
+     */
+    public void dfsCountry(Country p_country) {
+        d_countryConnectedStatus.put(p_country.getD_countryId(), true);
+        for (Country l_country : getNeighbourCountry(p_country)) {
+            if (!d_countryConnectedStatus.get(l_country.getD_countryId())) {
+                dfsCountry(l_country);
+            }
+        }
+    }
+    /**
+     * connectivity of country is checked.
+     *
+     * @return Return true if all the countries are connected else return false
+     */
+    public boolean isCountriesConnected() {
+        for (Country country : d_countries) {
+            d_countryConnectedStatus.put(country.getD_countryId(), false);
+        }
+        dfsCountry(d_countries.get(0));
+
+        for (java.util.Map.Entry<Integer, Boolean> entry : d_countryConnectedStatus.entrySet()) {
+            if (!entry.getValue()) {
+                System.out.println(retrieveCountry(entry.getKey()).getD_countryName() + " country is not accessible");
+            }
+        }
+        return !d_countryConnectedStatus.containsValue(false);
+    }
+    /**
+     * From a given country ID find the Country object .
+     *
+     *
+     * @param p_countryId country object ID
+     * @return country object
+     */
+    public Country retrieveCountry(Integer p_countryId) {
+        for(Country country: d_countries){
+            if(p_countryId == country.getD_countryId()){
+                return country;
+            }
+        }
+        return null;
     }
 
 }
