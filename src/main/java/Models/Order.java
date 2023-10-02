@@ -148,7 +148,7 @@ public class Order {
     public void executeDeployedOrder(Order p_order, GameState p_gameState, Player p_player) {
         for(Country l_country: p_gameState.getD_map().getD_countries()) {
             if(l_country.getD_countryName().equalsIgnoreCase(p_order.getD_CountryTargeted())) {
-                int l_armiesToUpdate = l_country.getD_armies() == null ? p_order.getD_ArmiesToPlace() : l_country.getD_armies() + p_order.getD_ArmiesToPlace();
+                int l_armiesToUpdate = l_country.getD_armies() == 0 ? p_order.getD_ArmiesToPlace() : l_country.getD_armies() + p_order.getD_ArmiesToPlace();
                 l_country.setD_armies(l_armiesToUpdate);
             }
         }
