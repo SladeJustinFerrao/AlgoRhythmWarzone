@@ -13,7 +13,7 @@ import Models.Player;
 import Services.MapService;
 import Services.PlayerServices;
 import Utils.Command;
-
+import Views.MapView;
 
 /**
  * This is the entry point of the Game and keeps the track of current Game State.
