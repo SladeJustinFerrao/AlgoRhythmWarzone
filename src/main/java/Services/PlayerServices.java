@@ -32,11 +32,11 @@ public class PlayerServices {
     }
 
     /**
-     *
+     * The method can add and remove players at the same time
      * @param p_existingPlayerList list of existing players
      * @param p_operation          type of operation to be performed
      * @param p_argument           arguments which gives list of players
-     * @return
+     * @return the updated list of players after performing add or delete operation
      */
     public List<Player> addRemovePlayers(List<Player> p_existingPlayerList, String p_operation, String p_argument) {
         List<Player> l_updatedPlayers = new ArrayList<>();
@@ -231,7 +231,7 @@ public class PlayerServices {
     /**
      * This method calculates the army for a player who is currently available
      * @param p_player
-     * @return
+     * @return the calculated number of armies to the player
      */
     public int calculateArmiesForPlayer(Player p_player) {
         int l_armies = 0;
@@ -277,9 +277,9 @@ public class PlayerServices {
     }
 
     /**
-     * The method checks if are there any unassigned armies left or not
+     * The method checks if there are any unassigned armies left or not
      * @param p_playersList list of players available
-     * @return
+     * @return true or false f there are any unassigned armies left or not
      */
     public boolean unassignedArmiesExists(List<Player> p_playersList) {
         int l_unassignedArmies = 0;
