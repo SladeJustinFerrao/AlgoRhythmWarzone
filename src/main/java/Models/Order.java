@@ -114,7 +114,7 @@ public class Order {
             case "deploy": {
                 if (this.doesPlayerHaveDeployCountry(p_player, this)) {
                     this.executeDeployedOrder(this, p_gameState, p_player);
-                    System.out.println("Order has successfull been executed. " + this.getD_ArmiesToPlace() + " numbers of armies are deployed to target country " + this.getD_CountryTargeted());
+                    System.out.println("Order has successfully been executed. " + this.getD_ArmiesToPlace() + " numbers of armies are deployed to target country " + this.getD_CountryTargeted());
                 }
                 else {
                     System.out.println("Target country does not belong to player: " + p_player.getPlayerName());
