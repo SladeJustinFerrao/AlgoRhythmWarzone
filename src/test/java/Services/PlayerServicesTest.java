@@ -73,6 +73,9 @@ class PlayerServicesTest {
 
     }
 
+    /**
+     * test for the calculation of number of reinforcement armies
+     */
     @Test
     void calculateArmiesForPlayer() {
         Player l_player1= new Player("Lucifer");
@@ -95,9 +98,9 @@ class PlayerServicesTest {
     }
 
 
-
-
-
+    /**
+     * test to check if there are unassigned Armies or not
+     */
     @Test
     void unassignedArmiesExists() {
         PlayerServices l_playerServices= new PlayerServices();
@@ -119,7 +122,9 @@ class PlayerServicesTest {
     }
 
 
-
+    /**
+     * test to if the map is loaded or not
+     */
     @Test
     void isMapLoaded() {
         GameState l_gameState= new GameState();
