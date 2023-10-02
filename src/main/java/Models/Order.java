@@ -134,7 +134,9 @@ public class Order {
      * @return true or false
      */
     public boolean doesPlayerHaveDeployCountry(Player p_player, Order p_order) {
-        return false;
+        Country l_country = p_player.getD_coutriesOwned().stream().filter(
+            l_pl -> l_pl.getD_countryName().equalsIgnoreCase(p_order.getD_CountryTargeted())).findFirst().orElse(null);
+        return l_country != null;
     }
 
     /**
