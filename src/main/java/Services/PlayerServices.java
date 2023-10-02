@@ -35,7 +35,7 @@ public class PlayerServices {
      *
      * @param p_existingPlayerList list of existing players
      * @param p_operation          type of operation to be performed
-     * @param p_argument           arguments which gives list of studenst
+     * @param p_argument           arguments which gives list of players
      * @return
      */
     public List<Player> addRemovePlayers(List<Player> p_existingPlayerList, String p_operation, String p_argument) {
@@ -59,6 +59,13 @@ public class PlayerServices {
         return l_updatedPlayers;
     }
 
+    /**
+     * the method removes the existing game player or shows the Player does not exist in the console
+     * @param p_existingPlayerList list of existing players
+     * @param p_updatedPlayers updated player list with newly added player
+     * @param p_enteredPlayerName new player name to be removed
+     * @param p_playerNameAlreadyExist false if player to be removed does not exist
+     */
     private void removeGamePlayer(List<Player> p_existingPlayerList, List<Player> p_updatedPlayers,
             String p_enteredPlayerName, boolean p_playerNameAlreadyExist) {
         if (p_playerNameAlreadyExist) {
@@ -74,7 +81,7 @@ public class PlayerServices {
     }
 
     /**
-     * Adds player to Game if its not there already.
+     * Adds player to Game if it's not there already.
      *
      * @param p_updatedPlayers         updated player list with newly added player
      * @param p_enteredPlayerName      new player name to be added
@@ -92,7 +99,7 @@ public class PlayerServices {
     }
 
     /**
-     *
+     * The method checks the player availability
      * @param p_gameState game state or phase of the current game
      * @return boolean if the player is available or not
      */
@@ -107,7 +114,7 @@ public class PlayerServices {
     /**
      * This method assign countries to the player
      * 
-     * @param p_gameState
+     * @param p_gameState game state or phase of the current game
      */
     public void assignCountries(GameState p_gameState) {
         if (!checkPlayersAvailability(p_gameState))
@@ -243,7 +250,7 @@ public class PlayerServices {
 
     /**
      * This function assign the armies in the game state and to the players
-     * @param p_gameState
+     * @param p_gameState game state or phase of the current game
      */
     public void assignArmies(GameState p_gameState) {
         for (Player l_pl : p_gameState.getD_players()) {
@@ -269,6 +276,11 @@ public class PlayerServices {
         return l_totalUnexecutedOrders != 0;
     }
 
+    /**
+     * The method checks if are there any unassigned armies left or not
+     * @param p_playersList list of players available
+     * @return
+     */
     public boolean unassignedArmiesExists(List<Player> p_playersList) {
         int l_unassignedArmies = 0;
         for (Player l_player : p_playersList) {
@@ -277,6 +289,12 @@ public class PlayerServices {
         return l_unassignedArmies != 0;
     }
 
+    /**
+     * The method updates the list of players
+     * @param p_gameState  game state or phase of the current game
+     * @param p_operation operation to update the list
+     * @param p_argument arguments which gives list of players
+     */
     public void updatePlayers(GameState p_gameState, String p_operation, String p_argument) {
         if (!isMapLoaded(p_gameState)) {
             System.out.println("Kindly load the map first to add player: " + p_argument);
@@ -292,7 +310,7 @@ public class PlayerServices {
     /**
      * This method is to check if the map is loaded properly
      * 
-     * @param p_gameState
+     * @param p_gameState game state or phase of the current game
      * @return boolean if map is loaded or not
      */
     public boolean isMapLoaded(GameState p_gameState) {
