@@ -182,7 +182,7 @@ public class GameEngine {
 			for (Map<String, String> l_map : l_operations_list) {
 				if (!l_map.isEmpty() && l_map.containsKey("arguments") && l_map.get("arguments") != null) {
 					try {
-						d_mapService.editMap(d_gameState, l_map.get("arguements"));
+						d_mapService.editMap(d_gameState, l_map.get("arguments"));
 					} catch (IOException ex) {
 						throw new RuntimeException(ex);
 					}
@@ -192,7 +192,6 @@ public class GameEngine {
 			}
 		}
 	}
-
 
 	/**
 	 * Basic validation of <strong>editcontinent</strong> command for
@@ -220,7 +219,6 @@ public class GameEngine {
 			}
 		}
 	}
-
 
 	/**
 	 *
@@ -286,14 +284,31 @@ public class GameEngine {
 	}
 
 	/**
+	 *
 	 * Basic validation of <strong>validatemap</strong> command for checking required arguments and
 	 * redirecting control to model for actual processing.
-	 *
-	 * @param p_command command entered by the user on CLI
+	 * @param p_command command by the user on the CLI
+	 * @throws Exception indicates Exception
 	 */
 	private void performValidateMap(Command p_command) throws Exception {
-		//validate the map
+		List<Map<String, String>> l_operations_list = p_command.getTaskandArguments();
+
+		if (null == l_operations_list || l_operations_list.isEmpty()) {
+			Models.Map l_currentMap = d_gameState.getD_map();
+			if (l_currentMap == null) {
+				System.out.println(e.getMessage());
+			} else {
+				if (l_currentMap.Validate()) {
+					System.out.println("The loaded map is valid!");
+				} else {
+					System.out.println("Failed to Validate map!");
+				}
+			}
+		} else {
+			System.out.println(e.getMessage());
+		}
 	}
+
 
 	/**
 	 * Basic validation of <strong>editcountry</strong> command for checking
