@@ -167,7 +167,7 @@ public class GameEngine {
 	}
 
 	/**
-	 * Basic validation of <strong>editcontinent</strong> command for
+	 * Basic validation of <strong>editmap</strong> command for
 	 * checking arguements and directing control to model for the processing.
 	 *
 	 * @param p_command command by the user on the CLI
@@ -287,6 +287,7 @@ public class GameEngine {
 	 *
 	 * Basic validation of <strong>validatemap</strong> command for checking required arguments and
 	 * redirecting control to model for actual processing.
+	 *
 	 * @param p_command command by the user on the CLI
 	 * @throws Exception indicates Exception
 	 */
