@@ -360,10 +360,21 @@ public class GameEngine {
 	 * arguments and redirecting control to model for adding or removing players.
 	 *
 	 * @param p_command command entered by the user on CLI
+	 * @throws Exception indicates Exception
 	 */
-	private void createPlayers(Command p_command) throws Exception {
-		
-			//create player
+	public void createPlayers(Command p_command) throws Exception {
+		List<Map<String, String>> l_operations_list = p_command.getTaskandArguments();
+		if (null == l_operations_list || l_operations_list.isEmpty()) {
+			System.out.println(e.getMessage());
+		} else {
+			for (Map<String, String> l_map : l_operations_list) {
+				if (!l_map.isEmpty() && l_map.containsKey("arguments") && l_map.get("arguments") != null) {
+					d_playerService.updatePlayers(d_gameState, l_map.get("arguments"), l_map.get("operations"));
+				} else {
+					System.out.println(e.getMessage());
+				}
+			}
+		}
 	}
 
 	/**
