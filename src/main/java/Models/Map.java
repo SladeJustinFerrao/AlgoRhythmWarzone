@@ -157,7 +157,27 @@ public class Map {
      * @return true if map is successfully validated else false
      */
     public Boolean Validate() {
-        return (isContinentsConnected() && isCountriesConnected());
+        return (checkNullObjects() && isContinentsConnected() && isCountriesConnected());
+    }
+
+    /**
+     * Checks if objects in map are null
+     *
+     * @return False if there is no null objects else true
+     */
+    public Boolean checkNullObjects() {
+        if(d_continents==null || d_continents.isEmpty()){
+            System.out.println("Map must contain at least one continent!");
+        }
+        if(d_countries==null || d_countries.isEmpty()){
+            System.out.println("Map must contain at least one country!");
+        }
+        for(Country c: d_countries){
+            if(c.getD_neighbourCountryId().isEmpty()){
+                System.out.println(c.getD_countryName()+" does not possess any neighbour, hence isn't reachable!");
+            }
+        }
+        return true;
     }
 
     /**
