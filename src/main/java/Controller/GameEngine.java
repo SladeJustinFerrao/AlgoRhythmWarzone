@@ -210,7 +210,7 @@ public class GameEngine {
 			for (Map<String, String> l_map : l_operations_list) {
 				if (!l_map.isEmpty() && l_map.containsKey("arguments") && l_map.get("arguments") != null) {
 					try {
-						d_mapService.editContinent(d_gameState, l_map.get("arguements"), l_map.get("operation"));
+						d_mapService.editContinent(d_gameState, l_map.get("arguments"), l_map.get("operation"));
 					} catch (IOException ex) {
 						throw new RuntimeException(ex);
 					}
@@ -241,12 +241,12 @@ public class GameEngine {
 					boolean l_fileUpdateStatus = false;
 					try {
 						l_fileUpdateStatus = d_mapService.saveMap(d_gameState,
-								l_map.get("arguemtns"));
+								l_map.get("arguments"));
 					} catch (IOException ex) {
 						throw new RuntimeException(ex);
 					}
 					if (l_fileUpdateStatus)
-						System.out.println("Required changes have been done in the map file");
+						System.out.println("Required changes have been made in the map file");
 					else
 						System.out.println(d_gameState.getError());
 				} else {
@@ -257,16 +257,32 @@ public class GameEngine {
 	}
 
 	/**
-	 * Basic validation of <strong>loadmap</strong> command for checking required arguments and
-	 * redirecting control to model for actual processing.
 	 *
-	 * @param p_command command entered by the user on CLI
+	 * Basic validation of <strong>loadmap</strong> command for
+	 * checking arguments and directing control to model for the processing.
+	 *
+	 * @param p_command command by the user on the CLI
+	 * @throws Exception indicates Exception
 	 */
 	private void performLoadMap(Command p_command) throws Exception {
-		
+		List<Map<String, String>> l_operations_list = p_command.getTaskandArguments();
 
-		
-			//load map using map class modal
+		if (null == l_operations_list || l_operations_list.isEmpty()) {
+			System.out.println(e.getMessage());
+		} else {
+			for (Map<String, String> l_map : l_operations_list) {
+				if (!l_map.isEmpty() && l_map.containsKey("arguments") && l_map.get("arguments") != null) {
+					Models.Map l_mapToLoad = d_mapService.loadMap(d_gameState, l_map.get("arguments"));
+					if (l_mapToLoad.Validate()) {
+						System.out.println("Map is loaded successfully. \n");
+					} else {
+						d_mapService.resetState(d_gameState);
+					}
+				} else {
+					System.out.println(e.getMessage());
+				}
+			}
+		}
 	}
 
 	/**
