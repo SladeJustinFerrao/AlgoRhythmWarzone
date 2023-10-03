@@ -39,24 +39,93 @@ public class MapService {
         }
     }
 
+    /**
+     * Method to Modify Continents
+     * @param p_gameState Current state of the game
+     * @param p_argument Arguments in the command
+     * @param p_operation Operation of the command
+     * @throws IOException
+     */
     public void editContinent(GameState p_gameState, String p_argument, String p_operation) throws IOException {
+        String l_fileName = p_gameState.getD_map().getD_mapFile();
+        Map l_map = p_gameState.getD_map();
 
+        if(l_map!=null) {
+            Map l_updatedMap = continentsToMap(l_map, p_argument, p_operation);
+            p_gameState.setD_map(l_updatedMap);
+        }
     }
 
+    /**
+     * Link Continents to Map
+     * @param p_map Map object
+     * @param p_argument Arguments in the command
+     * @param p_operation Operation of the command
+     * @return Map Object
+     */
     public Map continentsToMap(Map p_map, String p_argument, String p_operation) {
+        String[] l_arguments = p_argument.split(" ");
+        if (p_operation.equalsIgnoreCase("add") && l_arguments.length==2) {
+            p_map.addContinent(l_arguments[0], Integer.parseInt(l_arguments[1]));
+        } else if (p_operation.equalsIgnoreCase("remove") && l_arguments.length==1) {
+            p_map.removeContinent(l_arguments[0]);
+        } else {
+            System.out.println("Error! Continents could not be modified, no changes made.");
+        }
+
         return p_map;
     }
 
+    /**
+     * Method to Modify Countries
+     * @param p_gameState Current state of the game
+     * @param p_argument Arguments in the command
+     * @param p_operation Operation of the command
+     */
     public void editCountry(GameState p_gameState, String p_argument, String p_operation) {
+        String l_fileName= p_gameState.getD_map().getD_mapFile();
+        Map l_map = p_gameState.getD_map();
 
+        if(l_map!=null){
+            Map l_updatedMap = countryToMap(l_map, p_argument, p_operation);
+            p_gameState.setD_map(l_updatedMap);
+        }
     }
 
+    /**
+     * Link Countries to Map
+     * @param p_map Map object
+     * @param p_argument Arguments in the command
+     * @param p_operation Operation of the command
+     * @return Map Object
+     */
     public Map countryToMap(Map p_map, String p_argument, String p_operation) {
+        String[] l_arguments = p_argument.split(" ");
+        if (p_operation.equalsIgnoreCase("add") && l_arguments.length==2){
+            p_map.addCountry(l_arguments[0], l_arguments[1]);
+        }else if(p_operation.equalsIgnoreCase("remove") && l_arguments.length==1){
+            p_map.removeCountry(l_arguments[0]);
+        }else{
+            System.out.println("Error! Contries could not be modified, no changes made.");
+        }
+
         return p_map;
     }
 
+    /**
+     * Method to Modify neighbouring countries
+     * @param p_gameState Current state of the game
+     * @param p_argument Arguments in the command
+     * @param p_operation Operation of the command
+     */
     public void editNeighbour(GameState p_gameState, String p_argument, String p_operation) {
+        String l_fileName= p_gameState.getD_map().getD_mapFile();
+        Map l_map = p_gameState.getD_map();
 
+        if(l_map!=null){
+            Map l_updatedMap = neighbourToMap(l_map, p_argument, p_operation);
+            p_gameState.setD_map(l_updatedMap);
+        }
     }
 
     public Map neighbourToMap(Map p_map, String p_argument, String p_operation) {
