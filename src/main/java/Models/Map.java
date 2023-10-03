@@ -456,4 +456,35 @@ public class Map {
             }
         }
     }
+    /**
+     * Add Neighbour functionality.
+     *
+     * @param p_countryName This Country neighbours will be updated
+     * @param p_neighbourName Neighbour country
+     */
+    public void addCountryNeighbour(String p_countryName, String p_neighbourName) {
+        if(d_countries!=null){
+            if(getCountryByName(p_countryName)!=null && getCountryByName(p_neighbourName)!=null){
+                d_countries.get(d_countries.indexOf(getCountryByName(p_countryName))).addNeighbourToCountry(getCountryByName(p_neighbourName).getD_countryId());
+            } else{
+                System.out.println("Neighbour Pair Invalid!");
+            }
+        }
+    }
+
+    /**
+     * Remove Neighbor functionality.
+     *
+     * @param p_countryName update neighbour of the country
+     * @param p_neighbourName neighbour country to be removed
+     */
+    public void removeCountryNeighbour(String p_countryName, String p_neighbourName) {
+        if(d_countries!=null){
+            if(getCountryByName(p_countryName)!=null && getCountryByName(p_neighbourName)!=null) {
+                d_countries.get(d_countries.indexOf(getCountryByName(p_countryName))).removeNeighbourFromCountry(getCountryByName(p_neighbourName).getD_countryId());
+            } else{
+                System.out.println("Neighbour Pair Invalid!");
+            }
+        }
+    }
 }
