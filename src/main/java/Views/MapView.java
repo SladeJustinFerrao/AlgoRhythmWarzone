@@ -139,4 +139,93 @@ public class MapView {
         }
         return null;
     }
+
+    /**
+     * Renders the information of the player in format
+     * @param p_index index of the player
+     * @param p_player player object
+     */
+    private void renderPlayerInformation(Integer p_index, Player p_player) {
+        String l_playerInformation = String.format("%02d. %-8s", p_index, p_player.getPlayerName());
+        System.out.print(l_playerInformation);
+    }
+
+    /**
+     * Renders players in format
+     */
+    private void renderPlayers() {
+        int l_count = 0;
+        renderSeparator();
+        renderCenteredString(GameConstants.CONSOLE_WIDTH, "GAME PLAYERS");
+        renderSeparator();
+        for(Player p: d_players) {
+            l_count++;
+            renderPlayerInformation(l_count, p);
+        }
+    }
+
+    /**
+     * Method to get the player who owns the continent
+     * @param p_continentName name of continent
+     * @return player object
+     */
+    private Player getPlayerWhoOwnsContinent(String p_continentName) {
+        if(d_players != null) {
+            for(Player p: d_players) {
+                if( !CommonUtil.isNull(p.getContinentNames()) && p.getContinentNames().contains(p_continentName) ) {
+                    return p;
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Get the number of armies for the country
+     * @param p_countryName name of country
+     * @return number of armies
+     */
+    private Integer getArmiesOfCountry(String p_countryName) {
+        Integer l_armies = d_gameState.getD_map().getCountryByName(p_countryName).getD_armies();
+        if(l_armies == null) {
+            return 0;
+        }
+        return l_armies;
+    }
+
+    /**
+     * Method to display the list of countries and continents along with the current game state
+     * @throws InvalidMap indicates map is invalid
+     */
+    public void showMap() {
+        if(d_players != null) {
+            renderPlayers();
+        }
+        if(!CommonUtil.isNull(d_continents)) {
+            d_continents.forEach(l_continent -> {
+                renderContinentName(l_continent.getD_continentName());
+                List<Country> l_continentCountries = l_continent.getD_countries();
+                final int[] l_countryIndex = {1};
+                if(!CommonUtil.isCollectionEmpty(l_continentCountries)) {
+                    l_continentCountries.forEach(l_country -> {
+                        String l_countryNameFormatted = getCountryNameFormatted(l_countryIndex[0]++, l_country.getD_countryName());
+                        System.out.println(l_countryNameFormatted);
+                        try {
+                            List<Country> l_neighbourCountries = d_map.getNeighbourCountry(l_country);
+                            renderNeighbourCountryNameFormatted(l_country.getD_countryName(), l_neighbourCountries);
+                        }
+                        catch (InvalidMap l_invalidMap) {
+                            System.out.println(l_invalidMap.getMessage());
+                        }
+                    });
+                }
+                else {
+                    System.out.println("There is no countries in the continent !!!");
+                }
+            });
+        }
+        else {
+            System.out.println("There is no continents to display !!!");
+        }
+    }
 }
