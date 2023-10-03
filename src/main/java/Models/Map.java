@@ -157,7 +157,27 @@ public class Map {
      * @return true if map is successfully validated else false
      */
     public Boolean Validate() {
-        return (isContinentsConnected() && isCountriesConnected());
+        return (checkNullObjects() && isContinentsConnected() && isCountriesConnected());
+    }
+
+    /**
+     * Checks if objects in map are null
+     *
+     * @return False if there is no null objects else true
+     */
+    public Boolean checkNullObjects() {
+        if(d_continents==null || d_continents.isEmpty()){
+            System.out.println("Map must contain at least one continent!");
+        }
+        if(d_countries==null || d_countries.isEmpty()){
+            System.out.println("Map must contain at least one country!");
+        }
+        for(Country c: d_countries){
+            if(c.getD_neighbourCountryId().isEmpty()){
+                System.out.println(c.getD_countryName()+" does not possess any neighbour, hence isn't reachable!");
+            }
+        }
+        return true;
     }
 
     /**
@@ -433,6 +453,37 @@ public class Map {
                 if (l_country.getD_neighbourCountryId().contains(p_countryID)) {
                     l_country.removeNeighbourFromCountry(p_countryID);
                 }
+            }
+        }
+    }
+    /**
+     * Add Neighbour functionality.
+     *
+     * @param p_countryName This Country neighbours will be updated
+     * @param p_neighbourName Neighbour country
+     */
+    public void addCountryNeighbour(String p_countryName, String p_neighbourName) {
+        if(d_countries!=null){
+            if(getCountryByName(p_countryName)!=null && getCountryByName(p_neighbourName)!=null){
+                d_countries.get(d_countries.indexOf(getCountryByName(p_countryName))).addNeighbourToCountry(getCountryByName(p_neighbourName).getD_countryId());
+            } else{
+                System.out.println("Neighbour Pair Invalid!");
+            }
+        }
+    }
+
+    /**
+     * Remove Neighbor functionality.
+     *
+     * @param p_countryName update neighbour of the country
+     * @param p_neighbourName neighbour country to be removed
+     */
+    public void removeCountryNeighbour(String p_countryName, String p_neighbourName) {
+        if(d_countries!=null){
+            if(getCountryByName(p_countryName)!=null && getCountryByName(p_neighbourName)!=null) {
+                d_countries.get(d_countries.indexOf(getCountryByName(p_countryName))).removeNeighbourFromCountry(getCountryByName(p_neighbourName).getD_countryId());
+            } else{
+                System.out.println("Neighbour Pair Invalid!");
             }
         }
     }
