@@ -239,8 +239,7 @@ public class GameEngine {
 				if (!l_map.isEmpty() && l_map.containsKey("arguments") && l_map.get("arguments") != null) {
 					boolean l_fileUpdateStatus = false;
 					try {
-						l_fileUpdateStatus = d_mapService.saveMap(d_gameState,
-								l_map.get("arguments"));
+						l_fileUpdateStatus = d_mapService.saveMap(d_gameState, l_map.get("arguments"));
 					} catch (IOException ex) {
 						throw new RuntimeException(ex);
 					}
@@ -341,9 +340,18 @@ public class GameEngine {
 	 * @param p_command command entered by the user on CLI
 	 */
 	public void performEditNeighbour(Command p_command) throws Exception {
-		
-		
-			//edit neighbour
+		List<Map<String, String>> l_operations_list = p_command.getTaskandArguments();
+		if (null == l_operations_list || l_operations_list.isEmpty()) {
+			System.out.println(e.getMessage());
+		} else {
+			for (Map<String, String> l_map : l_operations_list) {
+				if (!l_map.isEmpty() && l_map.containsKey("arguments") && l_map.get("arguments") != null) {
+					d_mapService.editNeighbour(d_gameState, l_map.get("arguments"), l_map.get("operations"));
+				} else {
+					System.out.println(e.getMessage());
+				}
+			}
+		}
 	}
 
 	/**
