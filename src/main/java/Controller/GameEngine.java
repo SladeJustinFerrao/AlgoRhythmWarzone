@@ -36,6 +36,11 @@ public class GameEngine {
 	PlayerServices d_playerService = new PlayerServices();
 
 	/**
+	 *  Throwable Exception e
+	 */
+	private Throwable e;
+
+	/**
 	 * getD_gameState is a getter method to get current game state.
 	 *
 	 * @return the current game state
@@ -60,8 +65,6 @@ public class GameEngine {
 	 * Handle the commands.
 	 *
 	 * @param p_enteredCommand command entered by the user in CLI
-	 * @throws InvalidMap indicates map is invalid
-	 * @throws InvalidCommand indicates command is invalid
 	 * @throws IOException indicates failure in I/O operation
 	 */
 	public void handleCommand(String p_enteredCommand) throws Exception {
@@ -71,7 +74,7 @@ public class GameEngine {
 
 		switch (l_rootCommand) {
 			case "editmap": {
-				performMapEdit(l_command);
+				performEditMap(l_command);
 				break;
 			}
 			case "editcontinent": {
@@ -125,24 +128,24 @@ public class GameEngine {
 				createPlayers(l_command);
 				break;
 			}
-		case "assigncountries": {
-			assignCountries(l_command);
-			break;
-		}
-		case "showmap": {
-			MapView l_mapView = new MapView(d_gameState);
-			l_mapView.showMap();
-			break;
-		}
-		case "exit": {
-			System.out.println("Exit Command Entered");
-			System.exit(0);
-			break;
-		}
-		default: {
-			System.out.println("Invalid Command");
-			break;
-		}
+			case "assigncountries": {
+				assignCountries(l_command);
+				break;
+			}
+			case "showmap": {
+				MapView l_mapView = new MapView(d_gameState);
+				l_mapView.showMap();
+				break;
+			}
+			case "exit": {
+				System.out.println("Exit Command Entered");
+				System.exit(0);
+				break;
+			}
+			default: {
+				System.out.println("Invalid Command");
+				break;
+			}
 		}
 	}
 
@@ -154,52 +157,103 @@ public class GameEngine {
 
 		while (true) {
 			try {
-				System.out.println("Enter Game Commands or type 'exit' for quitting");
+				System.out.println("Enter game commands or type 'exit' for quitting");
 				String l_commandEntered = l_reader.readLine();
-
-				// command for hanlding
+				handleCommand(l_commandEntered);
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
-			} 
+			}
 		}
 	}
 
 	/**
-	 * Basic validation of <strong>editmap</strong> command for checking required
-	 * arguments and redirecting control to model for actual processing.
-	 * 
-	 * @param p_command command entered by the user on CLI
-	 * @throws IOException indicates when failure in I/O operation
-	 * @throws InvalidCommand indicates when command is invalid
+	 * Basic validation of <strong>editcontinent</strong> command for
+	 * checking arguements and directing control to model for the processing.
+	 *
+	 * @param p_command command by the user on the CLI
+	 * @throws Exception indicates Exception
 	 */
-	public void performMapEdit(Command p_command) throws Exception {
-		//List<Map<String, String>> l_operations_list = p_command.getOperationsAndArguments();
+	public void performEditMap(Command p_command) throws Exception {
+		List<Map<String, String>> l_operations_list = p_command.getTaskandArguments();
 
+		if (l_operations_list == null || l_operations_list.isEmpty()) {
+			System.out.println(e.getMessage());
+		} else {
+			for (Map<String, String> l_map : l_operations_list) {
+				if (!l_map.isEmpty() && l_map.containsKey("arguments") && l_map.get("arguments") != null) {
+					try {
+						d_mapService.editMap(d_gameState, l_map.get("arguements"));
+					} catch (IOException ex) {
+						throw new RuntimeException(ex);
+					}
+				} else {
+					System.out.println(e.getMessage());
+				}
+			}
+		}
 	}
 
+
 	/**
-	 * Basic validation of <strong>editcontinent</strong> command for checking
-	 * required arguments and redirecting control to model for actual processing.
+	 * Basic validation of <strong>editcontinent</strong> command for
+	 * checking arguements and directing control to model for the processing.
 	 *
-	 * @param p_command command entered by the user on CLI
-	 * @throws IOException indicates failure in I/O operation
-	 * @throws InvalidCommand indicates command is invalid
-	 * @throws InvalidMap indicates map is invalid
+	 * @param p_command command by the user on the CLI
+	 * @throws Exception indicates Exception
 	 */
 	public void performEditContinent(Command p_command) throws Exception {
-		//implement
+		List<Map<String, String>> l_operations_list = p_command.getTaskandArguments();
+
+		if (l_operations_list == null || l_operations_list.isEmpty()) {
+			System.out.println(e.getMessage());
+		} else {
+			for (Map<String, String> l_map : l_operations_list) {
+				if (!l_map.isEmpty() && l_map.containsKey("arguments") && l_map.get("arguments") != null) {
+					try {
+						d_mapService.editContinent(d_gameState, l_map.get("arguements"), l_map.get("operation"));
+					} catch (IOException ex) {
+						throw new RuntimeException(ex);
+					}
+				} else {
+					System.out.println(e.getMessage());
+				}
+			}
+		}
 	}
 
+
 	/**
-	 * Basic validation of <strong>savemap</strong> command for checking required
-	 * arguments and redirecting control to model for actual processing.
-	 * 
-	 * @param p_command command entered by the user on CLI
-	 * @throws InvalidMap indicates when map is invalid
-	 * @throws InvalidCommand indicates when command is invalid
+	 *
+	 * Basic validation of <strong>savemap</strong> command for
+	 * checking arguements and directing control to model for the processing.
+	 *
+	 * @param p_command command by the user on the CLI
+	 * @throws Exception indicates Exception
 	 */
 	public void performSaveMap(Command p_command) throws Exception {
-		//save map
+		List<Map<String, String>> l_operations_list = p_command.getTaskandArguments();
+
+		if (null == l_operations_list || l_operations_list.isEmpty()) {
+			System.out.println(e.getMessage());
+		} else {
+			for (Map<String, String> l_map : l_operations_list) {
+				if (!l_map.isEmpty() && l_map.containsKey("arguments") && l_map.get("arguments") != null) {
+					boolean l_fileUpdateStatus = false;
+					try {
+						l_fileUpdateStatus = d_mapService.saveMap(d_gameState,
+								l_map.get("arguemtns"));
+					} catch (IOException ex) {
+						throw new RuntimeException(ex);
+					}
+					if (l_fileUpdateStatus)
+						System.out.println("Required changes have been done in the map file");
+					else
+						System.out.println(d_gameState.getError());
+				} else {
+					System.out.println(e.getMessage());
+				}
+			}
+		}
 	}
 
 	/**
@@ -207,7 +261,6 @@ public class GameEngine {
 	 * redirecting control to model for actual processing.
 	 *
 	 * @param p_command command entered by the user on CLI
-	 * @throws InvalidCommand indicates when command is invalid
 	 */
 	private void performLoadMap(Command p_command) throws Exception {
 		
@@ -221,8 +274,6 @@ public class GameEngine {
 	 * redirecting control to model for actual processing.
 	 *
 	 * @param p_command command entered by the user on CLI
-	 * @throws InvalidCommand indicates when command is invalid
-	 * @throws InvalidMap indicates when map is invalid
 	 */
 	private void performValidateMap(Command p_command) throws Exception {
 		//validate the map
@@ -233,8 +284,6 @@ public class GameEngine {
 	 * required arguments and redirecting control to model for actual processing.
 	 *
 	 * @param p_command command entered by the user on CLI
-	 * @throws InvalidCommand indicates command is invalid
-	 * @throws InvalidMap indicates map is invalid
 	 */
 	public void performEditCountry(Command p_command) throws Exception {
 		
@@ -246,8 +295,6 @@ public class GameEngine {
 	 * required arguments and redirecting control to model for actual processing.
 	 *
 	 * @param p_command command entered by the user on CLI
-	 * @throws InvalidCommand indicates command is invalid
-	 * @throws InvalidMap indicates map is invalid
 	 */
 	public void performEditNeighbour(Command p_command) throws Exception {
 		
@@ -260,7 +307,6 @@ public class GameEngine {
 	 * arguments and redirecting control to model for adding or removing players.
 	 *
 	 * @param p_command command entered by the user on CLI
-	 * @throws InvalidCommand indicates command is invalid
 	 */
 	private void createPlayers(Command p_command) throws Exception {
 		
@@ -272,8 +318,6 @@ public class GameEngine {
 	 * arguments and redirecting control to model for assigning countries to players.
 	 *
 	 * @param p_command command entered by the user on CLI
-	 * @throws InvalidCommand indicates command is invalid
-	 * @throws IOException    indicates failure in I/O operation
 	 */
 	public void assignCountries(Command p_command) throws Exception {
 		//assign counrties
