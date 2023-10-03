@@ -207,4 +207,9 @@ public class MapService {
         return new File("").getAbsolutePath() + File.separator + "src/main/resources" + File.separator + p_fileName;
     }
 
+    public void resetState(GameState p_gameState) {
+        System.out.println("Invalid Map! Map cannot be loaded. Kindly use a valid map");
+        p_gameState.setD_map(new Models.Map());
+    }
+
 }
