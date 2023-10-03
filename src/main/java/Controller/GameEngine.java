@@ -338,6 +338,7 @@ public class GameEngine {
 	 * required arguments and redirecting control to model for actual processing.
 	 *
 	 * @param p_command command entered by the user on CLI
+	 * @throws Exception indicates Exception
 	 */
 	public void performEditNeighbour(Command p_command) throws Exception {
 		List<Map<String, String>> l_operations_list = p_command.getTaskandArguments();
