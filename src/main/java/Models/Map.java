@@ -1,6 +1,9 @@
 package Models;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 
 public class Map {
     /**
@@ -148,6 +151,11 @@ public class Map {
         }
     }
 
+    /**
+     * Validate if map is correct
+     *
+     * @return true if map is successfully validated else false
+     */
     public Boolean Validate() {
         return (isContinentsConnected() && isCountriesConnected());
     }
@@ -276,6 +284,69 @@ public class Map {
             }
         }
         return null;
+    }
+    /**
+     * From a given country Name find the Country object
+     *
+     * @param p_countryName country object name
+     * @return country object
+     */
+    public Country getCountryByName(String p_countryName){
+        for(Country l_countryName: d_countries){
+            if(p_countryName == l_countryName.getD_countryName()){
+                return l_countryName;
+            }
+        }
+        return null;
+    }
+    /**
+     * Add country function which adds countries to the map.
+     *
+     * @param p_countryName Country Name which is to be added
+     * @param p_continentName Name of Continent in which this country will be added
+     */
+    public void addCountry(String p_countryName, String p_continentName){
+        int l_countryId;
+        if(d_countries==null){
+            d_countries= new ArrayList<Country>();
+        }
+        if(getCountryByName(p_countryName)==null){
+            l_countryId=d_countries.size()>0? Collections.max(retrieveCountryID())+1:1;
+            if(d_continents!=null && retrieveContinentID().contains(retrieveContinent(p_continentName).getD_continentID())){
+                Country l_country= new Country(l_countryId, p_countryName, retrieveContinent(p_continentName).getD_continentID());
+                d_countries.add(l_country);
+                for (Continent c: d_continents) {
+                    if (c.getD_continentName().equals(p_continentName)) {
+                        c.addCountry(l_country);
+                    }
+                }
+            } else{
+                System.out.println("Continent doesn't exist! so country is not added");
+            }
+        }else{
+            System.out.println(p_countryName+" Country"+" already Exists!");
+        }
+    }
+
+    /**
+     * Remove country function which removes countries from the map..
+     *
+     * @param p_countryName Name of country to be removed
+     */
+    public void removeCountry(String p_countryName) {
+        if(d_countries!=null && getCountryByName(p_countryName)!=null) {
+            for(Continent continent: d_continents){
+                if(continent.getD_continentID().equals(getCountryByName(p_countryName).getD_continentId())){
+                    continent.removeCountries(getCountryByName(p_countryName));
+                }
+                continent.removeCountryForAllNeighbours(getCountryByName(p_countryName).getD_countryId());
+            }
+            removeAllNeighbours(getCountryByName(p_countryName).getD_countryId());
+            d_countries.remove(getCountryByName(p_countryName));
+
+        }else{
+            System.out.println(p_countryName+" Country"+" does not exist!");
+        }
     }
 
 
