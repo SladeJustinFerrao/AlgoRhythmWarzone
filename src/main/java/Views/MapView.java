@@ -6,6 +6,7 @@ import Models.Map;
 import Models.Country;
 import Models.Continent;
 import Constants.GameConstants;
+import Utils.Command;
 
 import java.util.List;
 
@@ -71,7 +72,71 @@ public class MapView {
     /**
      * Separator to separate the heading
      */
-    private void renderHeadingSeparator() {
+    private void renderSeparator() {
         System.out.format("+%s+%n", "-".repeat(GameConstants.CONSOLE_WIDTH - 2));
+    }
+
+    /**
+     * Render continent name with centered string and separator
+     * @param p_continentName continent name to show
+     */
+    private void renderContinentName(String p_continentName) {
+        String l_continentName = p_continentName + " ( " +
+                GameConstants.CONTROL_VALUE + " : " +
+                d_gameState.getD_map().getContinent(p_continentName).getD_continentValue() + " ) ";
+        renderSeparator();
+        renderCenteredString(GameConstants.CONSOLE_WIDTH, l_continentName);
+        renderSeparator();
+    }
+
+    /**
+     * Renders a country name in format
+     * @param p_index index of countries
+     * @param p_countryName country name to show
+     * @return returns the string as formatted
+     */
+    private String getCountryNameFormatted(int p_index, String p_countryName) {
+        String l_indexedString = String.format("%02d. %s", p_index, p_countryName);
+        if(d_players != null) {
+            String l_armies = "( " +
+                    GameConstants.ARMIES + " : " +
+                    getCountryArmies(p_countryName) + " )";
+            l_indexedString = String.format("%02d. %s %s", p_index, p_countryName, l_armies);
+        }
+        return String.format("%-30s", l_indexedString);
+    }
+
+    /**
+     * Renders neighbour countries in format
+     * @param p_countryName country name to show
+     * @param p_neighbourCountries list of neighbour countries to show
+     */
+    private void renderNeighbourCountryNameFormatted(String p_countryName, List<Country> p_neighbourCountries) {
+        StringBuilder l_separatedCountries = new StringBuilder();
+        for(int i=0; i<p_neighbourCountries.size(); i++) {
+            l_separatedCountries.append(p_neighbourCountries.get(i).getD_countryName());
+            if(i<p_neighbourCountries.size()-1) {
+                l_separatedCountries.append(", ");
+            }
+        }
+        String l_neighbourCountry = GameConstants.CONNECTIVITY + " : " + l_separatedCountries.toString();
+        System.out.println(l_neighbourCountry);
+        System.out.println();
+    }
+
+    /**
+     * Method to get the player who owns the country
+     * @param p_countryName name of country
+     * @return player object
+     */
+    private Player getPlayerWhoOwnsCountry(String p_countryName) {
+        if(d_players != null) {
+            for(Player p: d_players) {
+                if(p.getCountryNames().contains(p_countryName)) {
+                    return p;
+                }
+            }
+        }
+        return null;
     }
 }
