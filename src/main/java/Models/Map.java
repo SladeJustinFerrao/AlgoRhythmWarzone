@@ -22,6 +22,11 @@ public class Map {
     List<Country> d_countries;
 
     /**
+     * All countries one can reach from exiting position are put in a hashmap.
+     */
+    HashMap<Integer, Boolean> d_countryConnectedStatus = new HashMap<Integer, Boolean>();
+
+    /**
      * getter method for map file.
      *
      * @return d_mapfile
@@ -29,11 +34,6 @@ public class Map {
     public String getD_mapFile() {
         return d_mapFile;
     }
-
-    /**
-     * All countries one can reach from exiting position are put in a hashmap.
-     */
-    HashMap<Integer, Boolean> d_countryConnectedStatus = new HashMap<Integer, Boolean>();
 
     /**
      * setter method for map file.
@@ -349,7 +349,7 @@ public class Map {
     }
 
     /**
-     * Remove country function which removes countries from the map..
+     * Remove country function which removes countries from the map.
      *
      * @param p_countryName Name of country to be removed
      */
