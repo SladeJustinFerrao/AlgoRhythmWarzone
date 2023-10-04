@@ -313,7 +313,7 @@ public class Map {
      */
     public Country getCountryByName(String p_countryName){
         for(Country l_countryName: d_countries){
-            if(p_countryName == l_countryName.getD_countryName()){
+            if(p_countryName.equals(l_countryName.getD_countryName())){
                 return l_countryName;
             }
         }
@@ -400,7 +400,7 @@ public class Map {
      */
     public Continent retrieveContinent(String p_continentName) {
         for (Continent continent : d_continents) {
-            if (p_continentName == continent.getD_continentName()) {
+            if (p_continentName.equals(continent.getD_continentName())) {
                 return continent;
             }
         }
