@@ -368,7 +368,7 @@ public class GameEngine {
 		} else {
 			for (Map<String, String> l_map : l_operations_list) {
 				if (!l_map.isEmpty() && l_map.containsKey("arguments") && l_map.get("arguments") != null) {
-					d_playerService.updatePlayers(d_gameState, l_map.get("arguments"), l_map.get("operation"));
+					d_playerService.updatePlayers(d_gameState, l_map.get("operation"), l_map.get("arguments"));
 				} else {
 					System.out.println(e.getMessage());
 				}
