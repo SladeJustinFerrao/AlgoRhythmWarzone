@@ -20,7 +20,7 @@ public class PlayerServices {
      */
     public boolean isPlayerNameUnique(List<Player> p_existingPlayerList, String p_playerName) {
         boolean l_isUnique = true;
-        if (!(p_existingPlayerList == null) || p_existingPlayerList.isEmpty()) {
+        if (!(p_existingPlayerList == null)) {
             for (Player l_player : p_existingPlayerList) {
                 if (l_player.getPlayerName().equalsIgnoreCase(p_playerName)) {
                     l_isUnique = false;
@@ -40,9 +40,8 @@ public class PlayerServices {
      */
     public List<Player> addRemovePlayers(List<Player> p_existingPlayerList, String p_operation, String p_argument) {
         List<Player> l_updatedPlayers = new ArrayList<>();
-        if (!(p_existingPlayerList == null) || p_existingPlayerList.isEmpty())
+        if (!(p_existingPlayerList == null))
             l_updatedPlayers.addAll(p_existingPlayerList);
-
         String l_enteredPlayerName = p_argument.split(" ")[0];
         boolean l_playerNameAlreadyExist = !isPlayerNameUnique(p_existingPlayerList, l_enteredPlayerName);
 
@@ -132,9 +131,9 @@ public class PlayerServices {
     /**
      * This method randomly assig countries to the list of players
      * 
-     * @param p_countriesPerPlayer
-     * @param p_countries
-     * @param p_players
+     * @param p_countriesPerPlayer number of countries per player to be assigned
+     * @param p_countries          list of countries to be assigned
+     * @param p_players            list of players
      */
     private void performRandomCountryAssignment(int p_countriesPerPlayer, List<Country> p_countries,
             List<Player> p_players) {
@@ -220,8 +219,8 @@ public class PlayerServices {
     /**
      * this method validates the armies that are deployed properly or not
      * 
-     * @param p_player
-     * @param p_noOfArmies
+     * @param p_player     player object
+     * @param p_noOfArmies number of armies
      * @return boolean if the deployed armies are valid or invalid
      */
     public boolean validateDeployOrderArmies(Player p_player, String p_noOfArmies) {
@@ -230,7 +229,7 @@ public class PlayerServices {
 
     /**
      * This method calculates the army for a player who is currently available
-     * @param p_player
+     * @param p_player player object
      * @return the calculated number of armies to the player
      */
     public int calculateArmiesForPlayer(Player p_player) {
