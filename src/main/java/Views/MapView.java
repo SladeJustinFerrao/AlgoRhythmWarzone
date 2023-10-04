@@ -12,6 +12,7 @@ import java.util.List;
 
 /**
  * MapView class for Views
+ * @author Harshil Prajapati
  */
 public class MapView {
     /**

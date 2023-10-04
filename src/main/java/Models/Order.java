@@ -1,5 +1,9 @@
 package Models;
 
+/**
+ * Class contains date members and methods for order
+ * @author Harshil Prajapati
+ */
 public class Order {
     /**
      * Action of order

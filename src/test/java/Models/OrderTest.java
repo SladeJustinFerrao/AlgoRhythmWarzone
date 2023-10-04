@@ -8,7 +8,14 @@ import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class for Order.java
+ * @author Harshil Prajapati
+ */
 class OrderTest {
+    /**
+     * Test to check if player owns the country or not
+     */
     @Test
     void doesPlayerHaveDeployCountry() {
         Player l_player = new Player("Harshil");
@@ -30,6 +37,9 @@ class OrderTest {
         assertEquals(false, l_doesPlayerHaveDeployCountry);
     }
 
+    /**
+     * Test to check if armies of the country updates correctly after deploy command or not
+     */
     @Test
     void executeDeployedOrder() {
         Order l_order = new Order("deploy", "India", 5);
