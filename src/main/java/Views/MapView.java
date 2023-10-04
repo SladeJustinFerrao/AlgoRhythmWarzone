@@ -107,7 +107,7 @@ public class MapView {
         if (d_players != null) {
             String l_armies = "( " +
                     GameConstants.ARMIES + " : " +
-                    getArmiesOfCountry(p_countryName) + " )";
+                    getArmiesOfCountry(p_countryName) + " ) " + "Player : " + getPlayerWhoOwnsCountry(p_countryName).getPlayerName();
             l_indexedString = String.format("%02d. %s %s", p_index, p_countryName, l_armies);
         }
         return String.format("%-30s", l_indexedString);
@@ -222,8 +222,7 @@ public class MapView {
                 final int[] l_countryIndex = { 1 };
                 if (l_continentCountries.size() != 0) {
                     l_continentCountries.forEach(l_country -> {
-                        String l_countryNameFormatted = getCountryNameFormatted(l_countryIndex[0]++,
-                                l_country.getD_countryName());
+                        String l_countryNameFormatted = getCountryNameFormatted(l_countryIndex[0]++, l_country.getD_countryName());
                         System.out.println(l_countryNameFormatted);
                         try {
                             List<Country> l_neighbourCountries = d_map.getNeighbourCountry(l_country);

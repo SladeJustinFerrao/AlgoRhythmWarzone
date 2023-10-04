@@ -7,8 +7,15 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test class for Player.java
+ * @author Darshan Kansara
+ */
 class PlayerTest {
 
+    /**
+     * Test to check if the method returns the list of countries owned by player correctly or not
+     */
     @Test
     void getCountryNames() {
         Country l_country1= new Country("India");
