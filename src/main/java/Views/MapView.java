@@ -97,7 +97,7 @@ public class MapView {
     /**
      * Renders a country name in format
      * 
-     * @param p_index       index of countries
+     * @param p_index index of countries
      * @param p_countryName country name to show
      * @return returns the string as formatted
      */
@@ -208,7 +208,7 @@ public class MapView {
      * Method to display the list of countries and continents along with the current
      * game state
      * 
-     * @throws InvalidMap indicates map is invalid
+     * @throws Exception indicates map is invalid
      */
     public void showMap() {
         if (d_players != null) {
@@ -219,7 +219,7 @@ public class MapView {
                 renderContinentName(l_continent.getD_continentName());
                 List<Country> l_continentCountries = l_continent.getD_countries();
                 final int[] l_countryIndex = { 1 };
-                if (l_continentCountries.size()!=0) {
+                if (l_continentCountries.size() != 0) {
                     l_continentCountries.forEach(l_country -> {
                         String l_countryNameFormatted = getCountryNameFormatted(l_countryIndex[0]++,
                                 l_country.getD_countryName());
