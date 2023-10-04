@@ -382,8 +382,43 @@ public class GameEngine {
 	 * arguments and redirecting control to model for assigning countries to players.
 	 *
 	 * @param p_command command entered by the user on CLI
+  	 * @throws Exception indicates Exception
 	 */
 	public void assignCountries(Command p_command) throws Exception {
-		//assign counrties
+		List<Map<String, String>> l_operations_list = p_command.getTaskandArguments();
+		if (l_operations_list.size()==0) {
+			d_playerService.assignCountries(d_gameState);
+
+			while (d_gameState.getD_players().size() != 0) {
+				System.out.println("\n********Starting Main Game***********\n");
+
+				d_playerService.assignArmies(d_gameState);
+
+				while (d_playerService.unassignedArmiesExists(d_gameState.getD_players())) {
+					for (Player l_player : d_gameState.getD_players()) {
+						if (l_player.getD_noOfUnallocatedArmies() != null && l_player.getD_noOfUnallocatedArmies() != 0)
+							l_player.issue_order();
+					}
+				}
+
+				while (d_playerService.unexecutedOrdersExists(d_gameState.getD_players())) {
+					for (Player l_player : d_gameState.getD_players()) {
+						Order l_order = l_player.next_order();
+						if (l_order != null)
+							l_order.execute(d_gameState, l_player);
+					}
+				}
+				MapView l_map_view = new MapView(d_gameState, d_gameState.getD_players());
+				l_map_view.showMap();
+
+				System.out.println("Press Y to move ahead for next turn or else press N");
+				BufferedReader l_reader = new BufferedReader(new InputStreamReader(System.in));
+				String l_continue = l_reader.readLine();
+				if (l_continue.equalsIgnoreCase("N"))
+					break;
+			}
+		} else {
+			System.out.println(e.getMessage());
+		}
 	}
 }
