@@ -237,7 +237,7 @@ public class PlayerServices {
         if (p_player.getD_coutriesOwned().size() != 0) {
             l_armies = Math.max(3, Math.round((p_player.getD_coutriesOwned().size()) / 3));
         }
-        if (p_player.getD_continentsOwned().size() != 0) {
+        if (p_player.getD_continentsOwned()!=null && p_player.getD_continentsOwned().size() != 0) {
             int l_continentCtrlValue = 0;
             for (Continent l_continent : p_player.getD_continentsOwned()) {
                 l_continentCtrlValue = l_continentCtrlValue + l_continent.getD_continentValue();
