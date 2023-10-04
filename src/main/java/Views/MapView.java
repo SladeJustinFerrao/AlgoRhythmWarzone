@@ -37,6 +37,7 @@ public class MapView {
 
     /**
      * Parameterized constructor to initialize Mapview without players
+     * 
      * @param p_gameState current state of game
      */
     public MapView(GameState p_gameState) {
@@ -48,8 +49,9 @@ public class MapView {
 
     /**
      * Parameterized constructor to initialize Mapview with players
+     * 
      * @param p_gameState current state of game
-     * @param p_players list of players
+     * @param p_players   list of players
      */
     public MapView(GameState p_gameState, List<Player> p_players) {
         d_gameState = p_gameState;
@@ -61,11 +63,13 @@ public class MapView {
 
     /**
      * Renders a centered string for heading
-     * @param p_width defined width in formatting
+     * 
+     * @param p_width  defined width in formatting
      * @param p_string string to show
      */
     private void renderCenteredString(int p_width, String p_string) {
-        String l_centeredString = String.format("%-" + p_width + "s", String.format("%" + (p_string.length() + (p_width - p_string.length()) / 2) + "s", p_string));
+        String l_centeredString = String.format("%-" + p_width + "s",
+                String.format("%" + (p_string.length() + (p_width - p_string.length()) / 2) + "s", p_string));
         System.out.format(l_centeredString + "\n");
     }
 
@@ -78,12 +82,13 @@ public class MapView {
 
     /**
      * Render continent name with centered string and separator
+     * 
      * @param p_continentName continent name to show
      */
     private void renderContinentName(String p_continentName) {
         String l_continentName = p_continentName + " ( " +
                 GameConstants.CONTROL_VALUE + " : " +
-                d_gameState.getD_map().getContinent(p_continentName).getD_continentValue() + " ) ";
+                d_gameState.getD_map().retrieveContinent(p_continentName).getD_continentValue() + " ) ";
         renderSeparator();
         renderCenteredString(GameConstants.CONSOLE_WIDTH, l_continentName);
         renderSeparator();
@@ -91,13 +96,14 @@ public class MapView {
 
     /**
      * Renders a country name in format
-     * @param p_index index of countries
+     * 
+     * @param p_index       index of countries
      * @param p_countryName country name to show
      * @return returns the string as formatted
      */
     private String getCountryNameFormatted(int p_index, String p_countryName) {
         String l_indexedString = String.format("%02d. %s", p_index, p_countryName);
-        if(d_players != null) {
+        if (d_players != null) {
             String l_armies = "( " +
                     GameConstants.ARMIES + " : " +
                     getCountryArmies(p_countryName) + " )";
@@ -108,14 +114,15 @@ public class MapView {
 
     /**
      * Renders neighbour countries in format
-     * @param p_countryName country name to show
+     * 
+     * @param p_countryName        country name to show
      * @param p_neighbourCountries list of neighbour countries to show
      */
     private void renderNeighbourCountryNameFormatted(String p_countryName, List<Country> p_neighbourCountries) {
         StringBuilder l_separatedCountries = new StringBuilder();
-        for(int i=0; i<p_neighbourCountries.size(); i++) {
+        for (int i = 0; i < p_neighbourCountries.size(); i++) {
             l_separatedCountries.append(p_neighbourCountries.get(i).getD_countryName());
-            if(i<p_neighbourCountries.size()-1) {
+            if (i < p_neighbourCountries.size() - 1) {
                 l_separatedCountries.append(", ");
             }
         }
@@ -126,13 +133,14 @@ public class MapView {
 
     /**
      * Method to get the player who owns the country
+     * 
      * @param p_countryName name of country
      * @return player object
      */
     private Player getPlayerWhoOwnsCountry(String p_countryName) {
-        if(d_players != null) {
-            for(Player p: d_players) {
-                if(p.getCountryNames().contains(p_countryName)) {
+        if (d_players != null) {
+            for (Player p : d_players) {
+                if (p.getCountryNames().contains(p_countryName)) {
                     return p;
                 }
             }
@@ -142,7 +150,8 @@ public class MapView {
 
     /**
      * Renders the information of the player in format
-     * @param p_index index of the player
+     * 
+     * @param p_index  index of the player
      * @param p_player player object
      */
     private void renderPlayerInformation(Integer p_index, Player p_player) {
@@ -158,7 +167,7 @@ public class MapView {
         renderSeparator();
         renderCenteredString(GameConstants.CONSOLE_WIDTH, "GAME PLAYERS");
         renderSeparator();
-        for(Player p: d_players) {
+        for (Player p : d_players) {
             l_count++;
             renderPlayerInformation(l_count, p);
         }
@@ -166,13 +175,14 @@ public class MapView {
 
     /**
      * Method to get the player who owns the continent
+     * 
      * @param p_continentName name of continent
      * @return player object
      */
     private Player getPlayerWhoOwnsContinent(String p_continentName) {
-        if(d_players != null) {
-            for(Player p: d_players) {
-                if( !CommonUtil.isNull(p.getContinentNames()) && p.getContinentNames().contains(p_continentName) ) {
+        if (d_players != null) {
+            for (Player p : d_players) {
+                if (p.getContinentNames() != null && p.getContinentNames().contains(p_continentName)) {
                     return p;
                 }
             }
@@ -182,49 +192,50 @@ public class MapView {
 
     /**
      * Get the number of armies for the country
+     * 
      * @param p_countryName name of country
      * @return number of armies
      */
     private Integer getArmiesOfCountry(String p_countryName) {
         Integer l_armies = d_gameState.getD_map().getCountryByName(p_countryName).getD_armies();
-        if(l_armies == null) {
+        if (l_armies == null) {
             return 0;
         }
         return l_armies;
     }
 
     /**
-     * Method to display the list of countries and continents along with the current game state
+     * Method to display the list of countries and continents along with the current
+     * game state
+     * 
      * @throws InvalidMap indicates map is invalid
      */
     public void showMap() {
-        if(d_players != null) {
+        if (d_players != null) {
             renderPlayers();
         }
-        if(!CommonUtil.isNull(d_continents)) {
+        if (d_continents!=null) {
             d_continents.forEach(l_continent -> {
                 renderContinentName(l_continent.getD_continentName());
                 List<Country> l_continentCountries = l_continent.getD_countries();
-                final int[] l_countryIndex = {1};
-                if(!CommonUtil.isCollectionEmpty(l_continentCountries)) {
+                final int[] l_countryIndex = { 1 };
+                if (l_continentCountries.size()!=0) {
                     l_continentCountries.forEach(l_country -> {
-                        String l_countryNameFormatted = getCountryNameFormatted(l_countryIndex[0]++, l_country.getD_countryName());
+                        String l_countryNameFormatted = getCountryNameFormatted(l_countryIndex[0]++,
+                                l_country.getD_countryName());
                         System.out.println(l_countryNameFormatted);
                         try {
                             List<Country> l_neighbourCountries = d_map.getNeighbourCountry(l_country);
                             renderNeighbourCountryNameFormatted(l_country.getD_countryName(), l_neighbourCountries);
-                        }
-                        catch (InvalidMap l_invalidMap) {
+                        } catch (Exception l_invalidMap) {
                             System.out.println(l_invalidMap.getMessage());
                         }
                     });
-                }
-                else {
+                } else {
                     System.out.println("There is no countries in the continent !!!");
                 }
             });
-        }
-        else {
+        } else {
             System.out.println("There is no continents to display !!!");
         }
     }
