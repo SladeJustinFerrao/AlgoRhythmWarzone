@@ -65,7 +65,7 @@ public class GameEngine {
 	 * Handle the commands.
 	 *
 	 * @param p_enteredCommand command entered by the user in CLI
-	 * @throws IOException indicates failure in I/O operation
+	 * @throws Exception indicates Exception e
 	 */
 	public void handleCommand(String p_enteredCommand) throws Exception {
 		Command l_command = new Command(p_enteredCommand);
@@ -172,7 +172,7 @@ public class GameEngine {
 	 * checking arguements and directing control to model for the processing.
 	 *
 	 * @param p_command command by the user on the CLI
-	 * @throws Exception indicates Exception
+	 * @throws Exception indicates Exception e
 	 */
 	public void performEditMap(Command p_command) throws Exception {
 		List<Map<String, String>> l_operations_list = p_command.getTaskandArguments();
