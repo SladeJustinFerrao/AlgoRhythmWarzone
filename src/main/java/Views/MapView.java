@@ -106,7 +106,7 @@ public class MapView {
         if (d_players != null) {
             String l_armies = "( " +
                     GameConstants.ARMIES + " : " +
-                    getCountryArmies(p_countryName) + " )";
+                    getArmiesOfCountry(p_countryName) + " )";
             l_indexedString = String.format("%02d. %s %s", p_index, p_countryName, l_armies);
         }
         return String.format("%-30s", l_indexedString);
