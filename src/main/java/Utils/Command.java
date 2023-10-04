@@ -38,14 +38,16 @@ public class Command {
         String l_tasks = d_command.replace(l_baseCommand,"").trim();
         List<Map<String , String>> l_taskList  = new ArrayList<Map<String,String>>();
 
-        if(l_tasks.charAt(0)!='-'){
-            l_tasks = "-filename "+l_tasks;
-        }
+        if(l_tasks!=null && !l_tasks.equals("")) {
+            if (l_tasks.charAt(0) != '-') {
+                l_tasks = "-filename " + l_tasks;
+            }
 
-        Map<String,String> l_tasksMap = new HashMap<String,String>();
-        String[] l_taskString = l_tasks.split("-");
-        for (int i=1;i<l_taskString.length;i++) {
-            l_taskList.add(getIndividualTasksandArguments(l_taskString[i]));
+            Map<String, String> l_tasksMap = new HashMap<String, String>();
+            String[] l_taskString = l_tasks.split("-");
+            for (int i = 1; i < l_taskString.length; i++) {
+                l_taskList.add(getIndividualTasksandArguments(l_taskString[i]));
+            }
         }
         return l_taskList;
     }
