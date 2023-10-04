@@ -239,7 +239,7 @@ public class GameEngine {
 					boolean l_fileUpdateStatus = false;
 					try {
 						l_fileUpdateStatus = d_mapService.saveMap(d_gameState, l_map.get("arguments"));
-					} catch (IOException ex) {
+					} catch (Exception ex) {
 						throw new RuntimeException(ex);
 					}
 					if (l_fileUpdateStatus)
@@ -269,7 +269,7 @@ public class GameEngine {
 		} else {
 			for (Map<String, String> l_map : l_operations_list) {
 				if (!l_map.isEmpty() && l_map.containsKey("arguments") && l_map.get("arguments") != null) {
-					Models.Map l_mapToLoad = d_mapService.loadMap(d_gameState, l_map.get("arguments"));
+					Models.Map l_mapToLoad = d_mapService.loadMap(d_gameState, d_mapService.getFilePath(l_map.get("arguments")));
 					if (l_mapToLoad.Validate()) {
 						System.out.println("Map is loaded successfully. \n");
 					} else {

@@ -284,7 +284,21 @@ public class MapService {
         Map l_map = new Map();
         List<String> l_linesOfFile = loadFile(p_filePath);
 
-        //Set Map content
+        if (null != l_linesOfFile && !l_linesOfFile.isEmpty()) {
+
+            List<String> l_continentData = getFileData(l_linesOfFile, "continent");
+            List<Continent> l_continentObjects = parseContinentsData(l_continentData);
+            List<String> l_countryData = getFileData(l_linesOfFile, "country");
+            List<String> l_neighbourData = getFileData(l_linesOfFile, "neighbour");
+            List<Country> l_countryObjects = parseCountriesData(l_countryData);
+
+            l_countryObjects = parseNeighbourData(l_countryObjects, l_neighbourData);
+            l_continentObjects = countryToContinents(l_countryObjects, l_continentObjects);
+            l_map.setD_continents(l_continentObjects);
+            l_map.setD_countries(l_countryObjects);
+            p_gameState.setD_map(l_map);
+        }
+
         return l_map;
     }
 
@@ -292,11 +306,10 @@ public class MapService {
      * Method to extract contents of the file
      *
      * @param p_filePath Path of the filename provided
-     * @return
+     * @return Lines of file
      */
     public List<String> loadFile(String p_filePath) {
         List<String> l_fileLines = new ArrayList<>();
-
         BufferedReader l_reader;
         try {
             l_reader = new BufferedReader(new FileReader(p_filePath));
@@ -308,27 +321,105 @@ public class MapService {
         return l_fileLines;
     }
 
-    public List<String> getFileData(List<String> p_fileLines, String p_switchParameter) {
-        return p_fileLines;
+    /**
+     * Retrieve Contents of the file lines.
+     *
+     * @param p_linesOfFile Line of File
+     * @param p_case Switch Case
+     * @return List of String with particular lines
+     */
+    public List<String> getFileData(List<String> p_linesOfFile, String p_case) {
+        switch (p_case) {
+            case "continent":
+                List<String> l_continentLines = p_linesOfFile.subList(
+                        p_linesOfFile.indexOf("[continents]") + 1,
+                        p_linesOfFile.indexOf("[countries]") - 1);
+                return l_continentLines;
+            case "country":
+                List<String> l_countryLines = p_linesOfFile.subList(p_linesOfFile.indexOf("[countries]") + 1,
+                        p_linesOfFile.indexOf("[borders]") - 1);
+                return l_countryLines;
+            case "neighbour":
+                List<String> l_neightboursLines = p_linesOfFile.subList(p_linesOfFile.indexOf("[borders]") + 1,
+                        p_linesOfFile.size());
+                return l_neightboursLines;
+            default:
+                return null;
+        }
     }
 
+    /**
+     * Retrieve formatted Continents data from Line of Files
+     *
+     * @param p_continentList Unformatted Continents data
+     * @return Formatted Continents data
+     */
     public List<Continent> parseContinentsData(List<String> p_continentList) {
         List<Continent> l_continents = new ArrayList<Continent>();
+        int l_continentId = 1;
 
+        for (String l_continent : p_continentList) {
+            String[] l_data = l_continent.split(" ");
+            l_continents.add(new Continent(l_continentId, l_data[0], Integer.parseInt(l_data[1])));
+            l_continentId++;
+        }
         return l_continents;
     }
 
+    /**
+     * Retrieve formatted Countries data from Line of Files
+     *
+     * @param p_countriesList Unformatted Countries data
+     * @return Formatted Countries data
+     */
     public List<Country> parseCountriesData(List<String> p_countriesList) {
-        List<Country> l_countries = new ArrayList<Country>();
+        List<Country> l_countriesList = new ArrayList<Country>();
+        LinkedHashMap<Integer, List<Integer>> l_countryNeighbors = new LinkedHashMap<Integer, List<Integer>>();
 
-        return l_countries;
+        for (String country : p_countriesList) {
+            String[] l_data = country.split(" ");
+            l_countriesList.add(new Country(Integer.parseInt(l_data[0]), l_data[1],
+                    Integer.parseInt(l_data[2])));
+        }
+
+        return l_countriesList;
     }
 
-    public List<Country> parseNeighbourData(List<Country> p_countriesList, List<String> p_bordersList) {
+    /**
+     * Retrieve formatted Neighbour data from Line of Files
+     *
+     * @param p_countriesList Countries data without neighbours
+     * @param p_neighbourList Unformatted neighbours data
+     * @return Formatted Countries data with Neighbour
+     */
+    public List<Country> parseNeighbourData(List<Country> p_countriesList, List<String> p_neighbourList) {
+
+        LinkedHashMap<Integer, List<Integer>> l_countryNeighbors = new LinkedHashMap<Integer, List<Integer>>();
+
+        for (String l_neighbour : p_neighbourList) {
+            if (null != l_neighbour && !l_neighbour.isEmpty()) {
+                ArrayList<Integer> l_neighbours = new ArrayList<Integer>();
+                String[] l_splitString = l_neighbour.split(" ");
+                for (int i = 1; i <= l_splitString.length - 1; i++) {
+                    l_neighbours.add(Integer.parseInt(l_splitString[i]));
+                }
+                l_countryNeighbors.put(Integer.parseInt(l_splitString[0]), l_neighbours);
+            }
+        }
+        for (Country l_country : p_countriesList) {
+            List<Integer> l_neighbourCountries = l_countryNeighbors.get(l_country.getD_countryId());
+            l_country.setD_neighbourCountryId(l_neighbourCountries);
+        }
         return p_countriesList;
     }
 
-    public static String getFilePath(String p_fileName) {
+    /**
+     * Fetch the file path.
+     *
+     * @param p_fileName Name of file.
+     * @return Path of file
+     */
+    public String getFilePath(String p_fileName) {
         return new File("").getAbsolutePath() + File.separator + "src/main/resources" + File.separator + p_fileName;
     }
 
