@@ -1,6 +1,10 @@
 package Models;
 import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * This class contains functions which manages the country
+ */
 public class Country {
 
     /**
