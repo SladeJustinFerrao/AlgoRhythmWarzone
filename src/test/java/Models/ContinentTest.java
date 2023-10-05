@@ -9,6 +9,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ContinentTest {
 
+    /**
+     * Test to see if the country is removed for all neighbour countries
+     */
     @Test
     void removeCountryForAllNeighboursTest() {
         MapService l_serivce = new MapService();
