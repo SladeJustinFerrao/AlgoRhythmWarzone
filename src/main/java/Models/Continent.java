@@ -3,6 +3,9 @@ package Models;
 import java.util.List;
 import java.util.ArrayList;
 
+/**
+ * This class contains the functions for managing continents
+ */
 public class Continent {
 
     /**

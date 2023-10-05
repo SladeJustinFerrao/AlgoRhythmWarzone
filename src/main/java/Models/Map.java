@@ -5,6 +5,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+
+/**
+ * This class contains functions for map manipulations and validation
+ */
 public class Map {
     /**
      * stores the map file name.
