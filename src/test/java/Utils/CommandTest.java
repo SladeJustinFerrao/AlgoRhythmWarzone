@@ -7,7 +7,7 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Test class for Command.java
+ * Test class for Command class
  */
 public class CommandTest {
     /**
