@@ -6,15 +6,13 @@ import Services.MapService;
 import Utils.Command;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameEngineTest {
 
     /**
      * Method to Test Invalid Command input
-     * @throws Exception
+     * @throws Exception indicates Exception
      */
     @Test
     void performEditContinentInvalidTest() throws Exception {
@@ -32,7 +30,7 @@ class GameEngineTest {
 
     /**
      * Method to test Valid command input
-     * @throws Exception
+     * @throws Exception indicates Exception
      */
     @Test
     void performEditContinentValidTest() throws Exception {

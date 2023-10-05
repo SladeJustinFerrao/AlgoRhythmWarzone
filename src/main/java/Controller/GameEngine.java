@@ -22,12 +22,12 @@ public class GameEngine {
 	/**
 	 * d_gameState stores the information about current GamePlay.
 	 */
-	GameState d_gameState = new GameState();
+	public GameState d_gameState = new GameState();
 
 	/**
 	 * d_mapService instance is used to handle load, read, parse, edit, and save map file.
 	 */
-	MapService d_mapService = new MapService();
+	public MapService d_mapService = new MapService();
 
 	/**
 	 * Player Service instance to edit players and issue orders.
