@@ -172,6 +172,7 @@ public class MapView {
             l_count++;
             renderPlayerInformation(l_count, p);
         }
+        System.out.println();
     }
 
     /**
