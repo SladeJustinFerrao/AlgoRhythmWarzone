@@ -46,6 +46,9 @@ class MapTest {
         assertFalse(l_isExcep);
     }
 
+    /**
+     * Test to see if the countries are connected or not
+     */
     @Test
     void isCountriesConnectedTest() {
         MapService l_serivce = new MapService();
@@ -55,6 +58,9 @@ class MapTest {
         assertEquals(true,l_map.isCountriesConnected());
     }
 
+    /**
+     * Test to see if the continents are connected or not
+     */
     @Test
     void isContinentsConnectedTest() {
         MapService l_serivce = new MapService();
@@ -63,4 +69,5 @@ class MapTest {
 
         assertEquals(true,l_map.isContinentsConnected());
     }
+
 }

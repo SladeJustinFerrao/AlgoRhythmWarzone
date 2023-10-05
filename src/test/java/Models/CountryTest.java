@@ -9,6 +9,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CountryTest {
 
+    /**
+     * Test to check whether neighbour is removed or not
+     */
     @Test
     void removeNeighbourFromCountry() {
         MapService l_serivce = new MapService();
