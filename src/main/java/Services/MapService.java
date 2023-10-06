@@ -35,8 +35,8 @@ public class MapService {
             System.out.println("New Map File has been Created");
         } else {
             System.out.println("Map File is present");
-            this.loadMap(p_gameState, l_filePath);
             p_gameState.setD_map(new Map());
+            this.loadMap(p_gameState, l_filePath);
             p_gameState.getD_map().setD_mapFile(p_editFile);
         }
     }
