@@ -315,4 +315,102 @@ public class PlayerServices {
     public boolean isMapLoaded(GameState p_gameState) {
         return !(p_gameState.getD_map() == null);
     }
+
+    /**
+     * Checks if any of the player in game wants to give further order or not.
+     *
+     * @param p_playersList players involved in game
+     * @return boolean whether there are more orders to give or not
+     */
+    public boolean checkForMoreOrders(List<Player> p_playersList) {
+        for (Player l_player : p_playersList) {
+            if(l_player.getD_moreOrders())
+                return true;
+        }
+        return false;
+    }
+
+    /**
+     * Resets each players information for accepting further orders.
+     *
+     * @param p_playersList players involved in game
+     */
+    public void resetPlayersFlag(List<Player> p_playersList) {
+        for (Player l_player : p_playersList) {
+            if (!l_player.getPlayerName().equalsIgnoreCase("Neutral"))
+                l_player.setD_moreOrders(true);
+            l_player.setD_oneCardPerTurn(false);
+            l_player.resetNegotiation();
+        }
+    }
+
+    /**
+     * Sets the Player Log in player methods.
+     *
+     * @param p_playerLog Player Operation Log.
+     */
+    public void setD_playerLog(String p_playerLog) {
+        this.d_playerLog = p_playerLog;
+        System.out.println(p_playerLog);
+    }
+
+    /**
+     * Find Player By Name.
+     *
+     * @param p_playerName name of the player to be found
+     * @param p_gameState state of ganme.
+     * @return p_player object
+     */
+    public Player findPlayerByName(String p_playerName, GameState p_gameState) {
+        return p_gameState.getD_players().stream().filter(l_player -> l_player.getPlayerName().equals(p_playerName)).findFirst().orElse(null);
+    }
+
+    /**
+     * Checks if any of the player in game wants to give further order or not.
+     *
+     * @param p_playersList The list of players in the game.
+     * @return True if there are more orders to be issued; otherwise, false.
+     */
+    public boolean checkForMoreOrders(List<Player> p_playersList) {
+        for (Player l_player : p_playersList) {
+            if(l_player.getD_moreOrders())
+                return true;
+        }
+        return false;
+    }
+
+    /**
+     * Resets player information for new orders.
+     *
+     * @param p_playersList playersList The list of players involved in the game.
+     */
+    public void resetPlayersFlag(List<Player> p_playersList) {
+        for (Player l_player : p_playersList) {
+            if (!l_player.getPlayerName().equalsIgnoreCase("Neutral"))
+                l_player.setD_moreOrders(true);
+            l_player.setD_oneCardPerTurn(false);
+            l_player.resetNegotiation();
+        }
+    }
+
+    /**
+     * Sets the player's operation log.
+     *
+     * @param p_playerLog The operation log for the player.
+     */
+    public void setD_playerLog(String p_playerLog) {
+        this.d_playerLog = p_playerLog;
+        System.out.println(p_playerLog);
+    }
+
+    /**
+     * Find Player By Name.
+     *
+     * @param p_playerName The name of the player to find.
+     * @param p_gameState The GameState instance
+     * @return p_player object, or null if not found.
+     */
+    public Player findPlayerByName(String p_playerName, GameState p_gameState) {
+        return p_gameState.getD_players().stream().filter(l_player -> l_player.getPlayerName().equals(p_playerName)).findFirst().orElse(null);
+    }
 }
