@@ -42,6 +42,30 @@ public class Player {
      */
     Integer d_noOfUnallocatedArmies;
 
+    /**
+     * More orders to be accepted for player.
+     */
+    boolean d_moreOrders;
+
+    /**
+     * If the per turn card is assigned already.
+     */
+    boolean d_oneCardPerTurn = false;
+
+    /**
+     * String holding Log for individual Player methods.
+     */
+    String d_playerLog;
+
+    /**
+     * Name of the card Player owns.
+     */
+    List<String> d_cardsOwnedByPlayer = new ArrayList<String>();
+
+    /**
+     * List of players to not attack if negotiated with.
+     */
+    List<Player> d_negotiatedWith = new ArrayList<Player>();
 
     /**
 	 * constructor has param used to create player with name and be deafault
