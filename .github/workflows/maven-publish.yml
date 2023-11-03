@@ -11,9 +11,9 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ "dev" ]
+    branches: [ "dummy1" ]
   pull_request:
-    branches: [ "dev" ]
+    branches: [ "dummy1" ]
 
 jobs:
   build:
