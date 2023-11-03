@@ -209,8 +209,6 @@ public class MapView {
     /**
      * Method to display the list of countries and continents along with the current
      * game state
-     * 
-     * @throws Exception indicates map is invalid
      */
     public void showMap() {
         if (d_players != null) {
