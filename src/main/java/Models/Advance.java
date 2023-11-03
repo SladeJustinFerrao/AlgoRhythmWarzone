@@ -129,5 +129,8 @@ public class Advance implements Order {
                 .filter(l_pl -> l_pl.getCountryName().equalsIgnoreCase(d_sourceCountryName.toString()))
                 .findFirst().orElse(null);
         if (l_country == null) {
-            setD_orderExecutionLog(currentOrder() + " is not executed since Source country : " + d_sourceCountryName +
-                    " given in advance
+            setD_orderExecutionLog(currentOrder() + " is not executed since Source country : " + d_sourceCountryName);
+        }
+        return true;
+    }
+}
