@@ -28,7 +28,7 @@ public class LogEntryBuffer extends Observable {
     }
 
     /**
-     * Sets the log value and category.
+     * Sets the log value and category and Notify observer
      * @param p_log Log Input Value
      * @param p_category Category of the log.
      */
@@ -36,20 +36,20 @@ public class LogEntryBuffer extends Observable {
 
         switch(p_category.toLowerCase()){
             case GameConstants.COMMAND:
-                d_logInput =GameConstants.COMMANDLOG + p_log;
+                d_logInput = System.lineSeparator()+ GameConstants.COMMANDLOG + p_log + System.lineSeparator();
                 break;
             case GameConstants.ORDER:
-                d_logInput =GameConstants.ORDERLOG + p_log;
+                d_logInput = System.lineSeparator()+ GameConstants.ORDERLOG + p_log +System.lineSeparator();
                 break;
             case GameConstants.PHASE:
-                d_logInput = GameConstants.SEP + p_log + GameConstants.SEP;
+                d_logInput = System.lineSeparator()+ GameConstants.SEP + p_log + GameConstants.SEP + System.lineSeparator();
                 break;
             case GameConstants.OUTCOME:
-                d_logInput = GameConstants.LOG + p_log;
+                d_logInput = GameConstants.LOG + p_log + System.lineSeparator();
                 break;
             case GameConstants.STARTLOG:
             case GameConstants.ENDLOG:
-                d_logInput = p_log;
+                d_logInput = p_log + System.lineSeparator();
                 break;
         }
         setChanged();
