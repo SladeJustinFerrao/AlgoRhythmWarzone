@@ -23,7 +23,7 @@ public class LogEntryBuffer extends Observable {
      * Getter for the Log Input.
      * @return Log Input.
      */
-    public String getD_logMessage(){
+    public String getCurrentLog(){
         return d_logInput;
     }
 
