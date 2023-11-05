@@ -169,7 +169,7 @@ public class PlayerServices {
      * @param p_players    list of players
      * @param p_continents list of continents
      */
-    private void performContinentAssignment(List<Player> p_players, List<Continent> p_continents) {
+    public void performContinentAssignment(List<Player> p_players, List<Continent> p_continents) {
         for (Player l_pl : p_players) {
             List<String> l_countriesOwned = new ArrayList<>();
             if (l_pl.getD_coutriesOwned().size() != 0) {

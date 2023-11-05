@@ -3,8 +3,7 @@ package Models;
 import java.util.ArrayList;
 import java.util.List;
 
-import Services.PlayerService;
-import Utils.CommonUtil;
+import Services.PlayerServices;
 
 /**
  * Concrete Command of Command pattern.
@@ -73,7 +72,7 @@ public class Advance implements Order {
 				deployArmiesToTarget(l_targetCountry);
 			} else if (l_targetCountry.getD_armies() == 0) {
 				conquerTargetCountry(p_gameState, l_playerOfTargetCountry, l_targetCountry);
-				this.d_playerInitiator.assignCard();
+				// to be implemented after Card class
 			} else {
 				produceOrderResult(p_gameState, l_playerOfTargetCountry, l_targetCountry, l_sourceCountry);
 			}
@@ -135,7 +134,7 @@ public class Advance implements Order {
 		for (Player l_player : p_gameState.getD_players()) {
 			String l_cont = l_player.getCountryNames().stream()
 					.filter(l_country -> l_country.equalsIgnoreCase(this.d_targetCountryName)).findFirst().orElse(null);
-			if (!CommonUtil.isEmpty(l_cont)) {
+			if (l_cont!=null) {
 				l_playerOfTargetCountry = l_player;
 			}
 		}
@@ -201,7 +200,7 @@ public class Advance implements Order {
 							+ p_targetCountry.getD_countryName() + " and armies : " + p_targetCountry.getD_armies(),
 					"default");
 
-			this.d_playerInitiator.assignCard();
+			// depends on Card
 		} else {
 			p_targetCountry.setD_armies(p_defenderArmiesLeft);
 
@@ -350,7 +349,7 @@ public class Advance implements Order {
 		l_playesList.add(p_playerOfSourceCountry);
 		l_playesList.add(p_playerOfTargetCountry);
 
-		PlayerService l_playerService = new PlayerService();
+		PlayerServices l_playerService = new PlayerServices();
 		l_playerService.performContinentAssignment(l_playesList, p_gameState.getD_map().getD_continents());
 	}
 
