@@ -18,7 +18,7 @@ import java.util.Observer;
 public class LogWriter implements Observer {
 
     /**
-     * LogEntry Observable Object
+     * LogEntry Observable Object.
      */
     LogEntryBuffer d_logEntryBuffer;
 
@@ -43,14 +43,30 @@ public class LogWriter implements Observer {
         }
     }
 
+    /**
+     * Checks if the Log message is start of the game.
+     * @param p_log Current log Message.
+     * @return Boolean if it's the start of the game or not.
+     */
     private boolean isGameStartLog(String p_log) {
         return p_log.equals(GameConstants.GAMESTART + System.lineSeparator() + System.lineSeparator());
     }
 
+    /**
+     * Truncates the file.
+     * @param p_logFile Log File.
+     * @throws IOException
+     */
     private void truncateLog(File p_logFile) throws IOException {
         Files.newBufferedWriter(p_logFile.toPath(), StandardOpenOption.TRUNCATE_EXISTING).write(" ");
     }
 
+    /**
+     * Write to the Log File.
+     * @param p_logFile Log File.
+     * @param p_log Log Message to write.
+     * @throws IOException
+     */
     private void appendLog(File p_logFile, String p_log) throws IOException {
         Files.write(p_logFile.toPath(), p_log.getBytes(StandardCharsets.US_ASCII),
                 StandardOpenOption.CREATE, StandardOpenOption.APPEND);
