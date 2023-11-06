@@ -60,6 +60,10 @@ public abstract class Phase {
                 performLoadMap(l_command, p_player);
                 break;
             }
+            case "validatemap": {
+                performValidateMap(l_command, p_player);
+                break;
+            }
             case "advance": {
                 performAdvance(p_enteredCommand, p_player);
                 break;
@@ -88,12 +92,27 @@ public abstract class Phase {
                 performShowMap(l_command, p_player);
                 break;
             }
+            case "exit": {
+                d_gameEngine.setD_gameEngineLog("Exit Command Entered, Game Ends!", "effect");
+                System.exit(0);
+                break;
+            }
             default: {
                 d_gameEngine.setD_gameEngineLog("Invalid Command", "effect");
                 break;
             }
         }
     }
+
+    /**
+     * Basic validation of <strong>validatemap</strong> command for checking
+     * required arguments and redirecting control to the model for actual processing.
+     *
+     * @param p_command Command entered by the user on CLI
+     * @param p_player  Instance of Player Object
+     * @throws IOException    Indicates a failure in I/O operation
+     */
+    protected abstract void performValidateMap(Command p_command, Player p_player) throws IOException;
 
     /**
      * Basic validation of <strong>editneighbor</strong> command for checking
