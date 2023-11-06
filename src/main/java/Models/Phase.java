@@ -80,6 +80,14 @@ public abstract class Phase {
                 performCardHandle(p_enteredCommand, p_player);
                 break;
             }
+            case "assigncountries": {
+                performAssignCountries(l_command, p_player);
+                break;
+            }
+            case "showmap": {
+                performShowMap(l_command, p_player);
+                break;
+            }
             default: {
                 d_gameEngine.setD_gameEngineLog("Invalid Command", "effect");
                 break;
@@ -183,5 +191,24 @@ public abstract class Phase {
      * @throws IOException Signals an I/O exception
      */
     protected abstract void performCardHandle(String p_enteredCommand, Player p_player) throws IOException;
+
+    /**
+     * Basic validation of <strong>assigncountries</strong> to check for required
+     * arguments and redirect control to the model for assigning countries to players.
+     *
+     * @param p_command Command entered by the user in the CLI
+     * @param p_player  Instance of the Player Object
+     * @throws IOException    Indicates failure in I/O operation
+     */
+    protected abstract void performAssignCountries(Command p_command, Player p_player) throws IOException;
+
+    /**
+     * Handles the 'show map' command.
+     *
+     * @param p_command Command entered by the user
+     * @param p_player  Player object instance
+     * @throws IOException    Indicates a failure in I/O operation
+     */
+    protected abstract void performShowMap(Command p_command, Player p_player) throws IOException;
 
 }
