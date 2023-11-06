@@ -44,13 +44,20 @@ public abstract class Phase {
                 performEditContinent(l_command, p_player);
                 break;
             }
+            case "deploy": {
+                performCreateDeploy(p_enteredCommand, p_player);
+                break;
+            }case "gameplayer": {
+                createPlayers(l_command, p_player);
+                break;
+            }
+
 
             default: {
                 d_gameEngine.setD_gameEngineLog("Invalid Command", "effect");
                 break;
             }
         }
-
     }
 
     /**
@@ -73,5 +80,22 @@ public abstract class Phase {
      */
     protected abstract void performEditContinent(Command p_command, Player p_player) throws IOException;
 
+    /**
+     * Basic validation of gameplayer command for checking required arguments and redirecting control to the model for adding or removing players.
+     *
+     * @param p_command Command entered by the user in the CLI
+     * @param p_player  Instance of Player Object
+     * @throws IOException    Indicates a failure in I/O operation
+     */
+    protected abstract void createPlayers(Command p_command, Player p_player) throws IOException;
+
+    /**
+     * Handles the deployment order in the gameplay.
+     *
+     * @param p_command Command entered by the user
+     * @param p_player  Instance of the player object
+     * @throws IOException Indicates failure in I/O operation
+     */
+    protected abstract void performCreateDeploy(String p_command, Player p_player) throws IOException;
 
 }
