@@ -1,6 +1,8 @@
 package Models;
 
 import Controller.GameEngine;
+import Services.MapService;
+import Services.PlayerServices;
 import Utils.Command;
 
 import java.io.IOException;
@@ -21,6 +23,46 @@ public abstract class Phase {
      * Flag to determine if the map is loaded.
      */
     boolean l_isMapLoaded;
+
+    /**
+     * Manages the map file, handling operations such as loading, reading, parsing, editing, and saving the map.
+     */
+    MapService d_mapService = new MapService();
+
+    /**
+     * Manages player-related operations, including editing players and issuing orders.
+     */
+    PlayerServices d_playerService = new PlayerServices();
+
+    /**
+     * Constructor for initializing the current game engine and game state.
+     *
+     * @param p_gameEngine Instance of the game engine to update the state
+     * @param p_gameState Instance of the game state
+     */
+    public Phase(GameEngine p_gameEngine, GameState p_gameState){
+        d_gameEngine = p_gameEngine;
+        d_gameState = p_gameState;
+    }
+
+    /**
+     * Retrieves the current game state.
+     *
+     * @return The current game state
+     */
+    public GameState getD_gameState() {
+        return d_gameState;
+    }
+
+    /**
+     * Setter method for the current game state.
+     *
+     * @param p_gameState The game state instance to set for the phase
+     */
+    public void setD_gameState(GameState p_gameState) {
+        d_gameState = p_gameState;
+    }
+
 
     /**
      * Handles the commands specific to the state entered by the user.
