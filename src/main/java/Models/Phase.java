@@ -51,6 +51,14 @@ public abstract class Phase {
                 createPlayers(l_command, p_player);
                 break;
             }
+            case "savemap": {
+                performSaveMap(l_command, p_player);
+                break;
+            }
+            case "loadmap": {
+                performLoadMap(l_command, p_player);
+                break;
+            }
 
 
             default: {
@@ -59,6 +67,26 @@ public abstract class Phase {
             }
         }
     }
+    /**
+     * Basic validation of <strong>loadmap</strong> command for checking required
+     * arguments and redirecting control to the model for actual processing.
+     *
+     * @param p_command command entered by the user on CLI
+     * @param p_player instance of Player Object
+     * @throws IOException  indicates failure in I/O operation
+     */
+    protected abstract void performLoadMap(Command p_command, Player p_player) throws IOException;
+
+    /**
+     * Basic validation of <strong>savemap</strong> command for checking required
+     * arguments and redirecting control to the model for actual processing.
+     *
+     * @param p_command command entered by the user on CLI
+     * @param p_player instance of Player Object
+     * @throws IOException  indicates failure in I/O operation
+     */
+    protected abstract void performSaveMap(Command p_command, Player p_player) throws IOException;
+
 
     /**
      * Basic validation of <strong>editmap</strong> command for checking required
@@ -97,5 +125,6 @@ public abstract class Phase {
      * @throws IOException Indicates failure in I/O operation
      */
     protected abstract void performCreateDeploy(String p_command, Player p_player) throws IOException;
+
 
 }
