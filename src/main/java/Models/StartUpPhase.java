@@ -20,8 +20,32 @@ public class StartUpPhase extends Phase {
         super(p_gameEngine, p_gameState);
     }
 
-    @Override
-    protected void performValidateMap(Command p_command, Player p_player) throws IOException {
+    /**
+     * {@inheritDoc}
+     */
+    public void performValidateMap(Command p_command, Player p_player) {
+        if (!l_isMapLoaded) {
+            d_gameEngine.setD_gameEngineLog("No map found to validate, Please `loadmap` & `editmap` first", "effect");
+            return;
+        }
+
+        List<Map<String, String>> l_operations_list = p_command.getTaskandArguments();
+
+        Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler(d_gameState));
+        if (null == l_operations_list || l_operations_list.isEmpty()) {
+            Models.Map l_currentMap = d_gameState.getD_map();
+            if (l_currentMap == null) {
+                System.out.println("Invalid Command");
+            } else {
+                if (l_currentMap.Validate()) {
+                    d_gameEngine.setD_gameEngineLog("The loaded map is valid!", "effect");
+                } else {
+                    System.out.println("Failed to Validate map!");
+                }
+            }
+        } else {
+            System.out.println("Invalid Command");
+        }
     }
 
     @Override
