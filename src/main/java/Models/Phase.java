@@ -64,6 +64,14 @@ public abstract class Phase {
                 performAdvance(p_enteredCommand, p_player);
                 break;
             }
+            case "editcountry": {
+                performEditCountry(l_command, p_player);
+                break;
+            }
+            case "editneighbor": {
+                performEditNeighbour(l_command, p_player);
+                break;
+            }
             case "airlift":
             case "blockade":
             case "negotiate":
@@ -78,6 +86,26 @@ public abstract class Phase {
             }
         }
     }
+
+    /**
+     * Basic validation of <strong>editneighbor</strong> command for checking
+     * required arguments and redirecting control to the model for actual processing.
+     *
+     * @param p_command Command entered by the user in the CLI
+     * @param p_player  Instance of Player Object
+     * @throws IOException    Handles File I/O Exception
+     */
+    protected abstract void performEditNeighbour(Command p_command, Player p_player) throws IOException;
+    /**
+     * Basic validation of <strong>editcountry</strong> command for checking
+     * required arguments and redirecting control to the model for actual processing.
+     *
+     * @param p_command Command entered by the user on CLI
+     * @param p_player  Instance of Player Object
+     * @throws IOException    Handles File I/O Exception
+     */
+    protected abstract void performEditCountry(Command p_command, Player p_player) throws IOException;
+
     /**
      * Basic validation of <strong>loadmap</strong> command for checking required
      * arguments and redirecting control to the model for actual processing.
