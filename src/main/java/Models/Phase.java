@@ -230,4 +230,16 @@ public abstract class Phase {
      */
     protected abstract void performShowMap(Command p_command, Player p_player) throws IOException;
 
+    /**
+     * Method to log and print if the command can't be executed in the current phase.
+     */
+    public void printInvalidCommandInState(){
+        d_gameEngine.setD_gameEngineLog("Invalid Command in Current State", "effect");
+    }
+
+    /**
+     * This method signifies the main functionality executed on phase change.
+     */
+    public abstract void initPhase();
+
 }
