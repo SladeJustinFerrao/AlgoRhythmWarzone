@@ -35,8 +35,43 @@ public abstract class Phase {
         l_isMapLoaded = d_gameState.getD_map() != null;
 
         d_gameState.updateLog(l_command.getD_command(), "command");
+        switch (l_rootCommand) {
+            case "editmap": {
+                performMapEdit(l_command, p_player);
+                break;
+            }
+            case "editcontinent": {
+                performEditContinent(l_command, p_player);
+                break;
+            }
+
+            default: {
+                d_gameEngine.setD_gameEngineLog("Invalid Command", "effect");
+                break;
+            }
+        }
 
     }
+
+    /**
+     * Basic validation of <strong>editmap</strong> command for checking required
+     * arguments and redirecting control to the model for actual processing.
+     *
+     * @param p_command command entered by the user on CLI
+     * @param p_player instance of Player Object
+     * @throws IOException indicates when failure in I/O operation
+     */
+    protected abstract void performMapEdit(Command p_command, Player p_player) throws IOException;
+
+    /**
+     * Basic validation of <strong>editcontinent</strong> command for checking
+     * required arguments and redirecting control to the model for actual processing.
+     *
+     * @param p_command command entered by the user on CLI
+     * @param p_player instance of Player Object
+     * @throws IOException    indicates failure in I/O operation
+     */
+    protected abstract void performEditContinent(Command p_command, Player p_player) throws IOException;
 
 
 }
