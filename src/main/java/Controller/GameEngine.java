@@ -33,6 +33,11 @@ public class GameEngine {
 	PlayerServices d_playerService = new PlayerServices();
 
 	/**
+	 *	It is the current game play phase as per state pattern.
+	 */
+	Phase d_currentPhase = new StartUpPhase(this, d_gameState);
+
+	/**
 	 *  Throwable Exception e
 	 */
 	private Throwable e;
@@ -162,6 +167,15 @@ public class GameEngine {
 				System.out.println(e.getMessage());
 			}
 		}
+	}
+
+	/**
+	 * This method is getter for current Phase of Game Context.
+	 *
+	 * @return current Phase of Game Context
+	 */
+	public Phase getD_CurrentPhase(){
+		return d_currentPhase;
 	}
 
 	/**

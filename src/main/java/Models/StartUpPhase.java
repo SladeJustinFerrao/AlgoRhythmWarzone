@@ -4,7 +4,9 @@ import Controller.GameEngine;
 import Utils.Command;
 import Utils.UncaughtExceptionHandler;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Map;
 
@@ -114,8 +116,10 @@ public class StartUpPhase extends Phase {
         printInvalidCommandInState();
     }
 
-    @Override
-    protected void performAssignCountries(Command p_command, Player p_player) throws IOException {
+    /**
+     * {@inheritDoc}
+     */
+    public void performAssignCountries(Command p_command, Player p_player) {
 
     }
 
@@ -124,14 +128,27 @@ public class StartUpPhase extends Phase {
 
     }
 
-    @Override
-    public void initPhase() {
-
-    }
     /**
      * {@inheritDoc}
      */
+    public void initPhase() {
+        BufferedReader l_reader = new BufferedReader(new InputStreamReader(System.in));
 
+        while (d_gameEngine.getD_CurrentPhase() instanceof StartUpPhase) {
+            try {
+                System.out.println("Enter Game Commands or type 'exit' for quitting");
+                String l_commandEntered = l_reader.readLine();
+
+                handleCommand(l_commandEntered);
+            } catch (IOException l_exception) {
+                d_gameEngine.setD_gameEngineLog(l_exception.getMessage(), "effect");
+            }
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public void performMapEdit(Command p_command, Player p_player) throws IOException {
         List<java.util.Map<String, String>> l_operations_list = p_command.getTaskandArguments();
 
@@ -179,6 +196,4 @@ public class StartUpPhase extends Phase {
             }
         }
     }
-
-
 }
