@@ -6,9 +6,7 @@ import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Map;
 
-import Models.GameState;
-import Models.Order;
-import Models.Player;
+import Models.*;
 import Services.MapService;
 import Services.PlayerServices;
 import Utils.Command;
@@ -191,6 +189,18 @@ public class GameEngine {
 				}
 			}
 		}
+	}
+	/**
+	 * Sets and displays GameEngine logs.
+	 *
+	 * @param p_gameEngineLog The log message to be added.
+	 * @param p_logType The type of log (e.g., phase, error, info).
+	 */
+	public void setD_gameEngineLog(String p_gameEngineLog, String p_logType) {
+		String l_consoleLogger = p_logType.toLowerCase().equals("phase")
+				? "\n************ " + p_gameEngineLog + " ************\n"
+				: p_gameEngineLog;
+		System.out.println(l_consoleLogger);
 	}
 
 	/**
