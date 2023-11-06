@@ -2,7 +2,6 @@ package Models;
 
 /**
  * Class contains date members and methods for order
- * @author Harshil Prajapati
  */
 public class Order {
     /**
@@ -139,7 +138,7 @@ public class Order {
      */
     public boolean doesPlayerHaveDeployCountry(Player p_player, Order p_order) {
         Country l_country = p_player.getD_coutriesOwned().stream().filter(
-            l_pl -> l_pl.getD_countryName().equalsIgnoreCase(p_order.getD_CountryTargeted())).findFirst().orElse(null);
+                l_pl -> l_pl.getD_countryName().equalsIgnoreCase(p_order.getD_CountryTargeted())).findFirst().orElse(null);
         return l_country != null;
     }
 
