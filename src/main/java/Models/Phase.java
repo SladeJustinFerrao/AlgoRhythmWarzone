@@ -23,6 +23,27 @@ public abstract class Phase {
     boolean l_isMapLoaded;
 
     /**
+     * Handles the commands specific to the state entered by the user.
+     *
+     * @param p_enteredCommand Command entered by the user in the Command Line Interface (CLI)
+     * @throws IOException    Indicates a failure in I/O operation
+     */
+    public void handleCommand(String p_enteredCommand) throws IOException {
+        commandHandler(p_enteredCommand, null);
+    }
+
+    /**
+     * Handles state-specific commands entered by the user.
+     *
+     * @param p_enteredCommand Command entered by the user in the Command Line Interface (CLI)
+     * @param p_player        Player instance
+     * @throws IOException    Indicates a failure in I/O operation
+     */
+    public void handleCommand(String p_enteredCommand, Player p_player) throws IOException {
+        commandHandler(p_enteredCommand, p_player);
+    }
+
+    /**
      * Redirect to specific phase implementations the command which were entered  by user.
      *
      * @param p_enteredCommand Command entered by the user in the Command Line Interface (CLI)
