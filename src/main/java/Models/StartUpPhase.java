@@ -38,19 +38,51 @@ public class StartUpPhase extends Phase {
     protected void performLoadMap(Command p_command, Player p_player) throws IOException {
 
     }
+
     @Override
-    protected void createPlayers(Command p_command, Player p_player) throws IOException {
+    protected void performEditContinent(Command p_command, Player p_player) throws IOException {
 
     }
 
-    @Override
-    protected void performCreateDeploy(String p_command, Player p_player) throws IOException {
+    /**
+     * {@inheritDoc}
+     */
+    public void createPlayers(Command p_command, Player p_player) {
+        if (!l_isMapLoaded) {
+            d_gameEngine.setD_gameEngineLog("No map found, Please `loadmap` before adding game players", "effect");
+            return;
+        }
 
+        List<Map<String, String>> l_operations_list = p_command.getTaskandArguments();
+
+        Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler(d_gameState));
+        if (l_operations_list == null || l_operations_list.isEmpty()) {
+            System.out.println("Invalid Command");
+        } else {
+            if (d_gameState.getD_loadCommand()) {
+                for (Map<String, String> l_map : l_operations_list) {
+                    if (p_command.checkRequiredKeysPresent("arguments", l_map)
+                            && p_command.checkRequiredKeysPresent("operation", l_map)) {
+                        d_playerService.updatePlayers(d_gameState, l_map.get("operation"),
+                                l_map.get("arguments"));
+                    } else {
+                        System.out.println("Invalid Command");
+                    }
+                }
+            } else {
+                d_gameEngine.setD_gameEngineLog("Please load a valid map first via loadmap command!", "effect");
+            }
+        }
     }
 
     @Override
-    protected void performAdvance(String p_command, Player p_player) throws IOException {
+    protected void performCreateDeploy(String p_command, Player p_player) {
+        printInvalidCommandInState();
+    }
 
+    @Override
+    protected void performAdvance(String p_command, Player p_player) {
+        printInvalidCommandInState();
     }
 
     @Override
@@ -92,11 +124,6 @@ public class StartUpPhase extends Phase {
                 }
             }
         }
-    }
-
-    @Override
-    protected void performEditContinent(Command p_command, Player p_player) throws IOException {
-
     }
 
     /**
