@@ -47,7 +47,8 @@ public abstract class Phase {
             case "deploy": {
                 performCreateDeploy(p_enteredCommand, p_player);
                 break;
-            }case "gameplayer": {
+            }
+            case "gameplayer": {
                 createPlayers(l_command, p_player);
                 break;
             }
@@ -59,8 +60,18 @@ public abstract class Phase {
                 performLoadMap(l_command, p_player);
                 break;
             }
-
-
+            case "advance": {
+                performAdvance(p_enteredCommand, p_player);
+                break;
+            }
+            case "airlift":
+            case "blockade":
+            case "negotiate":
+            case "bomb":
+            {
+                performCardHandle(p_enteredCommand, p_player);
+                break;
+            }
             default: {
                 d_gameEngine.setD_gameEngineLog("Invalid Command", "effect");
                 break;
@@ -126,5 +137,23 @@ public abstract class Phase {
      */
     protected abstract void performCreateDeploy(String p_command, Player p_player) throws IOException;
 
+
+    /**
+     * Handles the advance order in the gameplay.
+     *
+     * @param p_command Command entered by the user
+     * @param p_player  Instance of the player object
+     * @throws IOException Indicates failure in I/O operation
+     */
+    protected abstract void performAdvance(String p_command, Player p_player) throws IOException;
+
+    /**
+     * Handles the card commands.
+     *
+     * @param p_enteredCommand String representing the entered command
+     * @param p_player         Player instance
+     * @throws IOException Signals an I/O exception
+     */
+    protected abstract void performCardHandle(String p_enteredCommand, Player p_player) throws IOException;
 
 }
