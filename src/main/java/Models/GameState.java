@@ -28,6 +28,11 @@ public class GameState {
     String d_error;
 
     /**
+     * Checks if user has used load command.
+     */
+    Boolean d_loadCommand = false;
+
+    /**
      * Log Entry object
      */
     LogEntryBuffer d_logEntryBuffer = new LogEntryBuffer();
@@ -119,5 +124,14 @@ public class GameState {
      */
     public String getRecentLog(){
         return d_logEntryBuffer.getCurrentLog();
+    }
+
+    /**
+     * Returns if load command is used.
+     *
+     * @return bool value if map is loaded
+     */
+    public boolean getD_loadCommand(){
+        return this.d_loadCommand;
     }
 }
