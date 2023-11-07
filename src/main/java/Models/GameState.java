@@ -134,4 +134,10 @@ public class GameState {
     public boolean getD_loadCommand(){
         return this.d_loadCommand;
     }
+    /**
+     * Sets the Boolean load map variable.
+     */
+    public void setD_loadCommand() {
+        this.d_loadCommand = true;
+    }
 }

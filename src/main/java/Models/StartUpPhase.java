@@ -60,14 +60,64 @@ public class StartUpPhase extends Phase {
 
     }
 
-    @Override
-    protected void performLoadMap(Command p_command, Player p_player) throws IOException {
+    /**
+     * {@inheritDoc}
+     */
+    public void performLoadMap(Command p_command, Player p_player) {
+        List<Map<String, String>> l_operations_list = p_command.getTaskandArguments();
+        boolean l_flagValidate = false;
 
+        Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler(d_gameState));
+        if (null == l_operations_list || l_operations_list.isEmpty()) {
+            System.out.println("Invalid Command");
+        } else {
+            for (Map<String, String> l_map : l_operations_list) {
+                if (p_command.checkRequiredKeysPresent("arguments", l_map)) {
+                    // Loads the map if it is valid or resets the game state
+                    Models.Map l_mapToLoad = d_mapService.loadMap(d_gameState,
+                            l_map.get("arguments"));
+                    if (l_mapToLoad.Validate()) {
+                        l_flagValidate = true;
+                        d_gameState.setD_loadCommand();
+                        d_gameEngine.setD_gameEngineLog(l_map.get("arguments")+ " has been loaded to start the game", "effect" );
+                    } else {
+                        d_mapService.resetMap(d_gameState, l_map.get("arguments"));
+                    }
+                    if(!l_flagValidate){
+                        d_mapService.resetMap(d_gameState, l_map.get("arguments"));
+                    }
+                } else {
+                    System.out.println("Invalid Command");
+                }
+            }
+        }
     }
 
-    @Override
-    protected void performEditContinent(Command p_command, Player p_player) throws IOException {
+    /**
+     * {@inheritDoc}
+     */
+    public void performEditContinent(Command p_command, Player p_player) throws IOException {
+        if (!l_isMapLoaded) {
+            d_gameEngine.setD_gameEngineLog("Can not Edit Continent, please perform `editmap` first", "effect");
+            return;
+        }
 
+        List<Map<String, String>> l_operations_list = p_command.getTaskandArguments();
+
+        Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler(d_gameState));
+        if (l_operations_list == null || l_operations_list.isEmpty()) {
+            System.out.println("Invalid Command");
+        } else {
+            for (Map<String, String> l_map : l_operations_list) {
+                if (p_command.checkRequiredKeysPresent("arguments", l_map)
+                        && p_command.checkRequiredKeysPresent("operation", l_map)) {
+                    d_mapService.editFunctions(d_gameState, l_map.get("arguments"),
+                            l_map.get("operation"), 1);
+                } else {
+                    System.out.println("Invalid Command");
+                }
+            }
+        }
     }
 
     /**
