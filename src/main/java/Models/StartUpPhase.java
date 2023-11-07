@@ -3,6 +3,7 @@ package Models;
 import Controller.GameEngine;
 import Utils.Command;
 import Utils.UncaughtExceptionHandler;
+import Views.MapView;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -215,12 +216,22 @@ public class StartUpPhase extends Phase {
      * {@inheritDoc}
      */
     public void performAssignCountries(Command p_command, Player p_player) {
+        List<Map<String, String>> l_operations_list = p_command.getTaskandArguments();
 
+        Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler(d_gameState));
+        if (l_operations_list == null || l_operations_list.isEmpty()) {
+            d_playerService.assignCountries(d_gameState);
+            d_playerService.assignArmies(d_gameState);
+            d_gameEngine.setIssueOrderPhase();
+        } else {
+            System.out.println("Invalid Command");
+        }
     }
 
     @Override
-    protected void performShowMap(Command p_command, Player p_player) throws IOException {
-
+    protected void performShowMap(Command p_command, Player p_player) {
+        MapView l_mapView = new MapView(d_gameState);
+        l_mapView.showMap();
     }
 
     /**

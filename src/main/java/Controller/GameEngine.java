@@ -58,16 +58,6 @@ public class GameEngine {
 	}
 
 	/**
-	 * Basic validation of <strong>editmap</strong> command for
-	 * checking arguements and directing control to model for the processing.
-	 *
-	 * @return current Phase of Game State
-	 */
-	public Phase getD_CurrentPhase(){
-		return d_currentPhase;
-	}
-
-	/**
 	 * Shows and Writes GameEngine Logs.
 	 *
 	 * @param p_gameEngineLog String of Log message.
