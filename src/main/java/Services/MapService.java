@@ -431,4 +431,7 @@ public class MapService {
         p_gameState.setD_map(new Models.Map());
     }
 
+    public void editFunctions(GameState p_gameState, String p_argument, String p_operation, Integer p_switch) throws IOException{
+
+        }
 }
