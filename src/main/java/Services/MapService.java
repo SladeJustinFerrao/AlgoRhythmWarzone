@@ -178,7 +178,6 @@ public class MapService {
      * @param p_gameState Current Game State
      * @param p_fileName Name of the file
      * @return boolean true if map save was successful else false
-     * @throws IOException
      */
     public boolean saveMap(GameState p_gameState, String p_fileName){
         try {
