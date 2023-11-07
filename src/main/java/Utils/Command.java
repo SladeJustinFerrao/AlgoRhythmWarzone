@@ -17,7 +17,7 @@ public class Command {
      * @param p_input User input.
      */
     public Command(String p_input){
-        this.d_command = p_input;
+        this.d_command = p_input.trim().replaceAll(" +", " ");;
     }
 
     /**
