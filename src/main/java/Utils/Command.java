@@ -73,24 +73,20 @@ public class Command {
     }
 
     /**
-     * This method checks if the map chosen by the user consists of the specified keys or not.
+     * Checks if required keys are present in the command
      * @param p_key keys given by the player
      * @param p_inputMap the input map selected by the player
      * @return boolean true if the required keys are present and false if not
      */
     public boolean checkRequiredKeysPresent(String p_key, Map<String, String> p_inputMap) {
-        if(p_inputMap.containsKey(p_key) && null != p_inputMap.get(p_key)
-                && !p_inputMap.get(p_key).isEmpty())
-            return true;
-        return false;
+        return p_inputMap.containsKey(p_key) && p_inputMap.get(p_key) != null && !p_inputMap.get(p_key).isEmpty();
     }
 
     /**
      * Getter for the command.
-     *
      * @return command in string
      */
-    public String getD_command() {
+    public String getcommand() {
         return d_command;
     }
 }
