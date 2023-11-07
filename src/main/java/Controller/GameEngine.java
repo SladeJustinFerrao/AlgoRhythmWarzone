@@ -7,7 +7,6 @@ import Models.StartUpPhase;
 import Models.OrderExecutionPhase;
 import Models.IssueOrderPhase;
 
-
 /**
  * This is the entry point of the Game and keeps the track of current Game State.
  */
@@ -46,5 +45,13 @@ public class GameEngine {
 				? "\n************ " + p_gameEngineLog + " ************\n"
 				: p_gameEngineLog;
 		System.out.println(l_consoleLogger);
+	}
+
+	public static void main(String[] p_args) {
+		GameEngine l_game = new GameEngine();
+
+		l_game.getD_CurrentPhase().getD_gameState().updateLog(GameConstants.GAMESTART+System.lineSeparator(), GameConstants.STARTLOG);
+		l_game.setD_gameEngineLog("Game Startup Phase", GameConstants.PHASE);
+		l_game.getD_CurrentPhase().initPhase();
 	}
 }
