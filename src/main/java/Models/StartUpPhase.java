@@ -50,15 +50,60 @@ public class StartUpPhase extends Phase {
         }
     }
 
-    @Override
-    protected void performEditNeighbour(Command p_command, Player p_player) throws IOException {
+    /**
+     * {@inheritDoc}
+     */
+    public void performEditNeighbour(Command p_command, Player p_player) throws IOException {
+        if (!l_isMapLoaded) {
+            d_gameEngine.setD_gameEngineLog("Can not Edit Neighbors, please perform `editmap` first", "effect");
+            return;
+        }
 
+        List<Map<String, String>> l_operations_list = p_command.getTaskandArguments();
+
+        Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler(d_gameState));
+        if (null == l_operations_list || l_operations_list.isEmpty()) {
+            System.out.println("Invalid Command");
+        } else {
+            for (Map<String, String> l_map : l_operations_list) {
+                if (p_command.checkRequiredKeysPresent("arguments", l_map)
+                        && p_command.checkRequiredKeysPresent("operation", l_map)) {
+                    d_mapService.editFunctions(d_gameState, l_map.get("operation"),
+                            l_map.get("arguments"), 3);
+                } else {
+                    System.out.println("Invalid Command");
+                }
+            }
+        }
     }
 
-    @Override
-    protected void performEditCountry(Command p_command, Player p_player) throws IOException {
+    /**
+     * {@inheritDoc}
+     */
+    public void performEditCountry(Command p_command, Player p_player) throws IOException {
+        if (!l_isMapLoaded) {
+            d_gameEngine.setD_gameEngineLog("Can not Edit Country, please perform `editmap` first", "effect");
+            return;
+        }
 
+        List<Map<String, String>> l_operations_list = p_command.getTaskandArguments();
+
+        Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler(d_gameState));
+        if (null == l_operations_list || l_operations_list.isEmpty()) {
+            System.out.println("Invalid Command");
+        } else {
+            for (Map<String, String> l_map : l_operations_list) {
+                if (p_command.checkRequiredKeysPresent("arguments", l_map)
+                        && p_command.checkRequiredKeysPresent("operation", l_map)) {
+                    d_mapService.editFunctions(d_gameState, l_map.get("operation"),
+                            l_map.get("arguments"), 2);
+                } else {
+                    System.out.println("Invalid Command");
+                }
+            }
+        }
     }
+
 
     /**
      * {@inheritDoc}
