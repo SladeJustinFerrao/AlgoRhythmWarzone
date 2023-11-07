@@ -24,16 +24,27 @@ public class GameEngine {
 		d_currentPhase = p_phase;
 	}
 
+	public void setIssueOrderPhase(){
+		this.setD_gameEngineLog("Issue Order Phase", GameConstants.PHASE);
+		setD_CurrentPhase(new IssueOrderPhase(this, d_gameState));
+		getD_CurrentPhase().initPhase();
+	}
+
+	public void setOrderExecutionPhase(){
+		this.setD_gameEngineLog("Order Execution Phase", GameConstants.PHASE);
+		setD_CurrentPhase(new OrderExecutionPhase(this, d_gameState));
+		getD_CurrentPhase().initPhase();
+	}
+
 	public Phase getD_CurrentPhase(){
 		return d_currentPhase;
 	}
 
 	public void setD_gameEngineLog(String p_gameEngineLog, String p_logType) {
 		d_currentPhase.getD_gameState().updateLog(p_gameEngineLog, p_logType);
-		String l_consoleLogger = p_logType.toLowerCase().equals("phase")
+		String l_consoleLogger = p_logType.equalsIgnoreCase(GameConstants.PHASE)
 				? "\n************ " + p_gameEngineLog + " ************\n"
 				: p_gameEngineLog;
 		System.out.println(l_consoleLogger);
 	}
-
 }
