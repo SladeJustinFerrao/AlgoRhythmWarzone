@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+
 import Services.PlayerServices;
 import Utils.Command;
 
@@ -16,6 +18,11 @@ public class Player {
      * color to show details with on map.
      */
     private String d_color;
+
+    /**
+     * More orders to be accepted for player.
+     */
+    boolean d_moreOrders;
 
     /**
      * Name of the player.
@@ -42,13 +49,28 @@ public class Player {
      */
     Integer d_noOfUnallocatedArmies;
 
+    /**
+     * String holding Log for individual Player methods.
+     */
+    String d_playerLog;
 
     /**
-	 * constructor has param used to create player with name and be deafault
-	 * armies.
-	 * 
-	 * @param p_playerName player name.
-	 */
+     * Name of the card Player owns.
+     */
+    List<String> d_cardsOwnedByPlayer = new ArrayList<String>();
+
+    /**
+     * List of players to not attack if negotiated with.
+     */
+    List<Player> d_negotiatedWith = new ArrayList<Player>();
+
+
+    /**
+     * constructor has param used to create player with name and be deafault
+     * armies.
+     *
+     * @param p_playerName player name.
+     */
     public Player(String p_playerName) {
         this.d_name = p_playerName;
         this.d_noOfUnallocatedArmies = 0;
@@ -56,156 +78,192 @@ public class Player {
     }
 
 
-	/**
-	 * This is no arg constructor.
-	 */
+    /**
+     * This is no arg constructor.
+     */
     public Player() {
 
     }
 
     /**
-	 * This getter is used to get player's name.
-	 *
-	 * @return return player name.
-	 */
+     * This getter is used to get player's name.
+     *
+     * @return return player name.
+     */
     public String getPlayerName() {
         return d_name;
     }
 
-  /**
-	 * This setter is used to set player's p_name.
-	 *
-	 * @param p_name set player name.
-	 */
+    /**
+     * This setter is used to set player's p_name.
+     *
+     * @param p_name set player name.
+     */
     public void setPlayerName(String p_name) {
         this.d_name = p_name;
     }
 
 
     /**
-	 * This getter is used to get color code for player.
-	 *
-	 * @return Color
-	 */
+     * This getter is used to get color code for player.
+     *
+     * @return Color
+     */
     public String getD_color() {
         return d_color;
     }
 
-  /**
-	 *
-	 * @param p_color color string.
-	 */
+    /**
+     * @param p_color color string.
+     */
     public void setD_color(String p_color) {
         d_color = p_color;
     }
 
 
     /**
-	 * This getter is used to get list of countries owned by player.
-	 *
-	 * @return return countries owned by player.
-	 */
+     * This getter is used to get list of countries owned by player.
+     *
+     * @return return countries owned by player.
+     */
     public List<Country> getD_coutriesOwned() {
         return d_coutriesOwned;
     }
 
 
     /**
-	 * This setter is used to set list of countries owned by player.
-	 *
-	 * @param p_coutriesOwned set countries owned by player.
-	 */
+     * This setter is used to set list of countries owned by player.
+     *
+     * @param p_coutriesOwned set countries owned by player.
+     */
     public void setD_coutriesOwned(List<Country> p_coutriesOwned) {
         this.d_coutriesOwned = p_coutriesOwned;
     }
 
 
     /**
-	 * This getter is used to get list of continents owned by player.
-	 *
-	 * @return return list of continents owned by player.
-	 */
+     * This getter is used to get list of continents owned by player.
+     *
+     * @return return list of continents owned by player.
+     */
     public List<Continent> getD_continentsOwned() {
         return d_continentsOwned;
     }
 
 
     /**
-	 * This setter is used to set list of continents owned by player.
-	 *
-	 * @param p_continentsOwned set continents owned by player.
-	 */
+     * This setter is used to set list of continents owned by player.
+     *
+     * @param p_continentsOwned set continents owned by player.
+     */
     public void setD_continentsOwned(List<Continent> p_continentsOwned) {
         this.d_continentsOwned = p_continentsOwned;
     }
 
-  /**
-	 * This getter is used to get execute orders of player.
-	 * 
-	 * @return return execute orders.
-	 */
+    /**
+     * This getter is used to get execute orders of player.
+     *
+     * @return return execute orders.
+     */
     public List<Order> getD_ordersToExecute() {
         return d_ordersToExecute;
     }
 
 
     /**
-	 * This setter is used to set execute orders player.
-	 * 
-	 * @param p_ordersToExecute set execute orders.
-	 */
+     * This setter is used to set execute orders player.
+     *
+     * @param p_ordersToExecute set execute orders.
+     */
     public void setD_ordersToExecute(List<Order> p_ordersToExecute) {
         this.d_ordersToExecute = p_ordersToExecute;
     }
 
 
     /**
-	 * This getter is used to get allocated armies of player.
-	 * 
-	 * @return return allocated armies of player.
-	 */
+     * This getter is used to get allocated armies of player.
+     *
+     * @return return allocated armies of player.
+     */
 
     public Integer getD_noOfUnallocatedArmies() {
         return d_noOfUnallocatedArmies;
     }
 
 
-
     /**
-	 * This setter is used to set number of allocated armies to player.
-	 * 
-	 * @param p_numberOfArmies set number of armies to player.
-	 */
+     * This setter is used to set number of allocated armies to player.
+     *
+     * @param p_numberOfArmies set number of armies to player.
+     */
     public void setD_noOfUnallocatedArmies(Integer p_numberOfArmies) {
         this.d_noOfUnallocatedArmies = p_numberOfArmies;
     }
 
 
-
     /**
-	 * Extracts the list of names of countries owned by the player.
-	 *
-	 * @return list of country names
-	 */
-    public List<String> getCountryNames(){
-        List<String> l_countryNames=new ArrayList<String>();
-        for(Country c: d_coutriesOwned){
+     * Extracts the list of names of countries owned by the player.
+     *
+     * @return list of country names
+     */
+    public List<String> getCountryNames() {
+        List<String> l_countryNames = new ArrayList<String>();
+        for (Country c : d_coutriesOwned) {
             l_countryNames.add(c.d_countryName);
         }
         return l_countryNames;
     }
 
 
+    /**
+     * Countries player cannot issue an order on.
+     *
+     * @param p_playerNegotiation player to negotiate with.
+     */
+    public void addPlayerNegotiation(Player p_playerNegotiation) {
+        this.d_negotiatedWith.add(p_playerNegotiation);
+    }
 
     /**
-	 * Retrieves the list of continent names owned by the player.
-	 *
-	 * @return list of continent names
-	 */
-    public List<String> getContinentNames(){
+     * Gets info about more orders from player are to be accepted or not.
+     *
+     * @return boolean true if player wants to give more order or else false
+     */
+    public boolean getD_moreOrders() {
+        return d_moreOrders;
+    }
+
+    /**
+     * Sets info about more orders from player are to be accepted or not.
+     *
+     * @param p_moreOrders Boolean true if player wants to give more order or else
+     *                     false
+     */
+    public void setD_moreOrders(boolean p_moreOrders) {
+        this.d_moreOrders = p_moreOrders;
+    }
+
+    /**
+     * Returns the List of cards owned by the player.
+     *
+     * @return List of Strings with cards
+     */
+    public List<String> getD_cardsOwnedByPlayer() {
+        return this.d_cardsOwnedByPlayer;
+    }
+
+
+
+
+    /**
+     * Retrieves the list of continent names owned by the player.
+     *
+     * @return list of continent names
+     */
+    public List<String> getContinentNames() {
         List<String> l_continentNames = new ArrayList<String>();
         if (d_continentsOwned != null) {
-            for(Continent c: d_continentsOwned){
+            for (Continent c : d_continentsOwned) {
                 l_continentNames.add(c.d_continentName);
             }
             return l_continentNames;
@@ -213,28 +271,186 @@ public class Player {
         return null;
     }
 
+    /**
+     * Prints and writes the player log.
+     *
+     * @param p_playerLog String as log message
+     * @param p_typeLog   Type of log : error, or log
+     */
+    public void setD_playerLog(String p_playerLog, String p_typeLog) {
+        this.d_playerLog = p_playerLog;
+        if (p_typeLog.equals("error"))
+            System.err.println(p_playerLog);
+        else if (p_typeLog.equals("log"))
+            System.out.println(p_playerLog);
+    }
 
-    
-	/**
-	 * Issue order which takes order as an input and add it to players unassigned
-	 * orders pool.
-	 * 
-	 * @throws IOException exception in reading inputs from user
-	 */
-    public void issue_order() throws IOException {
+    /**
+     * Returns the player log string.
+     *
+     * @return String of log message.
+     */
+    public String getD_playerLog() {
+        return this.d_playerLog;
+    }
+
+    /**
+     * Checks if there are more order to be accepted for player in next turn or not.
+     *
+     * @throws IOException exception in reading inputs from user
+     */
+    void checkForMoreOrders() throws IOException {
         BufferedReader l_reader = new BufferedReader(new InputStreamReader(System.in));
-        PlayerServices l_playerService = new PlayerServices();
-        System.out.println("\nPlease enter command to deploy reinforcement armies on the map for player : "
-                + this.getPlayerName());
-        String l_commandEntered = l_reader.readLine();
-        Command l_command = new Command(l_commandEntered);
-
-        if (l_command.getMainCommand().equalsIgnoreCase("deploy") && l_commandEntered.split(" ").length == 3) {
-            l_playerService.createDeployOrder(l_commandEntered, this);
+        System.out.println("\nDo you still want to give order for player : " + this.getPlayerName()
+                + " in next turn ? \nPress Y for Yes or N for No");
+        String l_nextOrderCheck = l_reader.readLine();
+        if (l_nextOrderCheck.equalsIgnoreCase("Y") || l_nextOrderCheck.equalsIgnoreCase("N")) {
+            this.setD_moreOrders(l_nextOrderCheck.equalsIgnoreCase("Y") ? true : false);
         } else {
-            System.out.println("Invalid command encountered");;
+            System.err.println("Invalid Input Passed.");
+            this.checkForMoreOrders();
         }
     }
+
+
+    /**
+     * Issue order which takes order as an input and add it to players unassigned
+     * orders pool.
+     *
+     * @throws IOException exception in reading inputs from user
+     */
+    public void issue_order() throws IOException {
+        //depends on issiueOrdePhase
+    }
+
+    /**
+     * it creates and deploy order of the game
+     *
+     * @param p_commandEntered get the parameter of the command given by the user
+     * @param p_player         object of the player
+     */
+    public void createDeployOrder(String p_commandEntered, Player p_player) {
+        String l_targetCountry;
+        String l_noOfArmies;
+        try {
+            l_targetCountry = p_commandEntered.split(" ")[1];
+            l_noOfArmies = p_commandEntered.split(" ")[2];
+            if (validateDeployOrderArmies(this, l_noOfArmies)) {
+                this.setD_playerLog(
+                        "Given deploy order cant be executed as armies in deploy order exceeds player's unallocated armies.", "error");
+            } else {
+                //to be impletemented after deploy class
+                Integer l_unallocatedarmies = this.getD_noOfUnallocatedArmies() - Integer.parseInt(l_noOfArmies);
+                this.setD_noOfUnallocatedArmies(l_unallocatedarmies);
+                this.setD_playerLog("Deploy order has been added to queue for execution. For player: " + this.d_name, "log");
+
+            }
+        } catch (Exception l_e) {
+            this.setD_playerLog("Invalid deploy order entered", "error");
+        }
+    }
+
+    /**
+     * Used to test number of armies entered in deploy command to check that player
+     * cannot deploy more armies that there is in their reinforcement pool.
+     *
+     * @param p_player     player to create deploy order
+     * @param p_noOfArmies number of armies to deploy
+     * @return boolean to validate armies to deploy
+     */
+    public boolean validateDeployOrderArmies(Player p_player, String p_noOfArmies) {
+        return p_player.getD_noOfUnallocatedArmies() < Integer.parseInt(p_noOfArmies) ? true : false;
+    }
+
+    /**
+     * Checks if given advance order has zero armies to move.
+     *
+     * @param p_noOfArmies number of armies given in order
+     * @return true if given order has zero armies or else false
+     */
+    private Boolean checkZeroArmiesInOrder(String p_noOfArmies) {
+        if (Integer.parseInt(p_noOfArmies) == 0) {
+            this.setD_playerLog("Advance order with 0 armies to move cant be issued.", "error");
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Checks if countries given advance order are adjacent or not.
+     *
+     * @param p_gameState         current state of the game
+     * @param p_sourceCountryName source country name
+     * @param p_targetCountryName target country name
+     * @return boolean true if countries are adjacent or else false
+     */
+    @SuppressWarnings("unlikely-arg-type")
+    public boolean checkAdjacency(GameState p_gameState, String p_sourceCountryName, String p_targetCountryName) {
+        Country l_sourceCountry = p_gameState.getD_map().getCountryByName(p_sourceCountryName);
+        Country l_targetCountry = p_gameState.getD_map().getCountryByName(p_targetCountryName);
+        Integer l_targetCountryId = l_sourceCountry.getD_neighbourCountryId().stream()
+                .filter(l_adjCountry -> l_adjCountry == l_targetCountry.getD_countryId()).findFirst().orElse(null);
+        if (l_targetCountryId == null) {
+            this.setD_playerLog("Advance order cant be issued since target country : " + p_targetCountryName
+                    + " is not adjacent to source country : " + p_sourceCountryName, "error");
+            return false;
+        }
+        return true;
+    }
+
+
+
+    /**
+     * Remove the card which is used.
+     *
+     * @param p_cardName name of the card to remove.
+     */
+    public void removeCard(String p_cardName) {
+        this.d_cardsOwnedByPlayer.remove(p_cardName);
+    }
+
+    /**
+     * Checks if the order issued on country is possible or not.
+     *
+     * @param p_targetCountryName country to attack
+     * @return bool if it can attack
+     */
+    public boolean negotiationValidation(String p_targetCountryName) {
+        boolean l_canAttack = true;
+        for (Player p : d_negotiatedWith) {
+            if (p.getCountryNames().contains(p_targetCountryName))
+                l_canAttack = false;
+        }
+        return l_canAttack;
+    }
+
+    /**
+     * Clears all negotiation from the previous turn.
+     */
+    public void resetNegotiation() {
+        d_negotiatedWith.clear();
+    }
+
+    /**
+     * Validates the card arguments.
+     *
+     * @param p_commandEntered command of card
+     * @return bool if valid
+     */
+    public boolean checkCardArguments(String p_commandEntered) {
+        if (p_commandEntered.split(" ")[0].equalsIgnoreCase("airlift")) {
+            return p_commandEntered.split(" ").length == 4;
+        } else if (p_commandEntered.split(" ")[0].equalsIgnoreCase("blockade")
+                || p_commandEntered.split(" ")[0].equalsIgnoreCase("bomb")
+                || p_commandEntered.split(" ")[0].equalsIgnoreCase("negotiate")) {
+            return p_commandEntered.split(" ").length == 2;
+        } else {
+            return false;
+        }
+    }
+
+    //to be implemented after gameEnginer
+
 
 
     /**
