@@ -434,4 +434,7 @@ public class MapService {
     public void editFunctions(GameState p_gameState, String p_argument, String p_operation, Integer p_switch) throws IOException{
 
         }
+
+    public void resetMap(GameState p_gameState, String p_fileToLoad) {
+    }
 }
