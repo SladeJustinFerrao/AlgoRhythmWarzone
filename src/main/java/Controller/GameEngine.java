@@ -428,8 +428,8 @@ public class GameEngine {
 				while (d_playerService.unexecutedOrdersExists(d_gameState.getD_players())) {
 					for (Player l_player : d_gameState.getD_players()) {
 						Order l_order = l_player.next_order();
-						if (l_order != null)
-							l_order.execute(d_gameState, l_player);
+						//if (l_order != null)
+							//l_order.execute(d_gameState, l_player);
 					}
 				}
 				MapView l_map_view = new MapView(d_gameState, d_gameState.getD_players());
