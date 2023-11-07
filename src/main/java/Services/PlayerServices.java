@@ -291,4 +291,16 @@ public class PlayerServices {
     public boolean isMapLoaded(GameState p_gameState) {
         return !(p_gameState.getD_map() == null);
     }
+
+
+    /**
+     * Find Player By Name.
+     *
+     * @param p_playerName player name to be found
+     * @param p_gameState GameState Instance.
+     * @return p_player object
+     */
+    public Player findPlayerByName(String p_playerName, GameState p_gameState) {
+        return p_gameState.getD_players().stream().filter(l_player -> l_player.getPlayerName().equals(p_playerName)).findFirst().orElse(null);
+    }
 }
