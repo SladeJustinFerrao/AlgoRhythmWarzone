@@ -83,4 +83,23 @@ public abstract class Bomb implements Card{
 
     }
 
+    public String orderExecutionLog() {
+        return this.d_orderExecutionLog;
+    }
+
+    @Override
+    public Boolean checkValidOrder(GameState p_gameState) {
+        Country l_targetCountry = p_gameState.getD_map().getCountryByName(d_targetCountryID);
+        if (l_targetCountry == null) {
+            this.setD_orderExecutionLog("Invalid Target Country! Doesn't exist on the map!", "error");
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String getOrderName() {
+        return "bomb";
+    }
+
 }
