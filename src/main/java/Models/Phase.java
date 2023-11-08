@@ -67,7 +67,7 @@ public abstract class Phase {
      * Handles the commands specific to the state entered by the user.
      *
      * @param p_enteredCommand Command entered by the user in the Command Line Interface (CLI)
-     * @throws Exception Indicates a failure in I/O operation
+     * @throws Exception Indicates a failure
      */
     public void handleCommand(String p_enteredCommand) throws Exception {
         commandHandler(p_enteredCommand, null);
@@ -78,7 +78,7 @@ public abstract class Phase {
      *
      * @param p_enteredCommand Command entered by the user in the Command Line Interface (CLI)
      * @param p_player         Player instance
-     * @throws Exception Indicates a failure in I/O operation
+     * @throws Exception Indicates a failure
      */
     public void handleCommand(String p_enteredCommand, Player p_player) throws Exception {
         commandHandler(p_enteredCommand, p_player);
@@ -89,7 +89,7 @@ public abstract class Phase {
      *
      * @param p_enteredCommand Command entered by the user in the Command Line Interface (CLI)
      * @param p_player         Player instance
-     * @throws Exception Indicates a failure in I/O operation
+     * @throws Exception Indicates a failure
      */
     private void commandHandler(String p_enteredCommand, Player p_player) throws Exception {
         Command l_command = new Command(p_enteredCommand);

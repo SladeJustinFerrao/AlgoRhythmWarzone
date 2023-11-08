@@ -115,7 +115,7 @@ public class IssueOrderPhase extends Phase {
     @Override
     protected void performCreateDeploy(String p_command, Player p_player) throws Exception {
         p_player.createDeployOrder(p_command);
-        d_gameState.updateLog(p_player.getD_playerLog(), "effect");
+        d_gameState.updateLog(p_player.getD_playerLog(), GameConstants.OUTCOME);
         p_player.checkForMoreOrders();
     }
 
@@ -125,7 +125,7 @@ public class IssueOrderPhase extends Phase {
     @Override
     protected void performAdvance(String p_command, Player p_player) throws Exception {
         p_player.createAdvanceOrder(p_command, d_gameState);
-        d_gameState.updateLog(p_player.getD_playerLog(), "effect");
+        d_gameState.updateLog(p_player.getD_playerLog(), GameConstants.OUTCOME);
         p_player.checkForMoreOrders();
     }
 
@@ -136,7 +136,7 @@ public class IssueOrderPhase extends Phase {
     protected void performCardHandle(String p_enteredCommand, Player p_player) throws Exception {
         if(p_player.getD_cardsOwnedByPlayer().contains(p_enteredCommand.split(" ")[0])) {
             p_player.handleCardCommands(p_enteredCommand, d_gameState);
-            d_gameEngine.setD_gameEngineLog(p_player.d_playerLog, "effect");
+            d_gameEngine.setD_gameEngineLog(p_player.d_playerLog, GameConstants.OUTCOME);
         }
         p_player.checkForMoreOrders();
     }
@@ -178,7 +178,7 @@ public class IssueOrderPhase extends Phase {
                     try {
                         l_player.issue_order(this);
                     } catch (Exception l_exception) {
-                        d_gameEngine.setD_gameEngineLog(l_exception.getMessage(), "effect");
+                        d_gameEngine.setD_gameEngineLog(l_exception.getMessage(), GameConstants.OUTCOME);
                     }
                 }
             }
