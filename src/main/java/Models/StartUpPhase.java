@@ -105,7 +105,6 @@ public class StartUpPhase extends Phase {
         }
     }
 
-
     /**
      * {@inheritDoc}
      */
