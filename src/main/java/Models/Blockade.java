@@ -1,5 +1,7 @@
 package Models;
 
+import Constants.GameConstants;
+
 public abstract class Blockade implements Card{
 
     /**
@@ -26,5 +28,38 @@ public abstract class Blockade implements Card{
     public Blockade(Player p_playerInitiator, String p_targetCountry) {
         this.d_playerInitiator = p_playerInitiator;
         this.d_targetCountryID = p_targetCountry;
+    }
+
+    /**
+     * Executes Blockade order.
+     *
+     * @param p_gameState current game state
+     */
+    @Override
+    public void execute(GameState p_gameState) {
+        if (valid(p_gameState)) {
+            Country l_targetCountryID = p_gameState.getD_map().getCountryByName(d_targetCountryID);
+            Integer l_noOfArmiesOnTargetCountry = l_targetCountryID.getD_armies() == 0 ? 1
+                    : l_targetCountryID.getD_armies();
+            l_targetCountryID.setD_armies(l_noOfArmiesOnTargetCountry * 3);
+
+            // change territory to neutral territory
+            d_playerInitiator.getD_coutriesOwned().remove(l_targetCountryID);
+
+            Player l_player = p_gameState.getD_players().stream()
+                    .filter(l_pl -> l_pl.getPlayerName().equalsIgnoreCase("Neutral")).findFirst().orElse(null);
+
+            // assign neutral territory to the existing neutral player.
+            if (l_player != null) {
+                l_player.getD_coutriesOwned().add(l_targetCountryID);
+                System.out.println("Neutral territory: " + l_targetCountryID.getD_countryName() + "assigned to the Neutral Player.");
+            }
+
+            d_playerInitiator.removeCard("blockade");
+            this.setD_orderExecutionLog("\nPlayer : " + this.d_playerInitiator.getPlayerName()
+                    + " is executing defensive blockade on Country :  " + l_targetCountryID.getD_countryName()
+                    + " with armies :  " + l_targetCountryID.getD_armies(), GameConstants.OUTCOME);
+            p_gameState.updateLog(orderExecutionLog(), GameConstants.OUTCOME);
+        }
     }
 }

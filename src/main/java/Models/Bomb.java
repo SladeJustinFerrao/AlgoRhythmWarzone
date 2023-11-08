@@ -32,7 +32,7 @@ public abstract class Bomb implements Card{
     }
 
     /**
-     * Executes Bomb order
+     * Executes Bomb order.
      *
      * @param p_gameState current game state
      */
@@ -49,7 +49,7 @@ public abstract class Bomb implements Card{
                     "\nPlayer : " + this.d_playerInitiator.getPlayerName() + " is executing Bomb card on country :  "
                             + l_targetCountryID.getD_countryName() + " with armies :  " + l_noOfArmiesOnTargetCountry
                             + ". New armies: " + l_targetCountryID.getD_armies(),
-                    "default");
+                    GameConstants.OUTCOME);
             p_gameState.updateLog(orderExecutionLog(), GameConstants.OUTCOME);
         }
     }
