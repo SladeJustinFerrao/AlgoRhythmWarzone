@@ -155,7 +155,7 @@ class DeployTest {
         Country l_country = new Country(1, "Japan", 1);
         l_player.setD_coutriesOwned(List.of(l_country));
 
-        l_player.createDeployOrder("deploy Japan 4", l_player);
+        l_player.createDeployOrder("deploy Japan 4");
 
         assertEquals(6, l_player.getD_noOfUnallocatedArmies());
         assertEquals(1, l_player.getD_ordersToExecute().size());
