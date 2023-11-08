@@ -62,4 +62,39 @@ public abstract class Blockade implements Card{
             p_gameState.updateLog(orderExecutionLog(), GameConstants.OUTCOME);
         }
     }
+
+    /**
+     * Validates if the target country belongs to the Player who executed the order or not.
+     *
+     * @param p_gameState current game state
+     * @return true or false
+     */
+    @Override
+    public boolean valid(GameState p_gameState) {
+
+        // Validates whether target country belongs to the Player who executed the order
+        // or not
+        Country l_country = d_playerInitiator.getD_coutriesOwned().stream()
+                .filter(l_pl -> l_pl.getD_countryName().equalsIgnoreCase(this.d_targetCountryID)).findFirst()
+                .orElse(null);
+
+        if (l_country != null) {
+            this.setD_orderExecutionLog(this.currentOrder() + " is not executed since Target country : "
+                    + this.d_targetCountryID + " given in blockade command does not owned to the player : "
+                    + d_playerInitiator.getPlayerName()
+                    + " The card will have no affect and you don't get the card back.", GameConstants.ERROR);
+            p_gameState.updateLog(orderExecutionLog(), GameConstants.OUTCOME);
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Gives currently executed blockade order.
+     *
+     * @return order command
+     */
+    private String currentOrder() {
+        return "Blockade card order : " + "blockade" + " " + this.d_targetCountryID;
+    }
 }
