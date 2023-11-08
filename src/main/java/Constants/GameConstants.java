@@ -11,6 +11,7 @@ public final class GameConstants {
     public static final String COMMAND = "command";
     public static final String ORDER = "order";
     public static final String PHASE = "phase";
+
     public static final String OUTCOME = "outcome";
     public static final String ERROR = "error";
     public static final String STARTLOG = "start";
