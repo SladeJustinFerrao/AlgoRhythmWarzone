@@ -2,6 +2,11 @@ package Models;
 
 import Controller.GameEngine;
 import Utils.Command;
+import Views.MapView;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class OrderExecutionPhase extends Phase {
 
@@ -181,10 +186,61 @@ public class OrderExecutionPhase extends Phase {
     }
 
     /**
+     * Invokes the execution logic for all unexecuted orders of players in the game.
+     */
+    protected void executeOrders() {
+    }
+
+    /**
+     * Adds a neutral player to the game state.
+     *
+     * @param p_gameState The GameState to which the neutral player is added
+     */
+    public void addNeutralPlayer(GameState p_gameState) {
+    }
+
+    /**
+     * Checks if a single player has conquered all countries of the map, indicating the end of the game.
+     *
+     * @param p_gameState Current state of the game
+     * @return true if a player has conquered all countries and the game should end; otherwise, returns false
+     */
+    protected Boolean checkEndOftheGame(GameState p_gameState) {
+    }
+
+    /**
      * This method signifies the main functionality executed on phase change.
      */
     @Override
     public void initPhase() {
+        while (d_gameEngine.getD_CurrentPhase() instanceof OrderExecutionPhase) {
+            executeOrders();
 
+            MapView l_map_view = new MapView(d_gameState);
+            l_map_view.showMap();
+
+            if (this.checkEndOftheGame(d_gameState))
+                break;
+
+            while (d_gameState.getD_players() != null) {
+                System.out.println("Press Y/y if you want to continue for next turn or else press N/n");
+                BufferedReader l_reader = new BufferedReader(new InputStreamReader(System.in));
+
+                try {
+                    String l_continue = l_reader.readLine();
+
+                    if (l_continue.equalsIgnoreCase("N")) {
+                        break;
+                    } else if(l_continue.equalsIgnoreCase("Y")){
+                        d_playerService.assignArmies(d_gameState);
+                        d_gameEngine.setIssueOrderPhase();
+                    } else {
+                        System.out.println("Invalid Input");
+                    }
+                } catch (IOException l_e) {
+                    System.out.println("Invalid Input");
+                }
+            }
+        }
     }
 }

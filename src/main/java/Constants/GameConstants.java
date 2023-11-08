@@ -20,5 +20,6 @@ public final class GameConstants {
     public static final String LOG = "Log: ";
     public static final String GAMESTART = "---------- Starting the game the Game ----------";
     public static final String LOGFILENAME = "LogRecord.txt";
+    public static final String INVALIDCOMMAND = "Invalid Command!!";
 
 }
