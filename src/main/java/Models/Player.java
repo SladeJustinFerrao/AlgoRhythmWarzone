@@ -542,7 +542,49 @@ public class Player {
      * @param p_gameState gamestate instance
      */
     public void handleCardCommands(String p_commandEntered, GameState p_gameState) {
-        // dependency on Blockade and diplomacy
+        if (checkCardArguments(p_commandEntered)) {
+            switch (p_commandEntered.split(" ")[0]) {
+                case "airlift":
+                    Card l_newOrder = new Airlift(p_commandEntered.split(" ")[1], p_commandEntered.split(" ")[2],
+                            Integer.parseInt(p_commandEntered.split(" ")[3]), this);
+                    if (l_newOrder.checkValidOrder(p_gameState)) {
+                        this.order_list.add(l_newOrder);
+                        this.setD_playerLog("Card Command Added to Queue for Execution Successfully!", "log");
+                        p_gameState.updateLog(getD_playerLog(), "effect");
+                    }
+                    break;
+                case "blockade":
+                    Card l_blockadeOrder = new Blockade(this, p_commandEntered.split(" ")[1]);
+                    if (l_blockadeOrder.checkValidOrder(p_gameState)) {
+                        this.order_list.add(l_blockadeOrder);
+                        this.setD_playerLog("Card Command Added to Queue for Execution Successfully!", "log");
+                        p_gameState.updateLog(getD_playerLog(), "effect");
+                    }
+                    break;
+                case "bomb":
+                    Card l_bombOrder = new Bomb(this, p_commandEntered.split(" ")[1]);
+                    if (l_bombOrder.checkValidOrder(p_gameState)) {
+                        this.order_list.add(l_bombOrder);
+                        this.setD_playerLog("Card Command Added to Queue for Execution Successfully!", "log");
+                        p_gameState.updateLog(getD_playerLog(), "effect");
+                    }
+                    break;
+                case "negotiate":
+                    Card l_negotiateOrder = new Diplomacy(p_commandEntered.split(" ")[1],this);
+                    if (l_negotiateOrder.checkValidOrder(p_gameState)) {
+                        this.order_list.add(l_negotiateOrder);
+                        this.setD_playerLog("Card Command Added to Queue for Execution Successfully!", "log");
+                        p_gameState.updateLog(getD_playerLog(), "effect");
+                    }
+                    break;
+                default:
+                    this.setD_playerLog("Invalid Command!", "error");
+                    p_gameState.updateLog(getD_playerLog(), "effect");
+                    break;
+            }
+        } else{
+            this.setD_playerLog("Invalid Card Command Passed! Check Arguments!", "error");
+        }
     }
 
 
