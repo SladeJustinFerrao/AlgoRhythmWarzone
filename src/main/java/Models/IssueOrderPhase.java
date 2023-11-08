@@ -3,6 +3,7 @@ package Models;
 import Constants.GameConstants;
 import Controller.GameEngine;
 import Utils.Command;
+import Views.MapView;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -113,7 +114,9 @@ public class IssueOrderPhase extends Phase {
      */
     @Override
     protected void performCreateDeploy(String p_command, Player p_player) throws Exception {
-
+        p_player.createDeployOrder(p_command);
+        d_gameState.updateLog(p_player.getD_playerLog(), "effect");
+        p_player.checkForMoreOrders();
     }
 
     /**
@@ -121,7 +124,9 @@ public class IssueOrderPhase extends Phase {
      */
     @Override
     protected void performAdvance(String p_command, Player p_player) throws Exception {
-
+        p_player.createAdvanceOrder(p_command, d_gameState);
+        d_gameState.updateLog(p_player.getD_playerLog(), "effect");
+        p_player.checkForMoreOrders();
     }
 
     /**
@@ -129,7 +134,11 @@ public class IssueOrderPhase extends Phase {
      */
     @Override
     protected void performCardHandle(String p_enteredCommand, Player p_player) throws Exception {
-
+        if(p_player.getD_cardsOwnedByPlayer().contains(p_enteredCommand.split(" ")[0])) {
+            p_player.handleCardCommands(p_enteredCommand, d_gameState);
+            d_gameEngine.setD_gameEngineLog(p_player.d_playerLog, "effect");
+        }
+        p_player.checkForMoreOrders();
     }
 
     /**
@@ -146,7 +155,10 @@ public class IssueOrderPhase extends Phase {
      */
     @Override
     protected void performShowMap(Command p_command, Player p_player) throws Exception {
+        MapView l_mapView = new MapView(d_gameState);
+        l_mapView.showMap();
 
+        askForOrder(p_player);
     }
 
     /**
