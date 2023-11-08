@@ -1,5 +1,6 @@
 package Services;
 
+import Constants.GameConstants;
 import Models.Continent;
 import Models.Country;
 import Models.GameState;
@@ -32,124 +33,123 @@ public class MapService {
             Map l_map = new Map();
             l_map.setD_mapFile(p_editFile);
             p_gameState.setD_map(l_map);
+            p_gameState.updateLog(l_filePath+ " File has been created for user to edit", GameConstants.OUTCOME);
             System.out.println("New Map File has been Created");
         } else {
             System.out.println("Map File is present");
             p_gameState.setD_map(new Map());
             this.loadMap(p_gameState, l_filePath);
             p_gameState.getD_map().setD_mapFile(p_editFile);
+            p_gameState.updateLog(l_filePath+ " already exists and is loaded for editing", GameConstants.OUTCOME);
         }
     }
 
     /**
-     * Method to Modify Continents
-     *
-     * @param p_gameState Current state of the game
-     * @param p_argument Arguments in the command
-     * @param p_operation Operation of the command
+     * Function to update map with continents,country,neighbour
+     * @param p_gameState GameState
+     * @param p_argument Arguments
+     * @param p_operation Operation
+     * @param p_switch Switch parameter
      * @throws IOException
      */
-    public void editContinent(GameState p_gameState, String p_argument, String p_operation) throws IOException {
-        String l_fileName = p_gameState.getD_map().getD_mapFile();
-        Map l_map = p_gameState.getD_map();
+    public void editFunctions(GameState p_gameState, String p_argument, String p_operation, Integer p_switch) throws Exception {
+        Map l_updatedMap;
+        String l_mapFileName = p_gameState.getD_map().getD_mapFile();
+        Map l_map = ((p_gameState.getD_map().getD_continents())==null && (p_gameState.getD_map().getD_countries())==null) ? this.loadMap(p_gameState, l_mapFileName) : p_gameState.getD_map();
 
-        if(l_map!=null) {
-            Map l_updatedMap = continentsToMap(l_map, p_argument, p_operation);
+        // Edit Control Logic for Continent, Country & Neighbor
+        if(l_map!=null){
+            switch(p_switch){
+                case 1:
+                    l_updatedMap = continentsToMap(p_gameState, l_map, p_operation, p_argument);
+                    break;
+                case 2:
+                    l_updatedMap = countryToMap(p_gameState, l_map, p_operation, p_argument);
+                    break;
+                case 3:
+                    l_updatedMap = neighbourToMap(p_gameState, l_map, p_operation, p_argument);
+                    break;
+                default:
+                    throw new IllegalStateException("Error!! Illegal value: " + p_switch);
+            }
             p_gameState.setD_map(l_updatedMap);
+            p_gameState.getD_map().setD_mapFile(l_mapFileName);
         }
     }
 
     /**
      * Link Continents to Map
      *
-     * @param p_map Map object
-     * @param p_argument Arguments in the command
+     * @param p_gameState GameState
+     * @param p_map       Map object
+     * @param p_argument  Arguments in the command
      * @param p_operation Operation of the command
      * @return Map Object
      */
-    public Map continentsToMap(Map p_map, String p_argument, String p_operation) {
-        String[] l_arguments = p_argument.split(" ");
-        if (p_operation.equalsIgnoreCase("add") && l_arguments.length==2) {
-            p_map.addContinent(l_arguments[0], Integer.parseInt(l_arguments[1]));
-        } else if (p_operation.equalsIgnoreCase("remove") && l_arguments.length==1) {
-            p_map.removeContinent(l_arguments[0]);
-        } else {
-            System.out.println("Error! Continents could not be modified, no changes made.");
+    public Map continentsToMap(GameState p_gameState, Map p_map, String p_argument, String p_operation) throws Exception{
+        try {
+            String[] l_arguments = p_argument.split(" ");
+            if (p_operation.equalsIgnoreCase("add") && l_arguments.length == 2) {
+                p_map.addContinent(l_arguments[0], Integer.parseInt(l_arguments[1]));
+                this.setMapServiceLog("Continent " + l_arguments[0] + " added successfully!", p_gameState);
+            } else if (p_operation.equalsIgnoreCase("remove") && l_arguments.length == 1) {
+                p_map.removeContinent(l_arguments[0]);
+                this.setMapServiceLog("Continent " + l_arguments[0] + " removed successfully!", p_gameState);
+            } else {
+                throw new Exception("Continent " +l_arguments[0] + " couldn't be added/removed. Changes are not made due to Invalid Command Passed.");
+            }
+        } catch(Exception l_exp){
+            this.setMapServiceLog(l_exp.getMessage(), p_gameState);
         }
-
         return p_map;
-    }
-
-    /**
-     * Method to Modify Countries
-     *
-     * @param p_gameState Current state of the game
-     * @param p_argument Arguments in the command
-     * @param p_operation Operation of the command
-     */
-    public void editCountry(GameState p_gameState, String p_argument, String p_operation) {
-        String l_fileName= p_gameState.getD_map().getD_mapFile();
-        Map l_map = p_gameState.getD_map();
-
-        if(l_map!=null){
-            Map l_updatedMap = countryToMap(l_map, p_argument, p_operation);
-            p_gameState.setD_map(l_updatedMap);
-        }
     }
 
     /**
      * Link Countries to Map
      *
-     * @param p_map Map object
-     * @param p_argument Arguments in the command
+     * @param p_gameState GameState
+     * @param p_map       Map object
+     * @param p_argument  Arguments in the command
      * @param p_operation Operation of the command
      * @return Map Object
      */
-    public Map countryToMap(Map p_map, String p_argument, String p_operation) {
-        String[] l_arguments = p_argument.split(" ");
-        if (p_operation.equalsIgnoreCase("add") && l_arguments.length==2){
-            p_map.addCountry(l_arguments[0], l_arguments[1]);
-        }else if(p_operation.equalsIgnoreCase("remove") && l_arguments.length==1){
-            p_map.removeCountry(l_arguments[0]);
-        }else{
-            System.out.println("Error! Countries could not be modified, no changes made.");
+    public Map countryToMap(GameState p_gameState, Map p_map, String p_argument, String p_operation) throws Exception {
+        try {
+            String[] l_arguments = p_argument.split(" ");
+            if (p_operation.equalsIgnoreCase("add") && l_arguments.length == 2) {
+                p_map.addCountry(l_arguments[0], l_arguments[1]);
+                this.setMapServiceLog("Country " + l_arguments[0] + " added successfully!", p_gameState);
+            } else if (p_operation.equalsIgnoreCase("remove") && l_arguments.length == 1) {
+                p_map.removeCountry(l_arguments[0]);
+                this.setMapServiceLog("Country " + l_arguments[0] + " removed successfully!", p_gameState);
+            } else {
+                throw new Exception("Country " + l_arguments[0] + " could not be " + p_operation + "ed!");
+            }
+        } catch(Exception l_exp){
+            this.setMapServiceLog(l_exp.getMessage(), p_gameState);
         }
         return p_map;
     }
 
     /**
-     * Method to Modify neighbouring countries
-     *
-     * @param p_gameState Current state of the game
-     * @param p_argument Arguments in the command
-     * @param p_operation Operation of the command
-     */
-    public void editNeighbour(GameState p_gameState, String p_argument, String p_operation) {
-        String l_fileName= p_gameState.getD_map().getD_mapFile();
-        Map l_map = p_gameState.getD_map();
-
-        if(l_map!=null){
-            Map l_updatedMap = neighbourToMap(l_map, p_argument, p_operation);
-            p_gameState.setD_map(l_updatedMap);
-        }
-    }
-
-    /**
      * Link Neighbours to Map
      *
-     * @param p_map Map object
-     * @param p_argument Arguments in the command
+     * @param p_gameState GameState
+     * @param p_map       Map object
+     * @param p_argument  Arguments in the command
      * @param p_operation Operation of the command
      * @return Map Object
      */
-    public Map neighbourToMap(Map p_map, String p_argument, String p_operation) {
+    public Map neighbourToMap(GameState p_gameState, Map p_map, String p_argument, String p_operation) throws Exception {
         String[] l_arguments = p_argument.split(" ");
         if (p_operation.equalsIgnoreCase("add") && p_argument.split(" ").length==2){
             p_map.addCountryNeighbour(l_arguments[0], l_arguments[1]);
+            this.setMapServiceLog("Neighbour Pair "+ l_arguments[0] +" "+p_argument.split(" ")[1]+" added successfully!", p_gameState);
         }else if(p_operation.equalsIgnoreCase("remove") && p_argument.split(" ").length==2){
             p_map.removeCountryNeighbour(l_arguments[0], l_arguments[1]);
+            this.setMapServiceLog("Neighbour Pair "+l_arguments[0]+" "+p_argument.split(" ")[1]+" removed successfully!", p_gameState);
         }else{
-            System.out.println("Error! Neighbours could not be modified, no changes made.");
+            throw new Exception("Neighbour could not be "+ p_operation +"ed!");
         }
 
         return p_map;
@@ -189,7 +189,7 @@ public class MapService {
                 if (null != p_gameState.getD_map()) {
                     Models.Map l_currentMap = p_gameState.getD_map();
 
-                    System.out.println("Running Map Validation........");
+                    this.setMapServiceLog("Running Map Validation........", p_gameState);
                     boolean l_mapValidationStatus = l_currentMap.Validate();
                     if (l_mapValidationStatus) {
                         Files.deleteIfExists(Paths.get(getFilePath(p_fileName)));
@@ -203,16 +203,19 @@ public class MapService {
                                 && !p_gameState.getD_map().getD_countries().isEmpty()) {
                             writeCountryAndNeighbourData(p_gameState, l_writer);
                         }
+                        p_gameState.updateLog("Map Saved Successfully", GameConstants.OUTCOME);
                         l_writer.close();
                     }
                 } else {
+                    p_gameState.updateLog("Validation failed! Cannot Save the Map file!", GameConstants.OUTCOME);
                     p_gameState.setError("Validation Failed");
                     return false;
                 }
             }
             return true;
         } catch (IOException l_e) {
-            l_e.printStackTrace();
+            this.setMapServiceLog(l_e.getMessage(), p_gameState);
+            p_gameState.updateLog("Couldn't save the changes in map file!", GameConstants.OUTCOME);
             p_gameState.setError("Error in saving map file");
             return false;
         }
@@ -235,7 +238,6 @@ public class MapService {
         for (Country l_country : p_gameState.getD_map().getD_countries()) {
             l_countryData = new String();
 
-            l_countryData = ((Integer) l_country.getD_countryId()).toString() + " " + (l_country.getD_countryName()) + " " + (((Integer) l_country.getD_continentId()).toString());
             l_countryData = ((Integer) l_country.getD_countryId()).toString() + " " + (l_country.getD_countryName()) + " " + (((Integer) l_country.getD_continentId()).toString());
             p_writer.write(l_countryData + System.lineSeparator());
 
@@ -281,7 +283,7 @@ public class MapService {
      */
     public Map loadMap(GameState p_gameState, String p_filePath) {
         Map l_map = new Map();
-        List<String> l_linesOfFile = loadFile(p_filePath);
+        List<String> l_linesOfFile = loadFile(p_filePath,p_gameState);
 
         if (null != l_linesOfFile && !l_linesOfFile.isEmpty()) {
 
@@ -307,7 +309,7 @@ public class MapService {
      * @param p_filePath Path of the filename provided
      * @return Lines of file
      */
-    public List<String> loadFile(String p_filePath) {
+    public List<String> loadFile(String p_filePath,GameState p_gameState) {
         List<String> l_fileLines = new ArrayList<>();
         BufferedReader l_reader;
         try {
@@ -316,6 +318,7 @@ public class MapService {
             l_reader.close();
         } catch (IOException l_e1) {
             System.out.println("File not Found!");
+            this.setMapServiceLog("File not Found!",p_gameState);
         }
         return l_fileLines;
     }
@@ -423,18 +426,23 @@ public class MapService {
     }
 
     /**
-     * Method to reset the Current State
-     * @param p_gameState Current Game state
+     * Method to reset the map in case of Invalid map
+     * @param p_gameState GameState
+     * @param p_fileToLoad File Name
      */
-    public void resetState(GameState p_gameState) {
-        System.out.println("Invalid Map! Map cannot be loaded. Kindly use a valid map");
+    public void resetMap(GameState p_gameState, String p_fileToLoad) {
+        System.out.println("Invalid Map!! Map cannot be loaded. Kindly provide a valid map");
+        p_gameState.updateLog(p_fileToLoad+" map could not be loaded as it is invalid!", GameConstants.OUTCOME);
         p_gameState.setD_map(new Models.Map());
     }
 
-    public void editFunctions(GameState p_gameState, String p_argument, String p_operation, Integer p_switch) throws IOException{
-
-        }
-
-    public void resetMap(GameState p_gameState, String p_fileToLoad) {
+    /**
+     * Method to set logs
+     * @param p_Log String containing log
+     * @param p_gameState current gamestate instance
+     */
+    public void setMapServiceLog(String p_Log, GameState p_gameState){
+        System.out.println(p_Log);
+        p_gameState.updateLog(p_Log, GameConstants.OUTCOME);
     }
 }
