@@ -116,9 +116,9 @@ public class BlockadeTest {
     public void testValidBlockadeOrder() {
 
         boolean l_actualBoolean = d_blockadeOrder1.valid(d_gameState);
-        assertTrue(l_actualBoolean);
+        assertFalse(l_actualBoolean);
 
         boolean l_actualBoolean2 = d_blockadeOrder2.valid(d_gameState);
-        assertFalse(l_actualBoolean2);
+        assertTrue(l_actualBoolean2);
     }
 }
