@@ -18,7 +18,7 @@ public class GameEngine {
 	public GameState d_gameState = new GameState();
 
 	/**
-	 *	It is the current game play phase as per state.
+	 *	It is the current game play phase as per state pattern.
 	 */
 	Phase d_currentPhase = new StartUpPhase(this, d_gameState);
 
@@ -51,7 +51,7 @@ public class GameEngine {
 	/**
 	 * This method is getter for current Phase of Game State.
 	 *
-	 * @return current Phase of Game State
+	 * @return current Phase of Game Context
 	 */
 	public Phase getD_CurrentPhase(){
 		return d_currentPhase;
