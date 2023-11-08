@@ -90,6 +90,28 @@ public abstract class Blockade implements Card{
     }
 
     /**
+     * Print Blockade order.
+     */
+    @Override
+    public void printOrder() {
+        this.d_orderExecutionLog = "----------Blockade card order issued by player "
+                + this.d_playerInitiator.getPlayerName() + "----------" + System.lineSeparator()
+                + "Creating a defensive blockade with armies = " + "on country ID: " + this.d_targetCountryID;
+        System.out.println(System.lineSeparator() + this.d_orderExecutionLog);
+
+    }
+
+    /**
+     * Return order name
+     *
+     * @return string
+     */
+    @Override
+    public String getOrderName() {
+        return "blockade";
+    }
+
+    /**
      * Gives currently executed blockade order.
      *
      * @return order command
