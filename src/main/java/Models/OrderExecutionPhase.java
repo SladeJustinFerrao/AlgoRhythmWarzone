@@ -50,7 +50,7 @@ public class OrderExecutionPhase extends Phase {
      */
     @Override
     protected void performLoadMap(Command p_command, Player p_player) throws Exception {
-
+        printInvalidCommandInState();
     }
 
     /**
@@ -58,7 +58,7 @@ public class OrderExecutionPhase extends Phase {
      */
     @Override
     protected void performSaveMap(Command p_command, Player p_player) throws Exception {
-
+        printInvalidCommandInState();
     }
 
     /**
