@@ -34,7 +34,7 @@ public class OrderExecutionPhase extends Phase {
      */
     @Override
     protected void performEditNeighbour(Command p_command, Player p_player) throws Exception {
-
+        printInvalidCommandInState();
     }
 
     /**
@@ -42,7 +42,7 @@ public class OrderExecutionPhase extends Phase {
      */
     @Override
     protected void performEditCountry(Command p_command, Player p_player) throws Exception {
-
+        printInvalidCommandInState();
     }
 
     /**
