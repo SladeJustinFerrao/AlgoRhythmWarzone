@@ -18,12 +18,14 @@ class MapTest {
     @Test
     void invalidMapTest() {
 
+        GameState l_gameState = new GameState();
         GameEngine l_gameEngine = new GameEngine();
-        GameState d_gameState = new GameState();
+        Player l_player = new Player();
+        StartUpPhase l_phase = new StartUpPhase(l_gameEngine,l_gameState);
         boolean l_isExcep = false;
         try {
             Command l_command = new Command("loadmap TestInvalidMap.map");
-            l_gameEngine.performLoadMap(l_command);
+            l_phase.performLoadMap(l_command,l_player);
         } catch (Exception l_e){
             l_isExcep=true;
         }
@@ -37,12 +39,14 @@ class MapTest {
     @Test
     void validMapTest() {
 
+        GameState l_gameState = new GameState();
         GameEngine l_gameEngine = new GameEngine();
-        GameState d_gameState = new GameState();
+        Player l_player = new Player();
+        StartUpPhase l_phase = new StartUpPhase(l_gameEngine,l_gameState);
         boolean l_isExcep = false;
         try {
             Command l_command = new Command("loadmap canada.map");
-            l_gameEngine.performLoadMap(l_command);
+            l_phase.performLoadMap(l_command,l_player);
         } catch (Exception l_e){
             l_isExcep=true;
         }
@@ -53,10 +57,12 @@ class MapTest {
      * Test to see if the countries are connected or not
      */
     @Test
-    void isCountriesConnectedTest() {
-        MapService l_serivce = new MapService();
-        GameState l_game = new GameState();
-        Map l_map = l_serivce.loadMap(l_game, l_serivce.getFilePath("canada.map"));
+    void isCountriesConnectedTest() throws Exception {
+        GameState l_gameState = new GameState();
+        GameEngine l_gameEngine = new GameEngine();
+        Phase l_phase = new StartUpPhase(l_gameEngine,l_gameState);
+        l_phase.handleCommand("loadmap canada.map");
+        Map l_map = l_phase.d_gameState.d_map;
 
         assertEquals(true,l_map.isCountriesConnected());
     }
@@ -65,10 +71,12 @@ class MapTest {
      * Test to see if the continents are connected or not
      */
     @Test
-    void isContinentsConnectedTest() {
-        MapService l_serivce = new MapService();
-        GameState l_game = new GameState();
-        Map l_map = l_serivce.loadMap(l_game, l_serivce.getFilePath("canada.map"));
+    void isContinentsConnectedTest() throws Exception {
+        GameState l_gameState = new GameState();
+        GameEngine l_gameEngine = new GameEngine();
+        Phase l_phase = new StartUpPhase(l_gameEngine,l_gameState);
+        l_phase.handleCommand("loadmap canada.map");
+        Map l_map = l_phase.d_gameState.d_map;
 
         assertEquals(true,l_map.isContinentsConnected());
     }

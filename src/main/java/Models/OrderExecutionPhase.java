@@ -26,7 +26,7 @@ public class OrderExecutionPhase extends Phase {
      */
     @Override
     protected void performValidateMap(Command p_command, Player p_player) throws Exception {
-
+        printInvalidCommandInState();
     }
 
     /**
@@ -66,7 +66,7 @@ public class OrderExecutionPhase extends Phase {
      */
     @Override
     protected void performMapEdit(Command p_command, Player p_player) throws Exception {
-
+        printInvalidCommandInState();
     }
 
     /**
@@ -74,7 +74,7 @@ public class OrderExecutionPhase extends Phase {
      */
     @Override
     protected void performEditContinent(Command p_command, Player p_player) throws Exception {
-
+        printInvalidCommandInState();
     }
 
     /**

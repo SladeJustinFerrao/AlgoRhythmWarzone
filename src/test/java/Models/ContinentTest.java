@@ -1,5 +1,6 @@
 package Models;
 
+import Controller.GameEngine;
 import Services.MapService;
 import org.junit.jupiter.api.Test;
 
@@ -16,10 +17,12 @@ class ContinentTest {
      * Test to see if the country is removed for all neighbour countries
      */
     @Test
-    void removeCountryForAllNeighboursTest() {
-        MapService l_serivce = new MapService();
-        GameState l_game = new GameState();
-        Map l_map = l_serivce.loadMap(l_game, l_serivce.getFilePath("canada.map"));
+    void removeCountryForAllNeighboursTest() throws Exception {
+        GameState l_gameState = new GameState();
+        GameEngine l_gameEngine = new GameEngine();
+        Phase l_phase = new StartUpPhase(l_gameEngine,l_gameState);
+        l_phase.handleCommand("loadmap canada.map");
+        Map l_map = l_phase.getD_gameState().getD_map();
 
         List<Continent> l_continentList = l_map.getD_continents();
         List<Country> l_countriesList = l_continentList.get(0).getD_countries();

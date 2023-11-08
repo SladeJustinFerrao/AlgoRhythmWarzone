@@ -17,9 +17,11 @@ class GameStateTest {
      */
     @Test
     void getD_mapTest() throws Exception {
+        GameState l_gameState = new GameState();
         GameEngine l_gameEngine = new GameEngine();
-        Command l_command = new Command("editmap canada.map");
-        l_gameEngine.performEditMap(l_command);
-        assertEquals("canada.map", l_gameEngine.d_gameState.getD_map().getD_mapFile());
+        Phase l_phase = new StartUpPhase(l_gameEngine,l_gameState);
+        l_phase.handleCommand("editmap canada.map");
+        Map l_map = l_phase.getD_gameState().getD_map();
+        assertEquals("canada.map", l_phase.getD_gameState().getD_map().getD_mapFile());
     }
 }
