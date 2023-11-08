@@ -3,8 +3,6 @@ package Models;
 import Controller.GameEngine;
 import Utils.Command;
 
-import java.io.IOException;
-
 public class OrderExecutionPhase extends Phase {
 
     /**
@@ -23,10 +21,10 @@ public class OrderExecutionPhase extends Phase {
      *
      * @param p_command Command entered by the user on CLI
      * @param p_player  Instance of Player Object
-     * @throws IOException Indicates a failure in I/O operation
+     * @throws Exception Indicates a failure in I/O operation
      */
     @Override
-    protected void performValidateMap(Command p_command, Player p_player) throws IOException {
+    protected void performValidateMap(Command p_command, Player p_player) throws Exception {
 
     }
 
@@ -36,10 +34,10 @@ public class OrderExecutionPhase extends Phase {
      *
      * @param p_command Command entered by the user in the CLI
      * @param p_player  Instance of Player Object
-     * @throws IOException Handles File I/O Exception
+     * @throws Exception Handles File I/O Exception
      */
     @Override
-    protected void performEditNeighbour(Command p_command, Player p_player) throws IOException {
+    protected void performEditNeighbour(Command p_command, Player p_player) throws Exception {
 
     }
 
@@ -49,10 +47,10 @@ public class OrderExecutionPhase extends Phase {
      *
      * @param p_command Command entered by the user on CLI
      * @param p_player  Instance of Player Object
-     * @throws IOException Handles File I/O Exception
+     * @throws Exception Handles File I/O Exception
      */
     @Override
-    protected void performEditCountry(Command p_command, Player p_player) throws IOException {
+    protected void performEditCountry(Command p_command, Player p_player) throws Exception {
 
     }
 
@@ -62,10 +60,10 @@ public class OrderExecutionPhase extends Phase {
      *
      * @param p_command command entered by the user on CLI
      * @param p_player  instance of Player Object
-     * @throws IOException indicates failure in I/O operation
+     * @throws Exception indicates failure in I/O operation
      */
     @Override
-    protected void performLoadMap(Command p_command, Player p_player) throws IOException {
+    protected void performLoadMap(Command p_command, Player p_player) throws Exception {
 
     }
 
@@ -75,10 +73,10 @@ public class OrderExecutionPhase extends Phase {
      *
      * @param p_command command entered by the user on CLI
      * @param p_player  instance of Player Object
-     * @throws IOException indicates failure in I/O operation
+     * @throws Exception indicates failure in I/O operation
      */
     @Override
-    protected void performSaveMap(Command p_command, Player p_player) throws IOException {
+    protected void performSaveMap(Command p_command, Player p_player) throws Exception {
 
     }
 
@@ -88,10 +86,10 @@ public class OrderExecutionPhase extends Phase {
      *
      * @param p_command command entered by the user on CLI
      * @param p_player  instance of Player Object
-     * @throws IOException indicates when failure in I/O operation
+     * @throws Exception indicates when failure in I/O operation
      */
     @Override
-    protected void performMapEdit(Command p_command, Player p_player) throws IOException {
+    protected void performMapEdit(Command p_command, Player p_player) throws Exception {
 
     }
 
@@ -101,10 +99,10 @@ public class OrderExecutionPhase extends Phase {
      *
      * @param p_command command entered by the user on CLI
      * @param p_player  instance of Player Object
-     * @throws IOException indicates failure in I/O operation
+     * @throws Exception indicates failure in I/O operation
      */
     @Override
-    protected void performEditContinent(Command p_command, Player p_player) throws IOException {
+    protected void performEditContinent(Command p_command, Player p_player) throws Exception {
 
     }
 
@@ -113,10 +111,10 @@ public class OrderExecutionPhase extends Phase {
      *
      * @param p_command Command entered by the user in the CLI
      * @param p_player  Instance of Player Object
-     * @throws IOException Indicates a failure in I/O operation
+     * @throws Exception Indicates a failure in I/O operation
      */
     @Override
-    protected void createPlayers(Command p_command, Player p_player) throws IOException {
+    protected void createPlayers(Command p_command, Player p_player) throws Exception {
 
     }
 
@@ -125,10 +123,10 @@ public class OrderExecutionPhase extends Phase {
      *
      * @param p_command Command entered by the user
      * @param p_player  Instance of the player object
-     * @throws IOException Indicates failure in I/O operation
+     * @throws Exception Indicates failure in I/O operation
      */
     @Override
-    protected void performCreateDeploy(String p_command, Player p_player) throws IOException {
+    protected void performCreateDeploy(String p_command, Player p_player) throws Exception {
 
     }
 
@@ -137,7 +135,7 @@ public class OrderExecutionPhase extends Phase {
      *
      * @param p_command Command entered by the user
      * @param p_player  Instance of the player object
-     * @throws IOException Indicates failure in I/O operation
+     * @throws Exception Indicates failure in I/O operation
      */
     @Override
     protected void performAdvance(String p_command, Player p_player) {
@@ -150,10 +148,10 @@ public class OrderExecutionPhase extends Phase {
      *
      * @param p_enteredCommand String representing the entered command
      * @param p_player         Player instance
-     * @throws IOException Signals an I/O exception
+     * @throws Exception Signals an I/O exception
      */
     @Override
-    protected void performCardHandle(String p_enteredCommand, Player p_player) throws IOException {
+    protected void performCardHandle(String p_enteredCommand, Player p_player) throws Exception {
         printInvalidCommandInState();
     }
 
@@ -163,10 +161,10 @@ public class OrderExecutionPhase extends Phase {
      *
      * @param p_command Command entered by the user in the CLI
      * @param p_player  Instance of the Player Object
-     * @throws IOException Indicates failure in I/O operation
+     * @throws Exception Indicates failure in I/O operation
      */
     @Override
-    protected void performAssignCountries(Command p_command, Player p_player) throws IOException {
+    protected void performAssignCountries(Command p_command, Player p_player) throws Exception {
 
     }
 
@@ -175,10 +173,10 @@ public class OrderExecutionPhase extends Phase {
      *
      * @param p_command Command entered by the user
      * @param p_player  Player object instance
-     * @throws IOException Indicates a failure in I/O operation
+     * @throws Exception Indicates a failure in I/O operation
      */
     @Override
-    protected void performShowMap(Command p_command, Player p_player) throws IOException {
+    protected void performShowMap(Command p_command, Player p_player) throws Exception {
 
     }
 

@@ -6,7 +6,6 @@ import Utils.UncaughtExceptionHandler;
 import Views.MapView;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Map;
@@ -54,7 +53,7 @@ public class StartUpPhase extends Phase {
     /**
      * {@inheritDoc}
      */
-    public void performEditNeighbour(Command p_command, Player p_player) throws IOException {
+    public void performEditNeighbour(Command p_command, Player p_player) throws Exception {
         if (!l_isMapLoaded) {
             d_gameEngine.setD_gameEngineLog("Can not Edit Neighbors, please perform `editmap` first", "effect");
             return;
@@ -81,7 +80,7 @@ public class StartUpPhase extends Phase {
     /**
      * {@inheritDoc}
      */
-    public void performEditCountry(Command p_command, Player p_player) throws IOException {
+    public void performEditCountry(Command p_command, Player p_player) throws Exception {
         if (!l_isMapLoaded) {
             d_gameEngine.setD_gameEngineLog("Can not Edit Country, please perform `editmap` first", "effect");
             return;
@@ -141,7 +140,7 @@ public class StartUpPhase extends Phase {
     /**
      * {@inheritDoc}
      */
-    public void performEditContinent(Command p_command, Player p_player) throws IOException {
+    public void performEditContinent(Command p_command, Player p_player) throws Exception {
         if (!l_isMapLoaded) {
             d_gameEngine.setD_gameEngineLog("Can not Edit Continent, please perform `editmap` first", "effect");
             return;
@@ -207,7 +206,7 @@ public class StartUpPhase extends Phase {
     }
 
     @Override
-    protected void performCardHandle(String p_enteredCommand, Player p_player) throws IOException {
+    protected void performCardHandle(String p_enteredCommand, Player p_player) throws Exception {
         printInvalidCommandInState();
     }
 
@@ -245,7 +244,7 @@ public class StartUpPhase extends Phase {
                 String l_commandEntered = l_reader.readLine();
 
                 handleCommand(l_commandEntered);
-            } catch (IOException l_exception) {
+            } catch (Exception l_exception) {
                 d_gameEngine.setD_gameEngineLog(l_exception.getMessage(), "effect");
             }
         }
@@ -254,7 +253,7 @@ public class StartUpPhase extends Phase {
     /**
      * {@inheritDoc}
      */
-    public void performMapEdit(Command p_command, Player p_player) throws IOException {
+    public void performMapEdit(Command p_command, Player p_player) throws Exception {
         List<java.util.Map<String, String>> l_operations_list = p_command.getTaskandArguments();
 
         Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler(d_gameState));
