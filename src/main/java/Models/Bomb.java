@@ -49,7 +49,7 @@ public class Bomb implements Card{
                     "\nPlayer : " + this.d_playerInitiator.getPlayerName() + " is executing Bomb card on country :  "
                             + l_targetCountryID.getD_countryName() + " with armies :  " + l_noOfArmiesOnTargetCountry
                             + ". New armies: " + l_targetCountryID.getD_armies(),
-                    GameConstants.OUTCOME);
+                    "default");
             p_gameState.updateLog(orderExecutionLog(), GameConstants.OUTCOME);
         }
     }
