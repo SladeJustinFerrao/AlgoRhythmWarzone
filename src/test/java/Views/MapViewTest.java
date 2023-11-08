@@ -9,7 +9,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test class for MapView.java
- * @author Harshil Prajapati
  */
 class MapViewTest {
 
