@@ -7,10 +7,21 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Services class for Player to fetch the sepcific methods to be used for players in the game
+ * Services class for Player to fetch the specific methods to be used for players in the game
  * @author Darshan Kansara
  */
 public class PlayerServices {
+
+
+    /**
+     * Log of Player operations in player methods.
+     */
+    String d_playerLog;
+
+    /**
+     * Country Assignment Log.
+     */
+    String d_assignmentLog = "Country/Continent Assignment:";
 
     /**
      *
@@ -53,7 +64,7 @@ public class PlayerServices {
                 removeGamePlayer(p_existingPlayerList, l_updatedPlayers, l_enteredPlayerName, l_playerNameAlreadyExist);
                 break;
             default:
-                System.out.println("Invalid Operation on Players list");
+                setD_playerLog("Invalid Operation on Players list");
         }
         return l_updatedPlayers;
     }
@@ -71,11 +82,11 @@ public class PlayerServices {
             for (Player l_player : p_existingPlayerList) {
                 if (l_player.getPlayerName().equalsIgnoreCase(p_enteredPlayerName)) {
                     p_updatedPlayers.remove(l_player);
-                    System.out.println("Player with name : " + p_enteredPlayerName + " has been removed successfully.");
+                    setD_playerLog("Player with name : " + p_enteredPlayerName + " has been removed successfully.");
                 }
             }
         } else {
-            System.out.print("Player with name : " + p_enteredPlayerName + " does not Exist. Changes are not made.");
+            setD_playerLog("Player with name : " + p_enteredPlayerName + " does not Exist. Changes are not made.");
         }
     }
 
@@ -175,6 +186,16 @@ public class PlayerServices {
         if (!l_unassignedCountries.isEmpty()) {
             performRandomCountryAssignment(1, l_unassignedCountries, p_players);
         }
+    }
+
+    /**
+     * Sets the Player Log in player methods.
+     *
+     * @param p_playerLog Player Operation Log.
+     */
+    public void setD_playerLog(String p_playerLog) {
+        this.d_playerLog = p_playerLog;
+        System.out.println(p_playerLog);
     }
 
     /**
