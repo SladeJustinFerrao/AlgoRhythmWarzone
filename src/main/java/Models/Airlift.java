@@ -1,5 +1,7 @@
 package Models;
 
+import Constants.GameConstants;
+
 /**
  * Class handles the execute and validation of Airlift Validate.
  *
@@ -60,10 +62,10 @@ public class Airlift implements Card {
             l_sourceCountry.setD_armies(l_updatedSourceArmies);
             d_player.removeCard("airlift");
             this.setD_orderExecutionLog("Airlift Operation from "+ d_sourceCountryName+ " to "+d_targetCountryName+" successful!", "default");
-            p_gameState.updateLog(d_orderExecutionLog, "effect");
+            p_gameState.updateLog(d_orderExecutionLog, GameConstants.OUTCOME);
         } else {
             this.setD_orderExecutionLog("Cannot Complete Execution of given Airlift Command!", "error");
-            p_gameState.updateLog(d_orderExecutionLog, "effect");
+            p_gameState.updateLog(d_orderExecutionLog, GameConstants.OUTCOME);
         }
     }
 
@@ -80,7 +82,7 @@ public class Airlift implements Card {
                     this.currentOrder() + " is not executed since Source country : " + this.d_sourceCountryName
                             + " given in card order does not belongs to the player : " + d_player.getPlayerName(),
                     "error");
-            p_gameState.updateLog(orderExecutionLog(), "effect");
+            p_gameState.updateLog(orderExecutionLog(), GameConstants.OUTCOME);
             return false;
         }
         Country l_targetCountry = d_player.getD_coutriesOwned().stream()
@@ -91,14 +93,14 @@ public class Airlift implements Card {
                     this.currentOrder() + " is not executed since Target country : " + this.d_sourceCountryName
                             + " given in card order does not belongs to the player : " + d_player.getPlayerName(),
                     "error");
-            p_gameState.updateLog(orderExecutionLog(), "effect");
+            p_gameState.updateLog(orderExecutionLog(), GameConstants.OUTCOME);
             return false;
         }
         if (this.d_numberOfArmies > l_sourceCountry.getD_armies()) {
             this.setD_orderExecutionLog(this.currentOrder()
                     + " is not executed as armies given in card order exceeds armies of source country : "
                     + this.d_sourceCountryName, "error");
-            p_gameState.updateLog(orderExecutionLog(), "effect");
+            p_gameState.updateLog(orderExecutionLog(), GameConstants.OUTCOME);
             return false;
         }
         return true;
@@ -162,12 +164,12 @@ public class Airlift implements Card {
         Country l_targetCountry = p_GameState.getD_map().getCountryByName(d_targetCountryName);
         if (l_sourceCountry == null) {
             this.setD_orderExecutionLog("Invalid Source Country! Doesn't exist on the map!", "error");
-            p_GameState.updateLog(orderExecutionLog(), "effect");
+            p_GameState.updateLog(orderExecutionLog(), GameConstants.OUTCOME);
             return false;
         }
         if (l_targetCountry == null) {
             this.setD_orderExecutionLog("Invalid Target Country! Doesn't exist on the map!", "error");
-            p_GameState.updateLog(orderExecutionLog(), "effect");
+            p_GameState.updateLog(orderExecutionLog(), GameConstants.OUTCOME);
             return false;
         }
         return true;

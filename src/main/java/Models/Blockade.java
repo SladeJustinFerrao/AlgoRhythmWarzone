@@ -2,7 +2,7 @@ package Models;
 
 import Constants.GameConstants;
 
-public abstract class Blockade implements Card{
+public class Blockade implements Card{
 
     /**
      * Blockade card will be owned by this player.
