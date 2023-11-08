@@ -1,8 +1,6 @@
 package Controller;
 
-import Models.GameState;
-import Models.Map;
-import Services.MapService;
+import Models.*;
 import Utils.Command;
 import org.junit.jupiter.api.Test;
 
@@ -19,16 +17,18 @@ class GameEngineTest {
      */
     @Test
     void performEditContinentInvalidTest() throws Exception {
+        GameState l_gameState = new GameState();
         GameEngine l_gameEngine = new GameEngine();
-        l_gameEngine.d_mapService = new MapService();
-        l_gameEngine.d_gameState = new GameState();
-        Map l_map = l_gameEngine.d_mapService.loadMap(l_gameEngine.d_gameState, l_gameEngine.d_mapService.getFilePath("canada.map"));
-        int l_initCount = l_map.getD_continents().size();
-        Command l_command = new Command("editcontinent - add Asia");
-        l_gameEngine.performEditContinent(l_command);
-        int l_finalCount = l_map.getD_continents().size();
+        Phase l_phase = new StartUpPhase(l_gameEngine,l_gameState);
+        l_phase.handleCommand("editmap canada.map");
+        boolean l_isExcep = false;
+        try {
+            l_phase.handleCommand("editcontinent - add Asia 5");
+        } catch (Exception l_e){
+            l_isExcep=true;
+        }
 
-        assertEquals(l_initCount,l_finalCount);
+        assertTrue(l_isExcep);
     }
 
     /**
@@ -37,13 +37,13 @@ class GameEngineTest {
      */
     @Test
     void performEditContinentValidTest() throws Exception {
+        GameState l_gameState = new GameState();
         GameEngine l_gameEngine = new GameEngine();
-        l_gameEngine.d_mapService = new MapService();
-        l_gameEngine.d_gameState = new GameState();
-        Map l_map = l_gameEngine.d_mapService.loadMap(l_gameEngine.d_gameState, l_gameEngine.d_mapService.getFilePath("canada.map"));
+        Phase l_phase = new StartUpPhase(l_gameEngine,l_gameState);
+        l_phase.handleCommand("editmap canada.map");
+        Map l_map = l_phase.getD_gameState().getD_map();
         int l_initCount = l_map.getD_continents().size();
-        Command l_command = new Command("editcontinent -add Asia 5");
-        l_gameEngine.performEditContinent(l_command);
+        l_phase.handleCommand("editcontinent -add Asia 5");
         int l_finalCount = l_map.getD_continents().size();
 
         assertEquals(l_initCount+1,l_finalCount);
@@ -54,13 +54,14 @@ class GameEngineTest {
      */
     @Test
     void invalidFileLoadTest(){
+        GameState l_gameState = new GameState();
         GameEngine l_gameEngine = new GameEngine();
-        l_gameEngine.d_mapService = new MapService();
-        l_gameEngine.d_gameState = new GameState();
+        Player l_player = new Player();
+        StartUpPhase l_phase = new StartUpPhase(l_gameEngine,l_gameState);
         boolean l_isExcep = false;
         try {
             Command l_command = new Command("loadmap nonexistant.map");
-            l_gameEngine.performLoadMap(l_command);
+            l_phase.performLoadMap(l_command,l_player);
         } catch (Exception l_e){
             l_isExcep=true;
         }

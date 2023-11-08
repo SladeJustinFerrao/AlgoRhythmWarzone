@@ -431,7 +431,7 @@ public class Player {
                 this.setD_playerLog(
                         "Given deploy order cant be executed as armies in deploy order exceeds player's unallocated armies.", "error");
             } else {
-                //to be impletemented after deploy class
+                this.order_list.add(new Deploy(this, l_targetCountry, Integer.parseInt(l_noOfArmies)));
                 Integer l_unallocatedarmies = this.getD_noOfUnallocatedArmies() - Integer.parseInt(l_noOfArmies);
                 this.setD_noOfUnallocatedArmies(l_unallocatedarmies);
                 this.setD_playerLog("Deploy order has been added to queue for execution. For player: " + this.d_name, "log");
