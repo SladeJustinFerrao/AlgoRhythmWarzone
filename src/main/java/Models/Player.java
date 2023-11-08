@@ -412,8 +412,8 @@ public class Player {
      *
      * @throws IOException exception in reading inputs from user
      */
-    public void issue_order() throws IOException {
-        //depends on issiueOrdePhase
+    public void issue_order(IssueOrderPhase p_issueOrderPhase) throws Exception {
+        p_issueOrderPhase.askForOrder(this);
     }
 
     /**
