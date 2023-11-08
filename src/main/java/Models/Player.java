@@ -420,9 +420,8 @@ public class Player {
      * it creates and deploy order of the game
      *
      * @param p_commandEntered get the parameter of the command given by the user
-     * @param p_player         object of the player
      */
-    public void createDeployOrder(String p_commandEntered, Player p_player) {
+    public void createDeployOrder(String p_commandEntered) {
         String l_targetCountry;
         String l_noOfArmies;
         try {
