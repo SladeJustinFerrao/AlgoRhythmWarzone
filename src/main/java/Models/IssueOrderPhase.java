@@ -3,6 +3,7 @@ package Models;
 import Constants.GameConstants;
 import Controller.GameEngine;
 import Utils.Command;
+import Views.MapView;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -154,7 +155,10 @@ public class IssueOrderPhase extends Phase {
      */
     @Override
     protected void performShowMap(Command p_command, Player p_player) throws Exception {
+        MapView l_mapView = new MapView(d_gameState);
+        l_mapView.showMap();
 
+        askForOrder(p_player);
     }
 
     /**
