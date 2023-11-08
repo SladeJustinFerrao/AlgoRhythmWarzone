@@ -1,5 +1,6 @@
 package Models;
 
+import Constants.GameConstants;
 import Controller.GameEngine;
 import Services.MapService;
 import Services.PlayerServices;
@@ -97,7 +98,7 @@ public abstract class Phase {
         String l_rootCommand = l_command.getMainCommand();
         l_isMapLoaded = d_gameState.getD_map() != null;
 
-        d_gameState.updateLog(l_command.getD_command(), "command");
+        d_gameState.updateLog(l_command.getcommand(), GameConstants.COMMAND);
         switch (l_rootCommand) {
             case "editmap": {
                 performMapEdit(l_command, p_player);

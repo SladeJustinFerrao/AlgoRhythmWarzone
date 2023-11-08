@@ -33,6 +33,11 @@ public class GameEngine {
 	PlayerServices d_playerService = new PlayerServices();
 
 	/**
+	 *	It is the current game play phase as per state pattern.
+	 */
+	Phase d_currentPhase = new StartUpPhase(this, d_gameState);
+
+	/**
 	 *  Throwable Exception e
 	 */
 	private Throwable e;
@@ -162,6 +167,15 @@ public class GameEngine {
 				System.out.println(e.getMessage());
 			}
 		}
+	}
+
+	/**
+	 * This method is getter for current Phase of Game Context.
+	 *
+	 * @return current Phase of Game Context
+	 */
+	public Phase getD_CurrentPhase(){
+		return d_currentPhase;
 	}
 
 	/**
@@ -414,8 +428,8 @@ public class GameEngine {
 				while (d_playerService.unexecutedOrdersExists(d_gameState.getD_players())) {
 					for (Player l_player : d_gameState.getD_players()) {
 						Order l_order = l_player.next_order();
-						if (l_order != null)
-							l_order.execute(d_gameState, l_player);
+						//if (l_order != null)
+							//l_order.execute(d_gameState, l_player);
 					}
 				}
 				MapView l_map_view = new MapView(d_gameState, d_gameState.getD_players());
