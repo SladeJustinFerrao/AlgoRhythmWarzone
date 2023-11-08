@@ -98,6 +98,20 @@ public class PlayerServices {
     }
 
     /**
+     * Resets each players information for accepting further orders.
+     *
+     * @param p_playersList players involved in game
+     */
+    public void resetPlayersFlag(List<Player> p_playersList) {
+        for (Player l_player : p_playersList) {
+            if (!l_player.getPlayerName().equalsIgnoreCase("Neutral"))
+                l_player.setD_moreOrders(true);
+            l_player.setD_oneCardPerTurn(false);
+            l_player.resetNegotiation();
+        }
+    }
+
+    /**
      * The method checks the player availability
      * @param p_gameState game state or phase of the current game
      * @return boolean if the player is available or not
@@ -290,5 +304,17 @@ public class PlayerServices {
      */
     public boolean isMapLoaded(GameState p_gameState) {
         return !(p_gameState.getD_map() == null);
+    }
+
+
+    /**
+     * Find Player By Name.
+     *
+     * @param p_playerName player name to be found
+     * @param p_gameState GameState Instance.
+     * @return p_player object
+     */
+    public Player findPlayerByName(String p_playerName, GameState p_gameState) {
+        return p_gameState.getD_players().stream().filter(l_player -> l_player.getPlayerName().equals(p_playerName)).findFirst().orElse(null);
     }
 }

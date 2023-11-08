@@ -5,7 +5,7 @@ package Models;
  */
 public interface Card extends Order {
     
-    /**
+  /**
      * Validation of card type order
      *
      * @param p_gameState Gamestate
