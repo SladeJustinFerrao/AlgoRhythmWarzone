@@ -4,6 +4,7 @@ package Models;
  * This model class manages the player's owned cards
  */
 public interface Card extends Order {
+    
     /**
      * Validation of card type order
      *
