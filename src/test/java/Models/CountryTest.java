@@ -1,5 +1,6 @@
 package Models;
 
+import Controller.GameEngine;
 import Services.MapService;
 import org.junit.jupiter.api.Test;
 
@@ -16,10 +17,12 @@ class CountryTest {
      * Test to check whether neighbour is removed or not
      */
     @Test
-    void removeNeighbourFromCountry() {
-        MapService l_serivce = new MapService();
-        GameState l_game = new GameState();
-        Map l_map = l_serivce.loadMap(l_game, l_serivce.getFilePath("canada.map"));
+    void removeNeighbourFromCountry() throws Exception {
+        GameState l_gameState = new GameState();
+        GameEngine l_gameEngine = new GameEngine();
+        Phase l_phase = new StartUpPhase(l_gameEngine,l_gameState);
+        l_phase.handleCommand("editmap canada.map");
+        Map l_map = l_phase.getD_gameState().getD_map();
         List<Country> l_countries = l_map.getD_countries();
         int l_initCount = l_countries.get(0).getD_neighbourCountryId().size();
         l_countries.get(0).removeNeighbourFromCountry(8);
