@@ -11,6 +11,7 @@ public final class GameConstants {
     public static final String COMMAND = "command";
     public static final String ORDER = "order";
     public static final String PHASE = "phase";
+
     public static final String OUTCOME = "outcome";
     public static final String ERROR = "error";
     public static final String STARTLOG = "start";
@@ -22,5 +23,8 @@ public final class GameConstants {
     public static final String ERRORLOG = "Error: ";
     public static final String GAMESTART = "---------- Starting the game the Game ----------";
     public static final String LOGFILENAME = "LogRecord.txt";
+    public static final String INVALIDCOMMAND = "Invalid Command!!";
+    public static final String ARGUMENTS = "arguments";
+    public static final String OPERATIONS = "operation";
 
 }

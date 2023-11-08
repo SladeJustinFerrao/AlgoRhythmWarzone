@@ -1,8 +1,7 @@
 package Services;
 
 import Controller.GameEngine;
-import Models.GameState;
-import Models.Map;
+import Models.*;
 import Utils.Command;
 import org.junit.jupiter.api.Test;
 
@@ -18,17 +17,18 @@ class MapServiceTest {
      */
     @Test
     void editMapTest() {
+        GameState l_gameState = new GameState();
         GameEngine l_gameEngine = new GameEngine();
-        GameState d_gameState = new GameState();
+        Phase l_phase = new StartUpPhase(l_gameEngine,l_gameState);
+
         int l_initCount=0,l_finalCount=0;
         boolean l_isExcep = false;
         try {
-            Command l_command = new Command("editmap canada.map");
-            l_gameEngine.performLoadMap(l_command);
-            l_initCount = l_gameEngine.getD_gameState().getD_map().getD_continents().size();
-            Command l_command1 = new Command("editcontinent -add Asia 5");
-            l_gameEngine.performEditContinent(l_command1);
-            l_finalCount = l_gameEngine.getD_gameState().getD_map().getD_continents().size();
+            l_phase.handleCommand("editmap canada.map");
+            Map l_map = l_phase.getD_gameState().getD_map();
+            l_initCount = l_map.getD_continents().size();
+            l_phase.handleCommand("editcontinent -add Asia 5");
+            l_finalCount = l_map.getD_continents().size();
         } catch (Exception l_e){
             l_isExcep=true;
         }
@@ -41,17 +41,18 @@ class MapServiceTest {
      */
     @Test
     void removeCountryTest() {
+        GameState l_gameState = new GameState();
         GameEngine l_gameEngine = new GameEngine();
-        GameState d_gameState = new GameState();
+        Phase l_phase = new StartUpPhase(l_gameEngine,l_gameState);
+
         int l_initCount=0,l_finalCount=0;
         boolean l_isExcep = false;
         try {
-            Command l_command = new Command("editmap canada.map");
-            l_gameEngine.performLoadMap(l_command);
-            l_initCount = l_gameEngine.getD_gameState().getD_map().getD_countries().size();
-            Command l_command1 = new Command("editcountry -remove New_Brunswick");
-            l_gameEngine.performEditCountry(l_command1);
-            l_finalCount = l_gameEngine.getD_gameState().getD_map().getD_countries().size();
+            l_phase.handleCommand("editmap canada.map");
+            Map l_map = l_phase.getD_gameState().getD_map();
+            l_initCount = l_map.getD_countries().size();
+            l_phase.handleCommand("editcountry -remove New_Brunswick");
+            l_finalCount = l_map.getD_countries().size();
         } catch (Exception l_e){
             l_isExcep=true;
         }

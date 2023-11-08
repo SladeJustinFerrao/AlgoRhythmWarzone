@@ -3,6 +3,7 @@ package Models;
 import java.util.ArrayList;
 import java.util.List;
 
+import Constants.GameConstants;
 import Services.PlayerServices;
 
 /**
@@ -72,12 +73,12 @@ public class Advance implements Order {
 				deployArmiesToTarget(l_targetCountry);
 			} else if (l_targetCountry.getD_armies() == 0) {
 				conquerTargetCountry(p_gameState, l_playerOfTargetCountry, l_targetCountry);
-				// to be implemented after Card class
+				this.d_playerInitiator.assignCard();
 			} else {
 				produceOrderResult(p_gameState, l_playerOfTargetCountry, l_targetCountry, l_sourceCountry);
 			}
 		} else {
-			p_gameState.updateLog(orderExecutionLog(), "effect");
+			p_gameState.updateLog(orderExecutionLog(), GameConstants.OUTCOME);
 		}
 	}
 
@@ -100,7 +101,7 @@ public class Advance implements Order {
 		this.produceBattleResult(p_sourceCountry, p_targetCountry, l_attackerArmies, l_defenderArmies,
 				p_playerOfTargetCountry);
 
-		p_gameState.updateLog(orderExecutionLog(), "effect");
+		p_gameState.updateLog(orderExecutionLog(), GameConstants.OUTCOME);
 		this.updateContinents(this.d_playerInitiator, p_playerOfTargetCountry, p_gameState);
 	}
 
@@ -119,7 +120,7 @@ public class Advance implements Order {
 				"Player : " + this.d_playerInitiator.getPlayerName() + " is assigned with Country : "
 						+ p_targetCountry.getD_countryName() + " and armies : " + p_targetCountry.getD_armies(),
 				"default");
-		p_gameState.updateLog(orderExecutionLog(), "effect");
+		p_gameState.updateLog(orderExecutionLog(), GameConstants.OUTCOME);
 		this.updateContinents(this.d_playerInitiator, p_playerOfTargetCountry, p_gameState);
 	}
 
@@ -200,7 +201,7 @@ public class Advance implements Order {
 							+ p_targetCountry.getD_countryName() + " and armies : " + p_targetCountry.getD_armies(),
 					"default");
 
-			// depends on Card
+			this.d_playerInitiator.assignCard();
 		} else {
 			p_targetCountry.setD_armies(p_defenderArmiesLeft);
 
@@ -233,14 +234,14 @@ public class Advance implements Order {
 			this.setD_orderExecutionLog(this.currentOrder() + " is not executed since Source country : "
 					+ this.d_sourceCountryName + " given in advance command does not belongs to the player : "
 					+ d_playerInitiator.getPlayerName(), "error");
-			p_gameState.updateLog(orderExecutionLog(), "effect");
+			p_gameState.updateLog(orderExecutionLog(), GameConstants.OUTCOME);
 			return false;
 		}
 		if (this.d_numberOfArmiesToPlace > l_country.getD_armies()) {
 			this.setD_orderExecutionLog(this.currentOrder()
 					+ " is not executed as armies given in advance order exceeds armies of source country : "
 					+ this.d_sourceCountryName, "error");
-			p_gameState.updateLog(orderExecutionLog(), "effect");
+			p_gameState.updateLog(orderExecutionLog(), GameConstants.OUTCOME);
 			return false;
 		}
 		if (this.d_numberOfArmiesToPlace == l_country.getD_armies()) {
@@ -248,12 +249,12 @@ public class Advance implements Order {
 							+ this.d_sourceCountryName + " has " + l_country.getD_armies()
 							+ " army units and all of those cannot be given advance order, atleast one army unit has to retain the territory.",
 					"error");
-			p_gameState.updateLog(orderExecutionLog(), "effect");
+			p_gameState.updateLog(orderExecutionLog(), GameConstants.OUTCOME);
 			return false;
 		}
 		if(!d_playerInitiator.negotiationValidation(this.d_targetCountryName)){
 			this.setD_orderExecutionLog(this.currentOrder() + " is not executed as "+ d_playerInitiator.getPlayerName()+ " has negotiation pact with the target country's player!", "error");
-			p_gameState.updateLog(orderExecutionLog(), "effect");
+			p_gameState.updateLog(orderExecutionLog(), GameConstants.OUTCOME);
 			return false;
 		}
 		return true;

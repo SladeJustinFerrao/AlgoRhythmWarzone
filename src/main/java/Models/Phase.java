@@ -6,8 +6,6 @@ import Services.MapService;
 import Services.PlayerServices;
 import Utils.Command;
 
-import java.io.IOException;
-
 public abstract class Phase {
 
     /**
@@ -39,9 +37,9 @@ public abstract class Phase {
      * Constructor for initializing the current game engine and game state.
      *
      * @param p_gameEngine Instance of the game engine to update the state
-     * @param p_gameState Instance of the game state
+     * @param p_gameState  Instance of the game state
      */
-    public Phase(GameEngine p_gameEngine, GameState p_gameState){
+    public Phase(GameEngine p_gameEngine, GameState p_gameState) {
         d_gameEngine = p_gameEngine;
         d_gameState = p_gameState;
     }
@@ -69,9 +67,9 @@ public abstract class Phase {
      * Handles the commands specific to the state entered by the user.
      *
      * @param p_enteredCommand Command entered by the user in the Command Line Interface (CLI)
-     * @throws IOException    Indicates a failure in I/O operation
+     * @throws Exception Indicates a failure
      */
-    public void handleCommand(String p_enteredCommand) throws IOException {
+    public void handleCommand(String p_enteredCommand) throws Exception {
         commandHandler(p_enteredCommand, null);
     }
 
@@ -79,10 +77,10 @@ public abstract class Phase {
      * Handles state-specific commands entered by the user.
      *
      * @param p_enteredCommand Command entered by the user in the Command Line Interface (CLI)
-     * @param p_player        Player instance
-     * @throws IOException    Indicates a failure in I/O operation
+     * @param p_player         Player instance
+     * @throws Exception Indicates a failure
      */
-    public void handleCommand(String p_enteredCommand, Player p_player) throws IOException {
+    public void handleCommand(String p_enteredCommand, Player p_player) throws Exception {
         commandHandler(p_enteredCommand, p_player);
     }
 
@@ -91,9 +89,9 @@ public abstract class Phase {
      *
      * @param p_enteredCommand Command entered by the user in the Command Line Interface (CLI)
      * @param p_player         Player instance
-     * @throws IOException Indicates a failure in I/O operation
+     * @throws Exception Indicates a failure
      */
-    private void commandHandler(String p_enteredCommand, Player p_player) throws IOException {
+    private void commandHandler(String p_enteredCommand, Player p_player) throws Exception {
         Command l_command = new Command(p_enteredCommand);
         String l_rootCommand = l_command.getMainCommand();
         l_isMapLoaded = d_gameState.getD_map() != null;
@@ -143,8 +141,7 @@ public abstract class Phase {
             case "airlift":
             case "blockade":
             case "negotiate":
-            case "bomb":
-            {
+            case "bomb": {
                 performCardHandle(p_enteredCommand, p_player);
                 break;
             }
@@ -157,12 +154,12 @@ public abstract class Phase {
                 break;
             }
             case "exit": {
-                d_gameEngine.setD_gameEngineLog("Exit Command Entered, Game Ends!", "effect");
+                d_gameEngine.setD_gameEngineLog("Exit Command Entered, Game Ends!", GameConstants.OUTCOME);
                 System.exit(0);
                 break;
             }
             default: {
-                d_gameEngine.setD_gameEngineLog("Invalid Command", "effect");
+                d_gameEngine.setD_gameEngineLog(GameConstants.INVALIDCOMMAND, GameConstants.OUTCOME);
                 break;
             }
         }
@@ -174,9 +171,9 @@ public abstract class Phase {
      *
      * @param p_command Command entered by the user on CLI
      * @param p_player  Instance of Player Object
-     * @throws IOException    Indicates a failure in I/O operation
+     * @throws Exception Indicates a failure
      */
-    protected abstract void performValidateMap(Command p_command, Player p_player) throws IOException;
+    protected abstract void performValidateMap(Command p_command, Player p_player) throws Exception;
 
     /**
      * Basic validation of <strong>editneighbor</strong> command for checking
@@ -184,77 +181,78 @@ public abstract class Phase {
      *
      * @param p_command Command entered by the user in the CLI
      * @param p_player  Instance of Player Object
-     * @throws IOException    Handles File I/O Exception
+     * @throws Exception Indicates a failure
      */
-    protected abstract void performEditNeighbour(Command p_command, Player p_player) throws IOException;
+    protected abstract void performEditNeighbour(Command p_command, Player p_player) throws Exception;
+
     /**
      * Basic validation of <strong>editcountry</strong> command for checking
      * required arguments and redirecting control to the model for actual processing.
      *
      * @param p_command Command entered by the user on CLI
      * @param p_player  Instance of Player Object
-     * @throws IOException    Handles File I/O Exception
+     * @throws Exception Indicates a failure
      */
-    protected abstract void performEditCountry(Command p_command, Player p_player) throws IOException;
+    protected abstract void performEditCountry(Command p_command, Player p_player) throws Exception;
 
     /**
      * Basic validation of <strong>loadmap</strong> command for checking required
      * arguments and redirecting control to the model for actual processing.
      *
-     * @param p_command command entered by the user on CLI
-     * @param p_player instance of Player Object
-     * @throws IOException  indicates failure in I/O operation
+     * @param p_command Command entered by the user on CLI
+     * @param p_player  Instance of Player Object
+     * @throws Exception Indicates a failure
      */
-    protected abstract void performLoadMap(Command p_command, Player p_player) throws IOException;
+    protected abstract void performLoadMap(Command p_command, Player p_player) throws Exception;
 
     /**
      * Basic validation of <strong>savemap</strong> command for checking required
      * arguments and redirecting control to the model for actual processing.
      *
-     * @param p_command command entered by the user on CLI
-     * @param p_player instance of Player Object
-     * @throws IOException  indicates failure in I/O operation
+     * @param p_command Command entered by the user on CLI
+     * @param p_player  Instance of Player Object
+     * @throws Exception Indicates a failure
      */
-    protected abstract void performSaveMap(Command p_command, Player p_player) throws IOException;
+    protected abstract void performSaveMap(Command p_command, Player p_player) throws Exception;
 
 
     /**
      * Basic validation of <strong>editmap</strong> command for checking required
      * arguments and redirecting control to the model for actual processing.
      *
-     * @param p_command command entered by the user on CLI
-     * @param p_player instance of Player Object
-     * @throws IOException indicates when failure in I/O operation
+     * @param p_command Command entered by the user on CLI
+     * @param p_player  Instance of Player Object
+     * @throws Exception Indicates a failure
      */
-    protected abstract void performMapEdit(Command p_command, Player p_player) throws IOException;
+    protected abstract void performMapEdit(Command p_command, Player p_player) throws Exception;
 
     /**
      * Basic validation of <strong>editcontinent</strong> command for checking
      * required arguments and redirecting control to the model for actual processing.
      *
-     * @param p_command command entered by the user on CLI
-     * @param p_player instance of Player Object
-     * @throws IOException    indicates failure in I/O operation
+     * @param p_command Command entered by the user on CLI
+     * @param p_player  Instance of Player Object
+     * @throws Exception Indicates a failure
      */
-    protected abstract void performEditContinent(Command p_command, Player p_player) throws IOException;
+    protected abstract void performEditContinent(Command p_command, Player p_player) throws Exception;
 
     /**
      * Basic validation of gameplayer command for checking required arguments and redirecting control to the model for adding or removing players.
      *
      * @param p_command Command entered by the user in the CLI
      * @param p_player  Instance of Player Object
-     * @throws IOException    Indicates a failure in I/O operation
+     * @throws Exception Indicates a failure
      */
-    protected abstract void createPlayers(Command p_command, Player p_player) throws IOException;
+    protected abstract void createPlayers(Command p_command, Player p_player) throws Exception;
 
     /**
      * Handles the deployment order in the gameplay.
      *
      * @param p_command Command entered by the user
      * @param p_player  Instance of the player object
-     * @throws IOException Indicates failure in I/O operation
+     * @throws Exception Indicates a failure
      */
-    protected abstract void performCreateDeploy(String p_command, Player p_player) throws IOException;
+    protected abstract void performCreateDeploy(String p_command, Player p_player) throws Exception;
 
 
     /**
@@ -262,18 +260,18 @@ public abstract class Phase {
      *
      * @param p_command Command entered by the user
      * @param p_player  Instance of the player object
-     * @throws IOException Indicates failure in I/O operation
+     * @throws Exception Indicates a failure
      */
-    protected abstract void performAdvance(String p_command, Player p_player) throws IOException;
+    protected abstract void performAdvance(String p_command, Player p_player) throws Exception;
 
     /**
      * Handles the card commands.
      *
      * @param p_enteredCommand String representing the entered command
      * @param p_player         Player instance
-     * @throws IOException Signals an I/O exception
+     * @throws Exception Indicates a failure
      */
-    protected abstract void performCardHandle(String p_enteredCommand, Player p_player) throws IOException;
+    protected abstract void performCardHandle(String p_enteredCommand, Player p_player) throws Exception;
 
     /**
      * Basic validation of <strong>assigncountries</strong> to check for required
@@ -281,24 +279,24 @@ public abstract class Phase {
      *
      * @param p_command Command entered by the user in the CLI
      * @param p_player  Instance of the Player Object
-     * @throws IOException    Indicates failure in I/O operation
+     * @throws Exception Indicates a failure
      */
-    protected abstract void performAssignCountries(Command p_command, Player p_player) throws IOException;
+    protected abstract void performAssignCountries(Command p_command, Player p_player) throws Exception;
 
     /**
      * Handles the 'show map' command.
      *
      * @param p_command Command entered by the user
      * @param p_player  Player object instance
-     * @throws IOException    Indicates a failure in I/O operation
+     * @throws Exception Indicates a failure
      */
-    protected abstract void performShowMap(Command p_command, Player p_player) throws IOException;
+    protected abstract void performShowMap(Command p_command, Player p_player) throws Exception;
 
     /**
      * Method to log and print if the command can't be executed in the current phase.
      */
-    public void printInvalidCommandInState(){
-        d_gameEngine.setD_gameEngineLog("Invalid Command in Current State", "effect");
+    public void printInvalidCommandInState() {
+        d_gameEngine.setD_gameEngineLog("Invalid Command in Current State", GameConstants.OUTCOME);
     }
 
     /**
