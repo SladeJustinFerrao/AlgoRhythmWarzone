@@ -69,12 +69,12 @@ class PlayerServicesTest {
     @Test
     public void testAddPlayers() {
         assertFalse(d_exisitingPlayerList.size()==0);
-        List<Player> l_updatedPlayers = d_playerService.addRemovePlayers(d_exisitingPlayerList, "add", "Darshan");
-        assertEquals("Darshan", l_updatedPlayers.get(2).getPlayerName());
+        List<Player> l_updatedPlayers = d_playerService.addRemovePlayers(d_exisitingPlayerList, "add", "Darshans");
+        assertEquals("Darshans", l_updatedPlayers.get(2).getPlayerName());
 
         System.setOut(new PrintStream(d_outContent));
         d_playerService.addRemovePlayers(d_exisitingPlayerList, "add", "Slade");
-        assertEquals("Player with name : Slade already Exists. Changes are not made.", d_outContent.toString().trim());
+        assertEquals("Player with name : Slade  Exists already. Changes not made.", d_outContent.toString().trim());
     }
 
     /**
@@ -83,12 +83,12 @@ class PlayerServicesTest {
      */
     @Test
     public void testRemovePlayers() {
-        List<Player> l_updatedPlayers = d_playerService.addRemovePlayers(d_exisitingPlayerList, "remove", "Avneet");
+        List<Player> l_updatedPlayers = d_playerService.addRemovePlayers(d_exisitingPlayerList, "remove", "Darshan");
         assertEquals(1, l_updatedPlayers.size());
 
         System.setOut(new PrintStream(d_outContent));
-        d_playerService.addRemovePlayers(d_exisitingPlayerList, "remove", "Parthu");
-        assertEquals("Player with name : Parthu does not Exist. Changes are not made.", d_outContent.toString().trim());
+        d_playerService.addRemovePlayers(d_exisitingPlayerList, "remove", "Ravi");
+        assertEquals("Player with name : Ravi does not Exist. Changes are not made.", d_outContent.toString().trim());
     }
 
     /**

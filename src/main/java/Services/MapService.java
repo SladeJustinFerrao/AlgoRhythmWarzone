@@ -38,7 +38,7 @@ public class MapService {
         } else {
             System.out.println("Map File is present");
             p_gameState.setD_map(new Map());
-            this.loadMap(p_gameState, l_filePath);
+            this.loadMap(p_gameState, p_editFile);
             p_gameState.getD_map().setD_mapFile(p_editFile);
             p_gameState.updateLog(l_filePath+ " already exists and is loaded for editing", GameConstants.OUTCOME);
         }
@@ -61,13 +61,13 @@ public class MapService {
         if(l_map!=null){
             switch(p_switch){
                 case 1:
-                    l_updatedMap = continentsToMap(p_gameState, l_map, p_operation, p_argument);
+                    l_updatedMap = continentsToMap(p_gameState, l_map, p_argument, p_operation);
                     break;
                 case 2:
-                    l_updatedMap = countryToMap(p_gameState, l_map, p_operation, p_argument);
+                    l_updatedMap = countryToMap(p_gameState, l_map, p_argument, p_operation);
                     break;
                 case 3:
-                    l_updatedMap = neighbourToMap(p_gameState, l_map, p_operation, p_argument);
+                    l_updatedMap = neighbourToMap(p_gameState, l_map, p_argument, p_operation);
                     break;
                 default:
                     throw new IllegalStateException("Error!! Illegal value: " + p_switch);
@@ -278,12 +278,13 @@ public class MapService {
      * Method to load Existing Map file
      *
      * @param p_gameState Current State of the Game
-     * @param p_filePath Path of the filename provided
+     * @param p_fileName Name of the file.
      * @return
      */
-    public Map loadMap(GameState p_gameState, String p_filePath) {
+    public Map loadMap(GameState p_gameState, String p_fileName) {
         Map l_map = new Map();
-        List<String> l_linesOfFile = loadFile(p_filePath,p_gameState);
+        String l_filepath = this.getFilePath(p_fileName);
+        List<String> l_linesOfFile = loadFile(l_filepath,p_gameState);
 
         if (null != l_linesOfFile && !l_linesOfFile.isEmpty()) {
 

@@ -70,8 +70,8 @@ public class StartUpPhase extends Phase {
             for (Map<String, String> l_map : l_operations_list) {
                 if (p_command.checkRequiredKeysPresent(GameConstants.ARGUMENTS, l_map)
                         && p_command.checkRequiredKeysPresent(GameConstants.OPERATIONS, l_map)) {
-                    d_mapService.editFunctions(d_gameState, l_map.get(GameConstants.OPERATIONS),
-                            l_map.get(GameConstants.ARGUMENTS), 3);
+                    d_mapService.editFunctions(d_gameState, l_map.get(GameConstants.ARGUMENTS),
+                            l_map.get(GameConstants.OPERATIONS), 3);
                 } else {
                     throw new Exception(GameConstants.INVALIDCOMMAND);
                 }
@@ -97,8 +97,8 @@ public class StartUpPhase extends Phase {
             for (Map<String, String> l_map : l_operations_list) {
                 if (p_command.checkRequiredKeysPresent(GameConstants.ARGUMENTS, l_map)
                         && p_command.checkRequiredKeysPresent(GameConstants.OPERATIONS, l_map)) {
-                    d_mapService.editFunctions(d_gameState, l_map.get(GameConstants.OPERATIONS),
-                            l_map.get(GameConstants.ARGUMENTS), 2);
+                    d_mapService.editFunctions(d_gameState, l_map.get(GameConstants.ARGUMENTS),
+                            l_map.get(GameConstants.OPERATIONS), 2);
                 } else {
                     throw new Exception(GameConstants.INVALIDCOMMAND);
                 }
