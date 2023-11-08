@@ -1,5 +1,6 @@
 package Models;
 
+import Constants.GameConstants;
 import Controller.GameEngine;
 import Utils.Command;
 import Views.MapView;
@@ -189,6 +190,20 @@ public class OrderExecutionPhase extends Phase {
      * Invokes the execution logic for all unexecuted orders of players in the game.
      */
     protected void executeOrders() {
+        addNeutralPlayer(d_gameState);
+        // Executing orders
+        d_gameEngine.setD_gameEngineLog("\nStarting Execution Of Orders.....", "start");
+        while (d_playerService.unexecutedOrdersExists(d_gameState.getD_players())) {
+            for (Player l_player : d_gameState.getD_players()) {
+                Order l_order = l_player.next_order();
+                if (l_order != null) {
+                    l_order.printOrder();
+                    d_gameState.updateLog(l_order.orderExecutionLog(), "effect");
+                    l_order.execute(d_gameState);
+                }
+            }
+        }
+        d_playerService.resetPlayersFlag(d_gameState.getD_players());
     }
 
     /**
@@ -206,7 +221,17 @@ public class OrderExecutionPhase extends Phase {
      * @return true if a player has conquered all countries and the game should end; otherwise, returns false
      */
     protected Boolean checkEndOftheGame(GameState p_gameState) {
+        Integer l_totalCountries = p_gameState.getD_map().getD_countries().size();
+        for (Player l_player : p_gameState.getD_players()) {
+            if (l_player.getD_coutriesOwned().size() == l_totalCountries) {
+                d_gameEngine.setD_gameEngineLog("Player : " + l_player.getPlayerName()
+                        + " has won the Game by conquering all countries. Exiting the Game .....", GameConstants.ENDLOG);
+                return true;
+            }
+        }
+        return false;
     }
+
 
     /**
      * This method signifies the main functionality executed on phase change.
