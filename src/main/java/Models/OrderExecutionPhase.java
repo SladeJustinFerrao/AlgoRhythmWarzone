@@ -140,9 +140,10 @@ public class OrderExecutionPhase extends Phase {
      * @throws IOException Indicates failure in I/O operation
      */
     @Override
-    protected void performAdvance(String p_command, Player p_player) throws IOException {
-
+    protected void performAdvance(String p_command, Player p_player) {
+        printInvalidCommandInState();
     }
+
 
     /**
      * Handles the card commands.
@@ -153,7 +154,7 @@ public class OrderExecutionPhase extends Phase {
      */
     @Override
     protected void performCardHandle(String p_enteredCommand, Player p_player) throws IOException {
-
+        printInvalidCommandInState();
     }
 
     /**
