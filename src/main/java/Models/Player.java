@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -59,6 +60,12 @@ public class Player {
      */
     List<String> d_cardsOwnedByPlayer = new ArrayList<String>();
 
+
+    /**
+     * If the per turn card is assigned already.
+     */
+    boolean d_oneCardPerTurn = false;
+
     /**
      * List of players to not attack if negotiated with.
      */
@@ -74,7 +81,10 @@ public class Player {
     public Player(String p_playerName) {
         this.d_name = p_playerName;
         this.d_noOfUnallocatedArmies = 0;
+        this.d_coutriesOwned = new ArrayList<Country>();
         this.d_ordersToExecute = new ArrayList<>();
+        this.d_moreOrders = true;
+
     }
 
 
@@ -233,6 +243,32 @@ public class Player {
         return d_moreOrders;
     }
 
+
+    /**
+     * This method will assign any random card from the set of available cards to
+     * the player once he conquers a territory.
+     *
+     */
+    public void assignCard() {
+        if (!d_oneCardPerTurn) {
+            Random l_random = new Random();
+            this.d_cardsOwnedByPlayer.add(Arrays.asList("bomb", "blockade", "airlift", "negotiate").get(l_random.nextInt(4)));
+            this.setD_playerLog("Player: "+ this.d_name+ " has earned card as reward for the successful conquest- " + this.d_cardsOwnedByPlayer.get(this.d_cardsOwnedByPlayer.size()-1), "log");
+            this.setD_oneCardPerTurn(true);
+        }else{
+            this.setD_playerLog("Player: "+this.d_name+ " has already earned maximum cards that can be allotted in a turn", "error");
+        }
+    }
+
+    /**
+     * Remove the card which is used.
+     *
+     * @param p_cardName name of the card to remove.
+     */
+    public void removeCard(String p_cardName){
+        this.d_cardsOwnedByPlayer.remove(p_cardName);
+    }
+
     /**
      * Sets info about more orders from player are to be accepted or not.
      *
@@ -250,6 +286,15 @@ public class Player {
      */
     public List<String> getD_cardsOwnedByPlayer() {
         return this.d_cardsOwnedByPlayer;
+    }
+
+    /**
+     * Sets the Per Turn Card allocated bool.
+     *
+     * @param p_value Bool to Set.
+     */
+    public void setD_oneCardPerTurn(Boolean p_value){
+        this.d_oneCardPerTurn = p_value;
     }
 
 
@@ -400,14 +445,6 @@ public class Player {
 
 
 
-    /**
-     * Remove the card which is used.
-     *
-     * @param p_cardName name of the card to remove.
-     */
-    public void removeCard(String p_cardName) {
-        this.d_cardsOwnedByPlayer.remove(p_cardName);
-    }
 
     /**
      * Checks if the order issued on country is possible or not.
@@ -449,7 +486,16 @@ public class Player {
         }
     }
 
-    //to be implemented after gameEnginer
+
+    /**
+     * Handles the Card Commands: creates order and adds them to the list.
+     *
+     * @param p_commandEntered command entered
+     * @param p_gameState gamestate instance
+     */
+    public void handleCardCommands(String p_commandEntered, GameState p_gameState) {
+        // dependency on Blockade and diplomacy
+    }
 
 
 
