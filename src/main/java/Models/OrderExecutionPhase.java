@@ -192,13 +192,13 @@ public class OrderExecutionPhase extends Phase {
     protected void executeOrders() {
         addNeutralPlayer(d_gameState);
         // Executing orders
-        d_gameEngine.setD_gameEngineLog("\nStarting Execution Of Orders.....", "start");
+        d_gameEngine.setD_gameEngineLog("\nStarting Execution Of Orders.....", GameConstants.STARTLOG);
         while (d_playerService.unexecutedOrdersExists(d_gameState.getD_players())) {
             for (Player l_player : d_gameState.getD_players()) {
                 Order l_order = l_player.next_order();
                 if (l_order != null) {
                     l_order.printOrder();
-                    d_gameState.updateLog(l_order.orderExecutionLog(), "effect");
+                    d_gameState.updateLog(l_order.orderExecutionLog(), GameConstants.OUTCOME);
                     l_order.execute(d_gameState);
                 }
             }
@@ -212,6 +212,16 @@ public class OrderExecutionPhase extends Phase {
      * @param p_gameState The GameState to which the neutral player is added
      */
     public void addNeutralPlayer(GameState p_gameState) {
+
+        Player l_player = p_gameState.getD_players().stream()
+                .filter(l_pl -> l_pl.getPlayerName().equalsIgnoreCase("Neutral")).findFirst().orElse(null);
+        if (l_player == null) {
+            Player l_neutralPlayer = new Player("Neutral");
+            l_neutralPlayer.setD_moreOrders(false);
+            p_gameState.getD_players().add(l_neutralPlayer);
+        } else {
+            return;
+        }
     }
 
     /**
