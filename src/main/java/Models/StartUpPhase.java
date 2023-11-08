@@ -68,10 +68,10 @@ public class StartUpPhase extends Phase {
             throw new Exception(GameConstants.INVALIDCOMMAND);
         } else {
             for (Map<String, String> l_map : l_operations_list) {
-                if (p_command.checkRequiredKeysPresent("arguments", l_map)
+                if (p_command.checkRequiredKeysPresent(GameConstants.ARGUMENTS, l_map)
                         && p_command.checkRequiredKeysPresent("operation", l_map)) {
                     d_mapService.editFunctions(d_gameState, l_map.get("operation"),
-                            l_map.get("arguments"), 3);
+                            l_map.get(GameConstants.ARGUMENTS), 3);
                 } else {
                     throw new Exception(GameConstants.INVALIDCOMMAND);
                 }
@@ -95,10 +95,10 @@ public class StartUpPhase extends Phase {
             throw new Exception(GameConstants.INVALIDCOMMAND);
         } else {
             for (Map<String, String> l_map : l_operations_list) {
-                if (p_command.checkRequiredKeysPresent("arguments", l_map)
+                if (p_command.checkRequiredKeysPresent(GameConstants.ARGUMENTS, l_map)
                         && p_command.checkRequiredKeysPresent("operation", l_map)) {
                     d_mapService.editFunctions(d_gameState, l_map.get("operation"),
-                            l_map.get("arguments"), 2);
+                            l_map.get(GameConstants.ARGUMENTS), 2);
                 } else {
                     throw new Exception(GameConstants.INVALIDCOMMAND);
                 }
@@ -118,19 +118,19 @@ public class StartUpPhase extends Phase {
             throw new Exception(GameConstants.INVALIDCOMMAND);
         } else {
             for (Map<String, String> l_map : l_operations_list) {
-                if (p_command.checkRequiredKeysPresent("arguments", l_map)) {
+                if (p_command.checkRequiredKeysPresent(GameConstants.ARGUMENTS, l_map)) {
                     // Loads the map if it is valid or resets the game state
                     Models.Map l_mapToLoad = d_mapService.loadMap(d_gameState,
-                            l_map.get("arguments"));
+                            l_map.get(GameConstants.ARGUMENTS));
                     if (l_mapToLoad.Validate()) {
                         l_flagValidate = true;
                         d_gameState.setD_loadCommand();
-                        d_gameEngine.setD_gameEngineLog(l_map.get("arguments")+ " has been loaded to start the game", GameConstants.OUTCOME );
+                        d_gameEngine.setD_gameEngineLog(l_map.get(GameConstants.ARGUMENTS)+ " has been loaded to start the game", GameConstants.OUTCOME );
                     } else {
-                        d_mapService.resetMap(d_gameState, l_map.get("arguments"));
+                        d_mapService.resetMap(d_gameState, l_map.get(GameConstants.ARGUMENTS));
                     }
                     if(!l_flagValidate){
-                        d_mapService.resetMap(d_gameState, l_map.get("arguments"));
+                        d_mapService.resetMap(d_gameState, l_map.get(GameConstants.ARGUMENTS));
                     }
                 } else {
                     throw new Exception(GameConstants.INVALIDCOMMAND);
@@ -155,9 +155,9 @@ public class StartUpPhase extends Phase {
             throw new Exception(GameConstants.INVALIDCOMMAND);
         } else {
             for (Map<String, String> l_map : l_operations_list) {
-                if (p_command.checkRequiredKeysPresent("arguments", l_map)
+                if (p_command.checkRequiredKeysPresent(GameConstants.ARGUMENTS, l_map)
                         && p_command.checkRequiredKeysPresent("operation", l_map)) {
-                    d_mapService.editFunctions(d_gameState, l_map.get("arguments"),
+                    d_mapService.editFunctions(d_gameState, l_map.get(GameConstants.ARGUMENTS),
                             l_map.get("operation"), 1);
                 } else {
                     throw new Exception(GameConstants.INVALIDCOMMAND);
@@ -183,10 +183,10 @@ public class StartUpPhase extends Phase {
         } else {
             if (d_gameState.getD_loadCommand()) {
                 for (Map<String, String> l_map : l_operations_list) {
-                    if (p_command.checkRequiredKeysPresent("arguments", l_map)
+                    if (p_command.checkRequiredKeysPresent(GameConstants.ARGUMENTS, l_map)
                             && p_command.checkRequiredKeysPresent("operation", l_map)) {
                         d_playerService.updatePlayers(d_gameState, l_map.get("operation"),
-                                l_map.get("arguments"));
+                                l_map.get(GameConstants.ARGUMENTS));
                     } else {
                         throw new Exception(GameConstants.INVALIDCOMMAND);
                     }
@@ -264,8 +264,8 @@ public class StartUpPhase extends Phase {
             throw new Exception(GameConstants.INVALIDCOMMAND);
         } else {
             for (java.util.Map<String, String> l_map : l_operations_list) {
-                if (p_command.checkRequiredKeysPresent("arguments", l_map)) {
-                    d_mapService.editMap(d_gameState, l_map.get("arguments"));
+                if (p_command.checkRequiredKeysPresent(GameConstants.ARGUMENTS, l_map)) {
+                    d_mapService.editMap(d_gameState, l_map.get(GameConstants.ARGUMENTS));
                 } else {
                     throw new Exception(GameConstants.INVALIDCOMMAND);
                 }
@@ -289,9 +289,9 @@ public class StartUpPhase extends Phase {
             throw new Exception(GameConstants.INVALIDCOMMAND);
         } else {
             for (Map<String, String> l_map : l_operations_list) {
-                if (p_command.checkRequiredKeysPresent("arguments", l_map)) {
+                if (p_command.checkRequiredKeysPresent(GameConstants.ARGUMENTS, l_map)) {
                     boolean l_fileUpdateStatus = d_mapService.saveMap(d_gameState,
-                            l_map.get("arguments"));
+                            l_map.get(GameConstants.ARGUMENTS));
                     if (l_fileUpdateStatus) {
                         d_gameEngine.setD_gameEngineLog("Required changes have been made in map file", GameConstants.OUTCOME);
                     } else

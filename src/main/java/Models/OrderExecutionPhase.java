@@ -143,7 +143,7 @@ public class OrderExecutionPhase extends Phase {
      * @throws Exception Indicates failure in I/O operation
      */
     @Override
-    protected void performAdvance(String p_command, Player p_player) {
+    protected void performAdvance(String p_command, Player p_player) throws Exception {
         printInvalidCommandInState();
     }
 
