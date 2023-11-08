@@ -82,7 +82,7 @@ public class OrderExecutionPhase extends Phase {
      */
     @Override
     protected void createPlayers(Command p_command, Player p_player) throws Exception {
-
+        printInvalidCommandInState();
     }
 
     /**
@@ -116,7 +116,7 @@ public class OrderExecutionPhase extends Phase {
      */
     @Override
     protected void performAssignCountries(Command p_command, Player p_player) throws Exception {
-
+        printInvalidCommandInState();
     }
 
     /**
