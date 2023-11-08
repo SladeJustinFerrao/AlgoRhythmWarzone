@@ -102,6 +102,37 @@ public abstract class Blockade implements Card{
     }
 
     /**
+     * Prints and Sets the Order execution log.
+     *
+     * @param p_orderExecutionLog string to set as log
+     * @param p_logType type of log : error, default
+     */
+    public void setD_orderExecutionLog(String p_orderExecutionLog, String p_logType) {
+        this.d_orderExecutionLog = p_orderExecutionLog;
+        if (p_logType.equals(GameConstants.ERROR)) {
+            System.err.println(p_orderExecutionLog);
+        } else {
+            System.out.println(p_orderExecutionLog);
+        }
+    }
+
+    /**
+     * Validation of card type order.
+     *
+     * @param p_gameState Gamestate
+     * @return true or false
+     */
+    @Override
+    public Boolean checkValidOrder(GameState p_gameState) {
+        Country l_targetCountry = p_gameState.getD_map().getCountryByName(d_targetCountryID);
+        if (l_targetCountry == null) {
+            this.setD_orderExecutionLog("Invalid Target Country! Doesn't exist on the map!", GameConstants.ERROR);
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * Return order name
      *
      * @return string
@@ -118,5 +149,14 @@ public abstract class Blockade implements Card{
      */
     private String currentOrder() {
         return "Blockade card order : " + "blockade" + " " + this.d_targetCountryID;
+    }
+
+    /**
+     * Execution Log.
+     *
+     * @return String return Execution Log.
+     */
+    public String orderExecutionLog() {
+        return this.d_orderExecutionLog;
     }
 }
