@@ -154,12 +154,12 @@ public abstract class Phase {
                 break;
             }
             case "exit": {
-                d_gameEngine.setD_gameEngineLog("Exit Command Entered, Game Ends!", "effect");
+                d_gameEngine.setD_gameEngineLog("Exit Command Entered, Game Ends!", GameConstants.OUTCOME);
                 System.exit(0);
                 break;
             }
             default: {
-                d_gameEngine.setD_gameEngineLog("Invalid Command", "effect");
+                d_gameEngine.setD_gameEngineLog(GameConstants.INVALIDCOMMAND, GameConstants.OUTCOME);
                 break;
             }
         }
@@ -296,7 +296,7 @@ public abstract class Phase {
      * Method to log and print if the command can't be executed in the current phase.
      */
     public void printInvalidCommandInState() {
-        d_gameEngine.setD_gameEngineLog("Invalid Command in Current State", "effect");
+        d_gameEngine.setD_gameEngineLog("Invalid Command in Current State", GameConstants.OUTCOME);
     }
 
     /**

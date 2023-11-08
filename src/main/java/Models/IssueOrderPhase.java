@@ -1,7 +1,11 @@
 package Models;
 
+import Constants.GameConstants;
 import Controller.GameEngine;
 import Utils.Command;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
 public class IssueOrderPhase extends Phase {
 
@@ -25,7 +29,19 @@ public class IssueOrderPhase extends Phase {
      */
     @Override
     protected void performValidateMap(Command p_command, Player p_player) throws Exception {
+        printInvalidCommandInState();
+        askForOrder(p_player);
+    }
 
+    private void askForOrder(Player p_player) throws Exception {
+        BufferedReader l_reader = new BufferedReader(new InputStreamReader(System.in));
+        System.out.println("\nPlease enter command to issue order for player : " + p_player.getPlayerName()
+                + " or give showmap command to view current state of the game.");
+        String l_commandEntered = l_reader.readLine();
+
+        d_gameState.updateLog("(Player: " + p_player.getPlayerName() + ") " + l_commandEntered, GameConstants.ORDER);
+
+        handleCommand(l_commandEntered, p_player);
     }
 
     /**
@@ -38,7 +54,8 @@ public class IssueOrderPhase extends Phase {
      */
     @Override
     protected void performEditNeighbour(Command p_command, Player p_player) throws Exception {
-
+        printInvalidCommandInState();
+        askForOrder(p_player);
     }
 
     /**
@@ -51,7 +68,8 @@ public class IssueOrderPhase extends Phase {
      */
     @Override
     protected void performEditCountry(Command p_command, Player p_player) throws Exception {
-
+        printInvalidCommandInState();
+        askForOrder(p_player);
     }
 
     /**
@@ -90,7 +108,8 @@ public class IssueOrderPhase extends Phase {
      */
     @Override
     protected void performMapEdit(Command p_command, Player p_player) throws Exception {
-
+        printInvalidCommandInState();
+        askForOrder(p_player);
     }
 
     /**
@@ -103,7 +122,8 @@ public class IssueOrderPhase extends Phase {
      */
     @Override
     protected void performEditContinent(Command p_command, Player p_player) throws Exception {
-
+        printInvalidCommandInState();
+        askForOrder(p_player);
     }
 
     /**
@@ -115,7 +135,8 @@ public class IssueOrderPhase extends Phase {
      */
     @Override
     protected void createPlayers(Command p_command, Player p_player) throws Exception {
-
+        printInvalidCommandInState();
+        askForOrder(p_player);
     }
 
     /**
@@ -164,7 +185,8 @@ public class IssueOrderPhase extends Phase {
      */
     @Override
     protected void performAssignCountries(Command p_command, Player p_player) throws Exception {
-
+        printInvalidCommandInState();
+        askForOrder(p_player);
     }
 
     /**

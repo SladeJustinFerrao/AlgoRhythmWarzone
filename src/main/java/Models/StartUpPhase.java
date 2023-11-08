@@ -69,8 +69,8 @@ public class StartUpPhase extends Phase {
         } else {
             for (Map<String, String> l_map : l_operations_list) {
                 if (p_command.checkRequiredKeysPresent(GameConstants.ARGUMENTS, l_map)
-                        && p_command.checkRequiredKeysPresent("operation", l_map)) {
-                    d_mapService.editFunctions(d_gameState, l_map.get("operation"),
+                        && p_command.checkRequiredKeysPresent(GameConstants.OPERATIONS, l_map)) {
+                    d_mapService.editFunctions(d_gameState, l_map.get(GameConstants.OPERATIONS),
                             l_map.get(GameConstants.ARGUMENTS), 3);
                 } else {
                     throw new Exception(GameConstants.INVALIDCOMMAND);
@@ -96,8 +96,8 @@ public class StartUpPhase extends Phase {
         } else {
             for (Map<String, String> l_map : l_operations_list) {
                 if (p_command.checkRequiredKeysPresent(GameConstants.ARGUMENTS, l_map)
-                        && p_command.checkRequiredKeysPresent("operation", l_map)) {
-                    d_mapService.editFunctions(d_gameState, l_map.get("operation"),
+                        && p_command.checkRequiredKeysPresent(GameConstants.OPERATIONS, l_map)) {
+                    d_mapService.editFunctions(d_gameState, l_map.get(GameConstants.OPERATIONS),
                             l_map.get(GameConstants.ARGUMENTS), 2);
                 } else {
                     throw new Exception(GameConstants.INVALIDCOMMAND);
@@ -125,11 +125,11 @@ public class StartUpPhase extends Phase {
                     if (l_mapToLoad.Validate()) {
                         l_flagValidate = true;
                         d_gameState.setD_loadCommand();
-                        d_gameEngine.setD_gameEngineLog(l_map.get(GameConstants.ARGUMENTS)+ " has been loaded to start the game", GameConstants.OUTCOME );
+                        d_gameEngine.setD_gameEngineLog(l_map.get(GameConstants.ARGUMENTS) + " has been loaded to start the game", GameConstants.OUTCOME);
                     } else {
                         d_mapService.resetMap(d_gameState, l_map.get(GameConstants.ARGUMENTS));
                     }
-                    if(!l_flagValidate){
+                    if (!l_flagValidate) {
                         d_mapService.resetMap(d_gameState, l_map.get(GameConstants.ARGUMENTS));
                     }
                 } else {
@@ -156,9 +156,9 @@ public class StartUpPhase extends Phase {
         } else {
             for (Map<String, String> l_map : l_operations_list) {
                 if (p_command.checkRequiredKeysPresent(GameConstants.ARGUMENTS, l_map)
-                        && p_command.checkRequiredKeysPresent("operation", l_map)) {
+                        && p_command.checkRequiredKeysPresent(GameConstants.OPERATIONS, l_map)) {
                     d_mapService.editFunctions(d_gameState, l_map.get(GameConstants.ARGUMENTS),
-                            l_map.get("operation"), 1);
+                            l_map.get(GameConstants.OPERATIONS), 1);
                 } else {
                     throw new Exception(GameConstants.INVALIDCOMMAND);
                 }
@@ -184,8 +184,8 @@ public class StartUpPhase extends Phase {
             if (d_gameState.getD_loadCommand()) {
                 for (Map<String, String> l_map : l_operations_list) {
                     if (p_command.checkRequiredKeysPresent(GameConstants.ARGUMENTS, l_map)
-                            && p_command.checkRequiredKeysPresent("operation", l_map)) {
-                        d_playerService.updatePlayers(d_gameState, l_map.get("operation"),
+                            && p_command.checkRequiredKeysPresent(GameConstants.OPERATIONS, l_map)) {
+                        d_playerService.updatePlayers(d_gameState, l_map.get(GameConstants.OPERATIONS),
                                 l_map.get(GameConstants.ARGUMENTS));
                     } else {
                         throw new Exception(GameConstants.INVALIDCOMMAND);
@@ -208,7 +208,7 @@ public class StartUpPhase extends Phase {
     }
 
     @Override
-    protected void performCardHandle(String p_enteredCommand, Player p_player) throws Exception {
+    protected void performCardHandle(String p_enteredCommand, Player p_player) {
         printInvalidCommandInState();
     }
 

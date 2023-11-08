@@ -24,5 +24,6 @@ public final class GameConstants {
     public static final String LOGFILENAME = "LogRecord.txt";
     public static final String INVALIDCOMMAND = "Invalid Command!!";
     public static final String ARGUMENTS = "arguments";
+    public static final String OPERATIONS = "operation";
 
 }
