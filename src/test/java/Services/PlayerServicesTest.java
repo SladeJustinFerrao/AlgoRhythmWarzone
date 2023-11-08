@@ -1,8 +1,11 @@
 package Services;
 
 import Models.*;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,132 +18,127 @@ import static org.junit.jupiter.api.Assertions.*;
 class PlayerServicesTest {
 
     /**
-     * Test to validate that the name of the player is unique or not
+     * Player class reference.
      */
-    @Test
-    void isPlayerNameUnique() {
-        Player l_player1= new Player();
-        Player l_player2= new Player();
-        Player l_player3= new Player();
-        Player l_player4= new Player();
-        Player l_player5= new Player();
-        Player l_player6= new Player();
-        l_player1.setPlayerName("Darshan");
-        l_player2.setPlayerName("Yug");
-        l_player3.setPlayerName("Slade");
-        l_player4.setPlayerName("Harshil");
-        l_player5.setPlayerName("Beavans");
-        l_player6.setPlayerName("Arjun");
-        List<Player> l_listOfPlayers= new ArrayList<>();
-        l_listOfPlayers.add(l_player1);
-        l_listOfPlayers.add(l_player2);
-        l_listOfPlayers.add(l_player3);
-        l_listOfPlayers.add(l_player4);
-        l_listOfPlayers.add(l_player5);
-        l_listOfPlayers.add(l_player6);
-        PlayerServices l_playerService = new PlayerServices();
-        Boolean l_isUnique=l_playerService.isPlayerNameUnique(l_listOfPlayers,"Darshan");
-        assertEquals(false,l_isUnique);
-    }
-
+    Player d_playerInfo;
 
     /**
-     * Test to check the availability of the players
+     * Player Service reference.
      */
-    @Test
-    void checkPlayersAvailability() {
-        GameState l_gameState = new GameState();
-        Player l_player1= new Player("Parth");
-        Player l_player2= new Player("Jarvis");
-        List l_listOfPlayers= new ArrayList<>();
-        l_listOfPlayers.add(l_player1);
-        l_listOfPlayers.add(l_player2);
-        l_gameState.setD_players(l_listOfPlayers);
-        PlayerServices l_playerServices= new PlayerServices();
-        Boolean l_isAvailable = l_playerServices.checkPlayersAvailability(l_gameState);
-        assertEquals(true,l_isAvailable);
-    }
-
+    PlayerServices d_playerService;
 
     /**
-     * test to check that player cannot deploy more armies that there is in
-     * their reinforcement pool
+     * Map reference to store its object.
      */
-    @Test
-    void validateDeployOrderArmies() {
-        Player l_player1= new Player("W3");
-        PlayerServices l_playerServices= new PlayerServices();
-        l_player1.setD_noOfUnallocatedArmies(15);
-        String l_noOfArmies= "12";
-        Boolean l_isValidDeployableArmy= l_playerServices.validateDeployOrderArmies(l_player1,l_noOfArmies);
-        assertEquals(false,l_isValidDeployableArmy);
+    Map d_map;
+
+    /**
+     * GameState reference to store its object.
+     */
+    GameState d_gameState;
+
+    /**
+     * MapService reference to store its object.
+     */
+    MapService d_mapservice;
+
+    /**
+     * Existing Player List.
+     */
+    List<Player> d_exisitingPlayerList = new ArrayList<>();
+
+    private final ByteArrayOutputStream d_outContent = new ByteArrayOutputStream();
+
+    /**
+     * The setup is called before each test case of this class is executed.
+     */
+    @BeforeEach
+    public void setup() {
+        d_playerInfo = new Player();
+        d_playerService = new PlayerServices();
+        d_gameState = new GameState();
+        d_exisitingPlayerList.add(new Player("Darshan"));
+        d_exisitingPlayerList.add(new Player("Slade"));
 
     }
 
     /**
-     * test for the calculation of number of reinforcement armies
+     * The testAddPlayers is used to test the add functionality of addRemovePlayers
+     * function.
      */
     @Test
-    void calculateArmiesForPlayer() {
-        Player l_player1= new Player("Lucifer");
-        Continent l_cont= new Continent();
-        Country l_country= new Country("INDIA");
-        l_cont.setD_continentName("ASIA");
-        l_cont.setD_continentID(1);
-        l_cont.setD_continentValue(6);
-        List<Country> l_listOfCountries= new ArrayList<>();
-        l_listOfCountries.add(l_country);
-        l_cont.setD_countries(l_listOfCountries);
-        List<Continent> l_ListOfContinent = new ArrayList<>();
-        l_ListOfContinent.add(l_cont);
-        l_player1.setD_continentsOwned(l_ListOfContinent);
-        l_player1.setD_coutriesOwned(l_listOfCountries);
-        PlayerServices l_playerService = new PlayerServices();
-        int l_armyNumber=l_playerService.calculateArmiesForPlayer(l_player1);
-        assertEquals(9,l_armyNumber);
+    public void testAddPlayers() {
+        assertFalse(d_exisitingPlayerList.size()==0);
+        List<Player> l_updatedPlayers = d_playerService.addRemovePlayers(d_exisitingPlayerList, "add", "Darshan");
+        assertEquals("Darshan", l_updatedPlayers.get(2).getPlayerName());
 
+        System.setOut(new PrintStream(d_outContent));
+        d_playerService.addRemovePlayers(d_exisitingPlayerList, "add", "Slade");
+        assertEquals("Player with name : Slade already Exists. Changes are not made.", d_outContent.toString().trim());
     }
 
-
     /**
-     * test to check if there are unassigned Armies or not
+     * The testRemovePlayers is used to t est the remove functionality of
+     * addRemovePlayers function.
      */
     @Test
-    void unassignedArmiesExists() {
-        PlayerServices l_playerServices= new PlayerServices();
-        Player l_player1= new Player();
-        Player l_player2= new Player();
-        Player l_player3= new Player();
-        l_player1.setPlayerName("Darshan");
-        l_player2.setPlayerName("Yug");
-        l_player3.setPlayerName("Slade");
-        List<Player> l_listOfPlayers= new ArrayList<>();
-        l_listOfPlayers.add(l_player1);
-        l_listOfPlayers.add(l_player2);
-        l_listOfPlayers.add(l_player3);
-        l_player1.setD_noOfUnallocatedArmies(0);
-        l_player2.setD_noOfUnallocatedArmies(0);
-        l_player3.setD_noOfUnallocatedArmies(0);
-        Boolean l_unassignedArmies= l_playerServices.unassignedArmiesExists(l_listOfPlayers);
-        assertEquals(false,l_unassignedArmies);
+    public void testRemovePlayers() {
+        List<Player> l_updatedPlayers = d_playerService.addRemovePlayers(d_exisitingPlayerList, "remove", "Avneet");
+        assertEquals(1, l_updatedPlayers.size());
+
+        System.setOut(new PrintStream(d_outContent));
+        d_playerService.addRemovePlayers(d_exisitingPlayerList, "remove", "Parthu");
+        assertEquals("Player with name : Parthu does not Exist. Changes are not made.", d_outContent.toString().trim());
     }
 
-
     /**
-     * test to if the map is loaded or not
+     * Used for checking whether players have been added or not
      */
     @Test
-    void isMapLoaded() {
-        GameState l_gameState= new GameState();
-        Player l_player1= new Player("Parth");
-        Player l_player2= new Player("Jarvis");
-        List l_listOfPlayers= new ArrayList<>();
-        l_listOfPlayers.add(l_player1);
-        l_listOfPlayers.add(l_player2);
-        l_gameState.setD_players(l_listOfPlayers);
-        PlayerServices l_playerServices= new PlayerServices();
-        Boolean l_isMapload=l_playerServices.isMapLoaded(l_gameState);
-        assertEquals(false,l_isMapload);
+    public void testPlayersAvailability() {
+        boolean l_playersExists = d_playerService.checkPlayersAvailability(d_gameState);
+        assertFalse(l_playersExists);
+    }
 
+    /**
+     * Used for checking whether players have been assigned with countries
+     */
+    @Test
+    public void testPlayerCountryAssignment() throws Exception {
+        d_mapservice = new MapService();
+        d_map = new Map();
+        d_map = d_mapservice.loadMap(d_gameState, "canada.map");
+        d_gameState.setD_map(d_map);
+        d_gameState.setD_players(d_exisitingPlayerList);
+        d_playerService.assignCountries(d_gameState);
+
+        int l_assignedCountriesSize = 0;
+        for (Player l_pl : d_gameState.getD_players()) {
+            assertNotNull(l_pl.getD_coutriesOwned());
+            l_assignedCountriesSize = l_assignedCountriesSize + l_pl.getD_coutriesOwned().size();
+        }
+        assertEquals(l_assignedCountriesSize, d_gameState.getD_map().getD_countries().size());
+    }
+
+    /**
+     * The testCalculateArmiesForPlayer is used to calculate number of reinforcement
+     * armies
+     */
+    @Test
+    public void testCalculateArmiesForPlayer() {
+        Player l_playerInfo = new Player();
+        List<Country> l_countryList = new ArrayList<Country>();
+        l_countryList.add(new Country("Waadt"));
+        l_countryList.add(new Country("Neuenburg"));
+        l_countryList.add(new Country("Fribourg"));
+        l_countryList.add(new Country("Geneve"));
+        l_playerInfo.setD_coutriesOwned(l_countryList);
+        List<Continent> l_continentList = new ArrayList<Continent>();
+        l_continentList.add(new Continent(1, "Asia", 5));
+        l_playerInfo.setD_continentsOwned(l_continentList);
+        l_playerInfo.setD_noOfUnallocatedArmies(10);
+        Integer l_actualResult = d_playerService.calculateArmiesForPlayer(l_playerInfo);
+        Integer l_expectedresult = 18;
+        assertEquals(l_expectedresult, l_actualResult);
     }
 }
