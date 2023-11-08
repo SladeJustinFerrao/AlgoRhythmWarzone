@@ -43,7 +43,8 @@ public class Player {
     /**
      * List of orders of player.
      */
-    List<Order> d_ordersToExecute;
+    List<Order> order_list;
+
 
     /**
      * Number of armies allocated to player.
@@ -82,7 +83,7 @@ public class Player {
         this.d_name = p_playerName;
         this.d_noOfUnallocatedArmies = 0;
         this.d_coutriesOwned = new ArrayList<Country>();
-        this.d_ordersToExecute = new ArrayList<>();
+        this.order_list = new ArrayList<>();
         this.d_moreOrders = true;
 
     }
@@ -176,7 +177,7 @@ public class Player {
      * @return return execute orders.
      */
     public List<Order> getD_ordersToExecute() {
-        return d_ordersToExecute;
+        return order_list;
     }
 
 
@@ -186,7 +187,7 @@ public class Player {
      * @param p_ordersToExecute set execute orders.
      */
     public void setD_ordersToExecute(List<Order> p_ordersToExecute) {
-        this.d_ordersToExecute = p_ordersToExecute;
+        this.order_list = p_ordersToExecute;
     }
 
 
@@ -357,6 +358,53 @@ public class Player {
         }
     }
 
+    /**
+     * Checks if source and target countries given in advance order exists in the
+     * map or not.
+     *
+     * @param p_countryName country name which needs to be checked in map
+     * @param p_gameState   current state of the map
+     * @return true if country exists in map or else false
+     */
+    private Boolean checkCountryExists(String p_countryName, GameState p_gameState) {
+        if (p_gameState.getD_map().getCountryByName(p_countryName) == null) {
+            this.setD_playerLog("Country : " + p_countryName
+                    + " given in advance order doesnt exists in map. Order given is ignored.", "error");
+            return false;
+        }
+        return true;
+    }
+
+
+    /**
+     * Creates the advance order on the commands entered by the player.
+     *
+     * @param p_commandEntered command entered by the user
+     * @param p_gameState      current state of the game
+     */
+    public void createAdvanceOrder(String p_commandEntered, GameState p_gameState) {
+        try {
+            if (p_commandEntered.split(" ").length == 4) {
+                String l_sourceCountry = p_commandEntered.split(" ")[1];
+                String l_targetCountry = p_commandEntered.split(" ")[2];
+                String l_noOfArmies = p_commandEntered.split(" ")[3];
+                if (this.checkCountryExists(l_sourceCountry, p_gameState)
+                        && this.checkCountryExists(l_targetCountry, p_gameState)
+                        && !checkZeroArmiesInOrder(l_noOfArmies)
+                        && checkAdjacency(p_gameState, l_sourceCountry, l_targetCountry)) {
+                    this.order_list
+                            .add(new Advance(this, l_sourceCountry, l_targetCountry, Integer.parseInt(l_noOfArmies)));
+                    this.setD_playerLog("Advance order has been added to queue for execution. For player: " + this.d_name, "log");
+                }
+            } else {
+                this.setD_playerLog("Invalid Arguments Passed For Advance Order", "error");
+            }
+
+        } catch (Exception l_e) {
+            this.setD_playerLog("Invalid Advance Order Given", "error");
+        }
+    }
+
 
     /**
      * Issue order which takes order as an input and add it to players unassigned
@@ -506,11 +554,11 @@ public class Player {
 	 * @return Order first order from the list of player's order
 	 */
     public Order next_order() {
-        if (this.d_ordersToExecute==null||this.d_ordersToExecute.isEmpty()) {
+        if (this.order_list==null||this.order_list.isEmpty()) {
             return null;
         }
-        Order l_order = this.d_ordersToExecute.get(0);
-        this.d_ordersToExecute.remove(l_order);
+        Order l_order = this.order_list.get(0);
+        this.order_list.remove(l_order);
         return l_order;
     }
 }
