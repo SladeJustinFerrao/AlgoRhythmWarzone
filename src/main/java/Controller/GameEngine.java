@@ -31,6 +31,24 @@ public class GameEngine {
 	}
 
 	/**
+	 * These methods update the current phase to Issue Order Phase as per State Pattern.
+	 */
+	public void setIssueOrderPhase(){
+		this.setD_gameEngineLog("Issue Order Phase", GameConstants.PHASE);
+		setD_CurrentPhase(new IssueOrderPhase(this, d_gameState));
+		getD_CurrentPhase().initPhase();
+	}
+
+	/**
+	 * These methods update the current phase to Order Execution Phase as per State Pattern.
+	 */
+	public void setOrderExecutionPhase(){
+		this.setD_gameEngineLog("Order Execution Phase", GameConstants.PHASE);
+		setD_CurrentPhase(new OrderExecutionPhase(this, d_gameState));
+		getD_CurrentPhase().initPhase();
+	}
+
+	/**
 	 * This method is getter for current Phase of Game State.
 	 *
 	 * @return current Phase of Game Context
