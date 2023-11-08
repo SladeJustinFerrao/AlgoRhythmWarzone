@@ -2,7 +2,7 @@ package Models;
 
 import Constants.GameConstants;
 
-public abstract class Blockade implements Card{
+public class Blockade implements Card{
 
     /**
      * Blockade card will be owned by this player.
@@ -58,7 +58,7 @@ public abstract class Blockade implements Card{
             d_playerInitiator.removeCard("blockade");
             this.setD_orderExecutionLog("\nPlayer : " + this.d_playerInitiator.getPlayerName()
                     + " is executing defensive blockade on Country :  " + l_targetCountryID.getD_countryName()
-                    + " with armies :  " + l_targetCountryID.getD_armies(), GameConstants.OUTCOME);
+                    + " with armies :  " + l_targetCountryID.getD_armies(), "default");
             p_gameState.updateLog(orderExecutionLog(), GameConstants.OUTCOME);
         }
     }
