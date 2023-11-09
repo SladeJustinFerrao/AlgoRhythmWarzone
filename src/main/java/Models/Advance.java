@@ -9,7 +9,7 @@ import Services.PlayerServices;
 /**
  * Concrete Command of Command pattern.
  */
-public class  Advance implements Order {
+public class Advance implements Order {
 	/**
 	 * name of the target country.
 	 */
@@ -95,10 +95,7 @@ public class  Advance implements Order {
 				? this.d_numberOfArmiesToPlace
 				: p_targetCountry.getD_armies();
 
-		List<Integer> l_attackerArmies = generateRandomArmyUnits(l_armiesInAttack, "attacker");
-		List<Integer> l_defenderArmies = generateRandomArmyUnits(l_armiesInAttack, "defender");
-		this.produceBattleResult(p_sourceCountry, p_targetCountry, l_attackerArmies, l_defenderArmies,
-				p_playerOfTargetCountry);
+		this.produceBattleResult(p_gameState,p_playerOfTargetCountry,p_targetCountry,p_sourceCountry,this.d_numberOfArmiesToPlace, p_targetCountry.getD_armies());
 
 		p_gameState.updateLog(orderExecutionLog(), GameConstants.OUTCOME);
 		this.updateContinents(this.d_playerInitiator, p_playerOfTargetCountry, p_gameState);
@@ -157,27 +154,23 @@ public class  Advance implements Order {
 	 *
 	 * @param p_sourceCountry         country from which armies have to be moved
 	 * @param p_targetCountry         country to which armies have to be moved
-	 * @param p_attackerArmies        random army numbers of attacker
-	 * @param p_defenderArmies        random army numbers of defender
+	 * @param p_attackerArmies        Army numbers of attacker
+	 * @param p_defenderArmies        Army numbers of defender
 	 * @param p_playerOfTargetCountry player owning the target country
 	 */
-	private void produceBattleResult(Country p_sourceCountry, Country p_targetCountry, List<Integer> p_attackerArmies,
-									 List<Integer> p_defenderArmies, Player p_playerOfTargetCountry) {
-		Integer l_attackerArmiesLeft = this.d_numberOfArmiesToPlace > p_targetCountry.getD_armies()
-				? this.d_numberOfArmiesToPlace - p_targetCountry.getD_armies()
-				: 0;
-		Integer l_defenderArmiesLeft = this.d_numberOfArmiesToPlace < p_targetCountry.getD_armies()
-				? p_targetCountry.getD_armies() - this.d_numberOfArmiesToPlace
-				: 0;
-		for (int l_i = 0; l_i < p_attackerArmies.size(); l_i++) {
-			if (p_attackerArmies.get(l_i) > p_defenderArmies.get(l_i)) {
-				l_attackerArmiesLeft++;
-			} else {
-				l_defenderArmiesLeft++;
-			}
+	private void produceBattleResult(GameState p_gameState, Player p_playerOfTargetCountry, Country p_targetCountry,
+										  Country p_sourceCountry, int p_attackerArmies, int p_defenderArmies) {
+
+		int l_attackableArmies = (int) Math.ceil(0.6 * p_attackerArmies);
+		int l_defendableArmies = (int) Math.ceil(0.7 * p_defenderArmies);
+
+		if(p_defenderArmies>l_attackableArmies){
+			this.handleSurvivingArmies(0, p_defenderArmies-l_attackableArmies, p_sourceCountry, p_targetCountry,
+					p_playerOfTargetCountry);
+		} else if(l_attackableArmies>p_defenderArmies){
+			this.handleSurvivingArmies(p_attackerArmies-l_defendableArmies, 0, p_sourceCountry, p_targetCountry,
+					p_playerOfTargetCountry);
 		}
-		this.handleSurvivingArmies(l_attackerArmiesLeft, l_defenderArmiesLeft, p_sourceCountry, p_targetCountry,
-				p_playerOfTargetCountry);
 	}
 
 	/**
@@ -301,36 +294,6 @@ public class  Advance implements Order {
 		} else {
 			System.out.println(p_orderExecutionLog);
 		}
-	}
-
-	/**
-	 * Generates random army units based attacker and defender's winning
-	 * probability.
-	 *
-	 * @param p_size number of random armies to be generated
-	 * @param p_role armies to be generated is for defender or for attacker
-	 * @return List random army units based on probability
-	 */
-	private List<Integer> generateRandomArmyUnits(int p_size, String p_role) {
-		List<Integer> l_armyList = new ArrayList<>();
-		Double l_probability = "attacker".equalsIgnoreCase(p_role) ? 0.6 : 0.7;
-		for (int l_i = 0; l_i < p_size; l_i++) {
-			int l_randomNumber = getRandomInteger(10, 1);
-			Integer l_armyUnit = (int) Math.round(l_randomNumber * l_probability);
-			l_armyList.add(l_armyUnit);
-		}
-		return l_armyList;
-	}
-
-	/**
-	 * returns random integer between minimum and maximum range.
-	 *
-	 * @param p_maximum upper limit
-	 * @param p_minimum lower limit
-	 * @return int random number
-	 */
-	private static int getRandomInteger(int p_maximum, int p_minimum) {
-		return ((int) (Math.random() * (p_maximum - p_minimum))) + p_minimum;
 	}
 
 	/**
