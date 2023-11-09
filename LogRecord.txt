@@ -2,3 +2,127 @@
 
 
 ============---------- Starting the game the Game ----------============
+
+ Command: loadmap europe.map
+Log: europe.map has been loaded to start the game
+
+ Command: gameplayer -add A
+
+ Command: gameplayer -add B
+
+ Command: assigncountries
+
+============Issue Order Phase============
+
+ Order Issued: (Player: A) deploy Austria 4
+
+ Command: deploy Austria 4
+Log: Deploy order has been added to queue for execution. For player: A
+
+ Order Issued: (Player: B) deploy Hungary 4
+
+ Command: deploy Hungary 4
+Log: Deploy order has been added to queue for execution. For player: B
+
+============Order Execution Phase============
+
+Starting Execution Of Orders.....
+Log: 
+---------- Deploy order issued by player A ----------
+
+Deploy 4 armies to Austria
+Log: 4 armies have been deployed successfully on country : Austria
+Log: 
+---------- Deploy order issued by player B ----------
+
+Deploy 4 armies to Hungary
+Log: 4 armies have been deployed successfully on country : Hungary
+
+============Issue Order Phase============
+
+ Order Issued: (Player: A) deploy Austria 4
+
+ Command: deploy Austria 4
+Log: Deploy order has been added to queue for execution. For player: A
+
+ Order Issued: (Player: B) deployPortugal 4
+
+ Command: deployPortugal 4
+Log: Invalid Command!!
+
+ Order Issued: (Player: B) n
+
+ Command: n
+Log: Invalid Command!!
+
+ Order Issued: (Player: B) deploy Portugal 4
+
+ Command: deploy Portugal 4
+Log: Deploy order has been added to queue for execution. For player: B
+
+============Order Execution Phase============
+
+Starting Execution Of Orders.....
+Log: 
+---------- Deploy order issued by player A ----------
+
+Deploy 4 armies to Austria
+Log: 8 armies have been deployed successfully on country : Austria
+Log: 
+---------- Deploy order issued by player B ----------
+
+Deploy 4 armies to Portugal
+Log: 4 armies have been deployed successfully on country : Portugal
+
+============Issue Order Phase============
+
+ Order Issued: (Player: A) deploy Austria 4
+
+ Command: deploy Austria 4
+Log: Deploy order has been added to queue for execution. For player: A
+
+ Order Issued: (Player: B) deploy Portugal 4
+
+ Command: deploy Portugal 4
+Log: Deploy order has been added to queue for execution. For player: B
+
+============Order Execution Phase============
+
+Starting Execution Of Orders.....
+Log: 
+---------- Deploy order issued by player A ----------
+
+Deploy 4 armies to Austria
+Log: 12 armies have been deployed successfully on country : Austria
+Log: 
+---------- Deploy order issued by player B ----------
+
+Deploy 4 armies to Portugal
+Log: 8 armies have been deployed successfully on country : Portugal
+
+============Issue Order Phase============
+
+ Order Issued: (Player: A) advance Austria Hungary 5
+
+ Command: advance Austria Hungary 5
+Log: Advance order has been added to queue for execution. For player: A
+
+ Order Issued: (Player: B) deploy Portugal 4
+
+ Command: deploy Portugal 4
+Log: Deploy order has been added to queue for execution. For player: B
+
+============Order Execution Phase============
+
+Starting Execution Of Orders.....
+Log: 
+---------- Advance order issued by player A ----------
+
+Move 5 armies from Austria to Hungary
+Log: Country : Hungary is left with 1 armies and is still owned by player : B
+Country : Austria is left with 7 armies and is still owned by player : A
+Log: 
+---------- Deploy order issued by player B ----------
+
+Deploy 4 armies to Portugal
+Log: 12 armies have been deployed successfully on country : Portugal
