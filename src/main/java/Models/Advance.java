@@ -167,7 +167,7 @@ public class Advance implements Order {
 		if(p_defenderArmies>l_attackableArmies){
 			this.handleSurvivingArmies(0, p_defenderArmies-l_attackableArmies, p_sourceCountry, p_targetCountry,
 					p_playerOfTargetCountry);
-		} else if(l_attackableArmies>p_defenderArmies){
+		} else {
 			this.handleSurvivingArmies(p_attackerArmies-l_defendableArmies, 0, p_sourceCountry, p_targetCountry,
 					p_playerOfTargetCountry);
 		}
