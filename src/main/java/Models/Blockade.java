@@ -78,7 +78,7 @@ public class Blockade implements Card{
                 .filter(l_pl -> l_pl.getD_countryName().equalsIgnoreCase(this.d_targetCountryID)).findFirst()
                 .orElse(null);
 
-        if (l_country != null) {
+        if (l_country == null) {
             this.setD_orderExecutionLog(this.currentOrder() + " is not executed since Target country : "
                     + this.d_targetCountryID + " given in blockade command does not owned to the player : "
                     + d_playerInitiator.getPlayerName()
