@@ -27,4 +27,20 @@ public final class GameConstants {
     public static final String ARGUMENTS = "arguments";
     public static final String OPERATIONS = "operation";
 
+    public static final String AVAILABLECOMMANDS = "------------AVAILABLE COMMANDS------------\n"+
+            "editmap filename\n" +
+            "editcontinent -add continentName continentvalue -remove continentName\n" +
+            "editcountry -add countryName continentName -remove countryName\n" +
+            "editneighbor -add countryName neighborcountryName -remove countryName neighborcountryName showmap\n" +
+            "savemap filename\n" +
+            "loadmap filename\n" +
+            "validatemap\n" +
+            "gameplayer -add playername -remove playername\n" +
+            "assigncountries\n" +
+            "deploy countryName num \n" +
+            "advance countrynamefrom countynameto numarmies\n" +
+            "bomb countryName\n" +
+            "bloackade countryName \n" +
+            "------------------------------------";
+
 }
