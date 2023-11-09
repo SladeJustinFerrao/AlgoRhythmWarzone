@@ -161,8 +161,8 @@ public class Advance implements Order {
 	private void produceBattleResult(GameState p_gameState, Player p_playerOfTargetCountry, Country p_targetCountry,
 										  Country p_sourceCountry, int p_attackerArmies, int p_defenderArmies) {
 
-		int l_attackableArmies = (int) Math.ceil(0.6 * p_attackerArmies);
-		int l_defendableArmies = (int) Math.ceil(0.7 * p_defenderArmies);
+		int l_attackableArmies = (int) Math.round(0.6 * p_attackerArmies);
+		int l_defendableArmies = (int) Math.round(0.7 * p_defenderArmies);
 
 		if(p_defenderArmies>l_attackableArmies){
 			this.handleSurvivingArmies(0, p_defenderArmies-l_attackableArmies, p_sourceCountry, p_targetCountry,
