@@ -76,7 +76,7 @@ public class Bomb implements Card{
                 .orElse(null);
 
         // Player cannot bomb own territory
-        if (l_country != null) {
+        if (l_country == null) {
             this.setD_orderExecutionLog(this.currentOrder() + " is not executed since Target country : "
                     + this.d_targetCountryID + " given in bomb command is owned by the player : "
                     + d_playerInitiator.getPlayerName() + " VALIDATES:- You cannot bomb your own territory!", GameConstants.ERROR);
