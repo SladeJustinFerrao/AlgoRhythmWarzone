@@ -12,6 +12,21 @@ import static org.junit.jupiter.api.Assertions.*;
 class GameEngineTest {
 
     /**
+     * Object of Map class.
+     */
+    Map d_map;
+
+    /**
+     * object of GameEngineController class.
+     */
+    GameEngine d_gameEngine;
+
+    /**
+     * object of GameState class.
+     */
+    Phase d_currentPhase;
+
+    /**
      * Method to Test Invalid Command input
      * @throws Exception indicates Exception
      */
@@ -67,5 +82,16 @@ class GameEngineTest {
         }
 
         assertTrue(l_isExcep);
+    }
+
+    /**
+     * Validates correct startup phase.
+     */
+    @Test
+    public void testCorrectStartupPhase() {
+        d_map = new Map();
+        d_gameEngine = new GameEngine();
+        d_currentPhase = d_gameEngine.getD_CurrentPhase();
+        assertTrue(d_gameEngine.getD_CurrentPhase() instanceof StartUpPhase);
     }
 }

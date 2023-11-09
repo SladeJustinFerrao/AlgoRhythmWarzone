@@ -8,9 +8,8 @@ import Services.PlayerServices;
 
 /**
  * Concrete Command of Command pattern.
- *
  */
-public class Advance implements Order {
+public class  Advance implements Order {
 	/**
 	 * name of the target country.
 	 */
