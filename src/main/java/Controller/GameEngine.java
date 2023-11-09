@@ -82,6 +82,7 @@ public class GameEngine {
 
 		l_game.getD_CurrentPhase().getD_gameState().updateLog(GameConstants.GAMESTART+System.lineSeparator(), GameConstants.STARTLOG);
 		l_game.setD_gameEngineLog(GameConstants.GAMESTART, GameConstants.PHASE);
+		System.out.println(GameConstants.AVAILABLECOMMANDS);
 		l_game.getD_CurrentPhase().initPhase();
 	}
 }
