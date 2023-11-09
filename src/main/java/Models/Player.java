@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import Constants.GameConstants;
 import Services.PlayerServices;
 import Utils.Command;
 
@@ -549,7 +550,7 @@ public class Player {
                     if (l_newOrder.checkValidOrder(p_gameState)) {
                         this.order_list.add(l_newOrder);
                         this.setD_playerLog("Card Command Added to Queue for Execution Successfully!", "log");
-                        p_gameState.updateLog(getD_playerLog(), "effect");
+                        p_gameState.updateLog(getD_playerLog(), GameConstants.OUTCOME);
                     }
                     break;
                 case "blockade":
@@ -557,7 +558,7 @@ public class Player {
                     if (l_blockadeOrder.checkValidOrder(p_gameState)) {
                         this.order_list.add(l_blockadeOrder);
                         this.setD_playerLog("Card Command Added to Queue for Execution Successfully!", "log");
-                        p_gameState.updateLog(getD_playerLog(), "effect");
+                        p_gameState.updateLog(getD_playerLog(), GameConstants.OUTCOME);
                     }
                     break;
                 case "bomb":
@@ -565,7 +566,7 @@ public class Player {
                     if (l_bombOrder.checkValidOrder(p_gameState)) {
                         this.order_list.add(l_bombOrder);
                         this.setD_playerLog("Card Command Added to Queue for Execution Successfully!", "log");
-                        p_gameState.updateLog(getD_playerLog(), "effect");
+                        p_gameState.updateLog(getD_playerLog(), GameConstants.OUTCOME);
                     }
                     break;
                 case "negotiate":
@@ -573,12 +574,12 @@ public class Player {
                     if (l_negotiateOrder.checkValidOrder(p_gameState)) {
                         this.order_list.add(l_negotiateOrder);
                         this.setD_playerLog("Card Command Added to Queue for Execution Successfully!", "log");
-                        p_gameState.updateLog(getD_playerLog(), "effect");
+                        p_gameState.updateLog(getD_playerLog(), GameConstants.OUTCOME);
                     }
                     break;
                 default:
                     this.setD_playerLog("Invalid Command!", "error");
-                    p_gameState.updateLog(getD_playerLog(), "effect");
+                    p_gameState.updateLog(getD_playerLog(), GameConstants.OUTCOME);
                     break;
             }
         } else{

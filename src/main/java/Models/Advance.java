@@ -8,9 +8,8 @@ import Services.PlayerServices;
 
 /**
  * Concrete Command of Command pattern.
- *
  */
-public class Advance implements Order {
+public class  Advance implements Order {
 	/**
 	 * name of the target country.
 	 */
@@ -73,7 +72,7 @@ public class Advance implements Order {
 				deployArmiesToTarget(l_targetCountry);
 			} else if (l_targetCountry.getD_armies() == 0) {
 				conquerTargetCountry(p_gameState, l_playerOfTargetCountry, l_targetCountry);
-				// to be implemented after Card class
+				this.d_playerInitiator.assignCard();
 			} else {
 				produceOrderResult(p_gameState, l_playerOfTargetCountry, l_targetCountry, l_sourceCountry);
 			}
@@ -201,7 +200,7 @@ public class Advance implements Order {
 							+ p_targetCountry.getD_countryName() + " and armies : " + p_targetCountry.getD_armies(),
 					"default");
 
-			// depends on Card
+			this.d_playerInitiator.assignCard();
 		} else {
 			p_targetCountry.setD_armies(p_defenderArmiesLeft);
 
