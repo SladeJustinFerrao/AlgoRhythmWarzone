@@ -17,7 +17,7 @@ public class Command {
      * @param p_input User input.
      */
     public Command(String p_input){
-        this.d_command = p_input;
+        this.d_command = p_input.trim().replaceAll(" +", " ");
     }
 
     /**
@@ -70,5 +70,23 @@ public class Command {
         l_taskMap.put("arguments", l_arguments);
 
         return l_taskMap;
+    }
+
+    /**
+     * Checks if required keys are present in the command
+     * @param p_key keys given by the player
+     * @param p_inputMap the input map selected by the player
+     * @return boolean true if the required keys are present and false if not
+     */
+    public boolean checkRequiredKeysPresent(String p_key, Map<String, String> p_inputMap) {
+        return p_inputMap.containsKey(p_key) && p_inputMap.get(p_key) != null && !p_inputMap.get(p_key).isEmpty();
+    }
+
+    /**
+     * Getter for the command.
+     * @return command in string
+     */
+    public String getcommand() {
+        return d_command;
     }
 }

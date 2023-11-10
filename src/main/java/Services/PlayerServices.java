@@ -7,10 +7,21 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Services class for Player to fetch the sepcific methods to be used for players in the game
+ * Services class for Player to fetch the specific methods to be used for players in the game
  * @author Darshan Kansara
  */
 public class PlayerServices {
+
+
+    /**
+     * Log of Player operations in player methods.
+     */
+    String d_playerLog;
+
+    /**
+     * Country Assignment Log.
+     */
+    String d_assignmentLog = "Country/Continent Assignment:";
 
     /**
      *
@@ -53,7 +64,7 @@ public class PlayerServices {
                 removeGamePlayer(p_existingPlayerList, l_updatedPlayers, l_enteredPlayerName, l_playerNameAlreadyExist);
                 break;
             default:
-                System.out.println("Invalid Operation on Players list");
+                setD_playerLog("Invalid Operation on Players list");
         }
         return l_updatedPlayers;
     }
@@ -71,11 +82,11 @@ public class PlayerServices {
             for (Player l_player : p_existingPlayerList) {
                 if (l_player.getPlayerName().equalsIgnoreCase(p_enteredPlayerName)) {
                     p_updatedPlayers.remove(l_player);
-                    System.out.println("Player with name : " + p_enteredPlayerName + " has been removed successfully.");
+                    setD_playerLog("Player with name : " + p_enteredPlayerName + " has been removed successfully.");
                 }
             }
         } else {
-            System.out.print("Player with name : " + p_enteredPlayerName + " does not Exist. Changes are not made.");
+            setD_playerLog("Player with name : " + p_enteredPlayerName + " does not Exist. Changes are not made.");
         }
     }
 
@@ -94,6 +105,20 @@ public class PlayerServices {
             Player l_addNewPlayer = new Player(p_enteredPlayerName);
             p_updatedPlayers.add(l_addNewPlayer);
             System.out.println("Player name : " + p_enteredPlayerName + "  added successfully.");
+        }
+    }
+
+    /**
+     * Resets each players information for accepting further orders.
+     *
+     * @param p_playersList players involved in game
+     */
+    public void resetPlayersFlag(List<Player> p_playersList) {
+        for (Player l_player : p_playersList) {
+            if (!l_player.getPlayerName().equalsIgnoreCase("Neutral"))
+                l_player.setD_moreOrders(true);
+            l_player.setD_oneCardPerTurn(false);
+            l_player.resetNegotiation();
         }
     }
 
@@ -164,12 +189,22 @@ public class PlayerServices {
     }
 
     /**
+     * Sets the Player Log in player methods.
+     *
+     * @param p_playerLog Player Operation Log.
+     */
+    public void setD_playerLog(String p_playerLog) {
+        this.d_playerLog = p_playerLog;
+        System.out.println(p_playerLog);
+    }
+
+    /**
      * This method assigns the continent
      * 
      * @param p_players    list of players
      * @param p_continents list of continents
      */
-    private void performContinentAssignment(List<Player> p_players, List<Continent> p_continents) {
+    public void performContinentAssignment(List<Player> p_players, List<Continent> p_continents) {
         for (Player l_pl : p_players) {
             List<String> l_countriesOwned = new ArrayList<>();
             if (l_pl.getD_coutriesOwned().size() != 0) {
@@ -190,31 +225,7 @@ public class PlayerServices {
             }
         }
     }
-
-    /**
-     * it creates and deploy order of the game
-     * 
-     * @param p_commandEntered get the parameter of the command given by the user
-     * @param p_player         object of the player
-     */
-    public void createDeployOrder(String p_commandEntered, Player p_player) {
-        List<Order> l_orders = p_player.getD_ordersToExecute().size() == 0 ? new ArrayList<>()
-                : p_player.getD_ordersToExecute();
-        String l_countryName = p_commandEntered.split(" ")[1];
-        String l_noOfArmies = p_commandEntered.split(" ")[2];
-        if (validateDeployOrderArmies(p_player, l_noOfArmies)) {
-            System.out.println(
-                    "Given deploy order cant be executed as armies in deploy order exceeds player's unallocated armies");
-        } else {
-            Order l_orderObject = new Order(p_commandEntered.split(" ")[0], l_countryName,
-                    Integer.parseInt(l_noOfArmies));
-            l_orders.add(l_orderObject);
-            p_player.setD_ordersToExecute(l_orders);
-            Integer l_unallocatedarmies = p_player.getD_noOfUnallocatedArmies() - Integer.parseInt(l_noOfArmies);
-            p_player.setD_noOfUnallocatedArmies(l_unallocatedarmies);
-            System.out.println("Order has been added to queue for execution.");
-        }
-    }
+    
 
     /**
      * this method validates the armies that are deployed properly or not
@@ -275,6 +286,21 @@ public class PlayerServices {
         return l_totalUnexecutedOrders != 0;
     }
 
+
+    /**
+     * Checks if any of the player in game wants to give further order or not.
+     *
+     * @param p_playersList players involved in game
+     * @return boolean whether there are more orders to give or not
+     */
+    public boolean checkForMoreOrders(List<Player> p_playersList) {
+        for (Player l_player : p_playersList) {
+            if(l_player.getD_moreOrders())
+                return true;
+        }
+        return false;
+    }
+
     /**
      * The method checks if there are any unassigned armies left or not
      * @param p_playersList list of players available
@@ -314,5 +340,17 @@ public class PlayerServices {
      */
     public boolean isMapLoaded(GameState p_gameState) {
         return !(p_gameState.getD_map() == null);
+    }
+
+
+    /**
+     * Find Player By Name.
+     *
+     * @param p_playerName player name to be found
+     * @param p_gameState GameState Instance.
+     * @return p_player object
+     */
+    public Player findPlayerByName(String p_playerName, GameState p_gameState) {
+        return p_gameState.getD_players().stream().filter(l_player -> l_player.getPlayerName().equals(p_playerName)).findFirst().orElse(null);
     }
 }
