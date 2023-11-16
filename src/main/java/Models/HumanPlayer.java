@@ -3,9 +3,9 @@ package Models;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-public class HumanPlayer extends PlayerBehaviourStrategy {
+public class HumanPlayer extends PlayerBehaviorStrategy {
     @Override
-    public String getPlayerBehaviour() {
+    public String getPlayerBehavior() {
         return "Human";
     }
 
