@@ -2,11 +2,13 @@ package Models;
 
 import Constants.GameConstants;
 
+import java.io.Serializable;
+
 /**
  * Class handles the execute and validation of Airlift Validate.
  *
  */
-public class Airlift implements Card {
+public class Airlift implements Card, Serializable {
 
     /**
      * Player the card is owned by.
