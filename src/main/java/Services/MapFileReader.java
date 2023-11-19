@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+/**
+ * Map File Reader class to Read Domination format map files
+ */
 public class MapFileReader implements Serializable {
 
     /**
@@ -17,7 +20,6 @@ public class MapFileReader implements Serializable {
      * @param p_gameState Game State
      * @param p_map Map.
      * @param p_lines Lines of Map file.
-     * @return Updated map.
      */
     public void extractMap(GameState p_gameState, Map p_map, List<String> p_lines) {
 
