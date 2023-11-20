@@ -640,6 +640,19 @@ public class Player implements Serializable {
         }
     }
 
+    /**
+     * Extracts the list of IDs of countries owned by the player.
+     *
+     * @return list of country Ids
+     */
+    public List<Integer> getCountryIDs() {
+        List<Integer> l_countryIDs = new ArrayList<Integer>();
+        for (Country c : d_coutriesOwned) {
+            l_countryIDs.add(c.getD_countryId());
+        }
+        return l_countryIDs;
+    }
+
 
 
     /**
