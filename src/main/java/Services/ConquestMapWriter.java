@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class ConquestMapWriter {
 
-    public void writeToConquestFile(GameState p_gameState, FileWriter p_writer, String p_format) throws IOException {
+    public void writeToConquestFile(GameState p_gameState, FileWriter p_writer) throws IOException {
 
     }
 }

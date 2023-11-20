@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 /**
  * The MapService Class holds all operations for the map.
  */
-public class MapService {
+public class MapService implements Serializable {
 
     /**
      * Method used to modify the Map
@@ -174,17 +174,11 @@ public class MapService {
                     this.setMapServiceLog("Running Map Validation........", p_gameState);
                     boolean l_mapValidationStatus = l_currentMap.Validate();
                     if (l_mapValidationStatus) {
+                        String l_format = this.getSaveFormat();
                         Files.deleteIfExists(Paths.get(getFilePath(p_fileName)));
                         FileWriter l_writer = new FileWriter(getFilePath(p_fileName));
 
-                        if (null != p_gameState.getD_map().getD_continents()
-                                && !p_gameState.getD_map().getD_continents().isEmpty()) {
-                            writeContinentdata(p_gameState, l_writer);
-                        }
-                        if (null != p_gameState.getD_map().getD_countries()
-                                && !p_gameState.getD_map().getD_countries().isEmpty()) {
-                            writeCountryAndNeighbourData(p_gameState, l_writer);
-                        }
+                        writeToFile(p_gameState, l_writer, l_format);
                         p_gameState.updateLog("Map Saved Successfully", GameConstants.OUTCOME);
                         l_writer.close();
                     }
@@ -204,55 +198,38 @@ public class MapService {
     }
 
     /**
-     * Write Country and Neighbour into file
+     * Checks in what format user wants to save the map file.
      *
-     * @param p_gameState Current State of the Game
-     * @param p_writer File Writer
-     * @throws IOException
+     * @return String map format to be saved
+     * @throws IOException exception in reading inputs from user
      */
-    private void writeCountryAndNeighbourData(GameState p_gameState, FileWriter p_writer) throws IOException {
-        String l_countryData = new String();
-        String l_bordersData = new String();
-        List<String> l_bordersList = new ArrayList<>();
-
-        // Writes Country Objects to File And Organizes Border Data for each of them
-        p_writer.write(System.lineSeparator() + "[countries]" + System.lineSeparator());
-        for (Country l_country : p_gameState.getD_map().getD_countries()) {
-            l_countryData = new String();
-
-            l_countryData = ((Integer) l_country.getD_countryId()).toString() + " " + (l_country.getD_countryName()) + " " + (((Integer) l_country.getD_continentId()).toString());
-            p_writer.write(l_countryData + System.lineSeparator());
-
-            if (null != l_country.getD_neighbourCountryId() && !l_country.getD_neighbourCountryId().isEmpty()) {
-                l_bordersData = new String();
-                l_bordersData = ((Integer) l_country.getD_countryId()).toString();
-                for (Integer l_adjCountry : l_country.getD_neighbourCountryId()) {
-                    l_bordersData = l_bordersData + " " + (l_adjCountry.toString());
-                }
-                l_bordersList.add(l_bordersData);
-            }
-        }
-
-        if (!l_bordersList.isEmpty() && null != l_bordersList) {
-            p_writer.write(System.lineSeparator() + "[borders]" + System.lineSeparator());
-            for (String l_borderStr : l_bordersList) {
-                p_writer.write(l_borderStr + System.lineSeparator());
-            }
+    public String getSaveFormat() throws IOException {
+        BufferedReader l_reader = new BufferedReader(new InputStreamReader(System.in));
+        System.out.println("Kindly press \"C\" to save the map as Conquest Map format and \"D\" for Domination Map format.");
+        String l_nextOrderCheck = l_reader.readLine();
+        if (l_nextOrderCheck.equalsIgnoreCase("C")) {
+            return "Conquest";
+        } else if (l_nextOrderCheck.equalsIgnoreCase("D")) {
+            return "Domination";
+        } else {
+            System.err.println("Invalid Input.");
+            return this.getSaveFormat();
         }
     }
 
     /**
-     * Write Continents into file
+     * Parses the Map Object to File.
      *
-     * @param p_gameState Current State of the Game
-     * @param p_writer File Writer
-     * @throws IOException
+     * @param p_gameState current gamestate
+     * @param l_writer file writer object.
+     * @throws IOException Exception
      */
-    private void writeContinentdata(GameState p_gameState, FileWriter p_writer) throws IOException {
-        p_writer.write(System.lineSeparator() + "[continents]" + System.lineSeparator());
-        for (Continent l_continent : p_gameState.getD_map().getD_continents()) {
-            p_writer.write(
-                    l_continent.getD_continentName() + " " + (l_continent.getD_continentValue().toString()) + System.lineSeparator());
+    private void writeToFile(GameState p_gameState, FileWriter l_writer, String l_format) throws IOException {
+        if(l_format.equalsIgnoreCase("Conquest")) {
+            MapWriterAdapter l_mapWriterAdapter = new MapWriterAdapter(new ConquestMapWriter());
+            l_mapWriterAdapter.writeToFile(p_gameState, l_writer);
+        } else {
+            new MapFileWriter().writeToFile(p_gameState, l_writer);
         }
     }
 
