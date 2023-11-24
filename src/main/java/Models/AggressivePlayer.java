@@ -1,6 +1,7 @@
 package Models;
 
 import java.io.IOException;
+import java.util.Random;
 
 public class AggressivePlayer extends PlayerBehavior {
 
@@ -14,7 +15,25 @@ public class AggressivePlayer extends PlayerBehavior {
      */
     @Override
     public String createOrder(Player p_player, GameState p_gameState) throws IOException {
-        return null;
+        String l_command;
+
+        if (p_player.getD_noOfUnallocatedArmies() > 0) {
+            l_command = createDeployOrder(p_player, p_gameState);
+        } else {
+            if (p_player.getD_cardsOwnedByPlayer().size() > 0) {
+                Random l_random = new Random();
+                int l_randomIndex = l_random.nextInt(p_player.getD_cardsOwnedByPlayer().size() + 1);
+                if (l_randomIndex == p_player.getD_cardsOwnedByPlayer().size()) {
+                    l_command = createAdvanceOrder(p_player, p_gameState);
+                } else {
+                    l_command = createCardOrder(p_player, p_gameState,
+                            p_player.getD_cardsOwnedByPlayer().get(l_randomIndex));
+                }
+            } else {
+                l_command = createAdvanceOrder(p_player, p_gameState);
+            }
+        }
+        return l_command;
     }
 
     /**
