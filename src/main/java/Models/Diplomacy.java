@@ -3,10 +3,12 @@ package Models;
 import Constants.GameConstants;
 import Services.PlayerServices;
 
+import java.io.Serializable;
+
 /**
  * Handles diplomacy command
  */
-public class Diplomacy implements Card {
+public class Diplomacy implements Card, Serializable {
     /**
      * Player issuing the negotiate order
      */
