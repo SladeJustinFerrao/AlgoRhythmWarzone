@@ -1,9 +1,15 @@
 package Models;
 
 import java.io.IOException;
-import java.util.Random;
+import java.util.*;
+import java.util.Map;
 
 public class AggressivePlayer extends PlayerBehavior {
+
+    /**
+     * List containing deploy order countries.
+     */
+    ArrayList<Country> d_deployCountries = new ArrayList<Country>();
 
     /**
      * This method creates new order for different players with different strategies
@@ -45,7 +51,28 @@ public class AggressivePlayer extends PlayerBehavior {
      */
     @Override
     public String createDeployOrder(Player p_player, GameState p_gameState) {
-        return null;
+        Random l_Random = new Random();
+
+        List<Country> l_countriesOwnedByPlayer = p_player.getD_coutriesOwned();
+
+        LinkedHashMap<Country, Integer> l_CountryWithArmies = new LinkedHashMap<Country, Integer>();
+        int l_largestNoOfArmies;
+        Country l_Country = null;
+        // get the strongest country
+        for (Country l_country : l_countriesOwnedByPlayer) {
+            l_CountryWithArmies.put(l_country, l_country.getD_armies());
+        }
+        l_largestNoOfArmies = Collections.max(l_CountryWithArmies.values());
+        for (Map.Entry<Country, Integer> entry : l_CountryWithArmies.entrySet()) {
+            if (entry.getValue().equals(l_largestNoOfArmies)) {
+                 l_Country = entry.getKey();
+            }
+        }
+
+        Country l_strongestCountry = l_Country;
+        d_deployCountries.add(l_strongestCountry);
+        int l_armiesToDeploy = l_Random.nextInt(p_player.getD_noOfUnallocatedArmies()) + 1;
+        return String.format("deploy %s %d", l_strongestCountry.getD_countryName(), l_armiesToDeploy);
     }
 
     /**
