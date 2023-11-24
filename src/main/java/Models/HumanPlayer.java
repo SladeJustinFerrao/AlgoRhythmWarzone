@@ -1,9 +1,10 @@
 package Models;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class HumanPlayer extends PlayerBehaviorStrategy {
+public class HumanPlayer extends PlayerBehavior {
     @Override
     public String getPlayerBehavior() {
         return "Human";
@@ -29,7 +30,7 @@ public class HumanPlayer extends PlayerBehaviorStrategy {
     }
 
     @Override
-    public String createCardOrder(Player p_Player, GameState p_gameState) {
+    public String createCardOrder(Player p_Player, GameState p_gameState, String p_cardName) {
         return null;
     }
 }
