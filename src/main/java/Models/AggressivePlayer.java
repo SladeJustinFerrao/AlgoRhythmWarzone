@@ -123,7 +123,7 @@ public class AggressivePlayer extends PlayerBehavior {
         p_randomSourceCountry.setD_armies(l_ArmiesToMove);
     }
 
-    private Country getRandomCountry(ArrayList<Country> p_listOfCountries) {
+    private Country getRandomCountry(List<Country> p_listOfCountries) {
         Random l_random = new Random();
         return p_listOfCountries.get(l_random.nextInt(p_listOfCountries.size()));
     }
@@ -138,7 +138,40 @@ public class AggressivePlayer extends PlayerBehavior {
      */
     @Override
     public String createCardOrder(Player p_player, GameState p_gameState, String p_cardName) {
+        Random l_random = new Random();
+        Country l_StrongestSourceCountry = getStrongestCountry(p_player, d_gameState);
+
+        Country l_randomTargetCountry = p_gameState.getD_map()
+                .retrieveCountry(l_StrongestSourceCountry.getD_neighbourCountryId()
+                        .get(l_random.nextInt(l_StrongestSourceCountry.getD_neighbourCountryId().size())));
+
+        Player l_randomPlayer = getRandomEnemyPlayer(p_player, p_gameState);
+
+        int l_armiesToSend = l_StrongestSourceCountry.getD_armies() > 1 ? l_StrongestSourceCountry.getD_armies() : 1;
+
+        switch (p_cardName) {
+            case "bomb":
+                return "bomb " + l_randomTargetCountry.getD_countryName();
+            case "blockade":
+                return "blockade " + l_StrongestSourceCountry.getD_countryName();
+            case "airlift":
+                return "airlift " + l_StrongestSourceCountry.getD_countryName() + " "
+                        + getRandomCountry(p_player.getD_coutriesOwned()).getD_countryName() + " " + l_armiesToSend;
+            case "negotiate":
+                return "negotiate" + " " + l_randomPlayer;
+        }
         return null;
+    }
+
+    private Player getRandomEnemyPlayer(Player p_player, GameState p_gameState) {
+        ArrayList<Player> l_playerList = new ArrayList<>();
+        Random l_random = new Random();
+
+        for (Player l_player : p_gameState.getD_players()) {
+            if (!l_player.equals(p_player))
+                l_playerList.add(p_player);
+        }
+        return l_playerList.get(l_random.nextInt(l_playerList.size()));
     }
 
     /**
