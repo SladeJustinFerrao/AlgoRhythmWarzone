@@ -89,13 +89,25 @@ public class AggressivePlayer extends PlayerBehavior {
      */
     @Override
     public String createAdvanceOrder(Player p_player, GameState p_gameState) {
-        Random l_random = new Random();
-        Country l_randomSourceCountry = d_deployCountries.get(l_random.nextInt(d_deployCountries.size()));
+        Country l_randomSourceCountry = getRandomCountry(d_deployCountries);
+        moveArmiesFromItsNeighbors(p_player, l_randomSourceCountry, p_gameState);
 
-        List<Integer> l_adjacentCountryIds = l_randomSourceCountry.getD_neighbourCountryId();
+        Random l_random = new Random();
+        Country l_randomTargetCountry = p_gameState.getD_map()
+                .retrieveCountry(l_randomSourceCountry.getD_neighbourCountryId()
+                        .get(l_random.nextInt(l_randomSourceCountry.getD_neighbourCountryId().size())));
+
+        int l_armiesToSend = l_randomSourceCountry.getD_armies() > 1 ? l_randomSourceCountry.getD_armies() : 1;
+
+        return "advance " + l_randomSourceCountry.getD_countryName() + " " + l_randomTargetCountry.getD_countryName()
+                + " " + l_armiesToSend;
+    }
+
+    private void moveArmiesFromItsNeighbors(Player p_player, Country p_randomSourceCountry, GameState p_gameState) {
+        List<Integer> l_adjacentCountryIds = p_randomSourceCountry.getD_neighbourCountryId();
         List<Country> l_listOfNeighbors = new ArrayList<>();
         for (int l_index = 0; l_index < l_adjacentCountryIds.size(); l_index++) {
-            Country l_country = p_gameState.getD_map().retrieveCountry(l_randomSourceCountry.getD_neighbourCountryId().get(l_index));
+            Country l_country = p_gameState.getD_map().retrieveCountry(p_randomSourceCountry.getD_neighbourCountryId().get(l_index));
             if (p_player.getD_coutriesOwned().contains(l_country)) {
                 l_listOfNeighbors.add(l_country);
             }
@@ -103,21 +115,17 @@ public class AggressivePlayer extends PlayerBehavior {
 
         int l_ArmiesToMove = 0;
         for (Country l_con : l_listOfNeighbors) {
-            l_ArmiesToMove += l_randomSourceCountry.getD_armies() > 0
-                    ? l_randomSourceCountry.getD_armies() + (l_con.getD_armies())
+            l_ArmiesToMove += p_randomSourceCountry.getD_armies() > 0
+                    ? p_randomSourceCountry.getD_armies() + (l_con.getD_armies())
                     : (l_con.getD_armies());
 
         }
-        l_randomSourceCountry.setD_armies(l_ArmiesToMove);
+        p_randomSourceCountry.setD_armies(l_ArmiesToMove);
+    }
 
-        l_random = new Random();
-        Country l_randomTargetCountry = p_gameState.getD_map().retrieveCountry(l_randomSourceCountry.getD_neighbourCountryId()
-                .get(l_random.nextInt(l_randomSourceCountry.getD_neighbourCountryId().size())));
-
-        int l_armiesToSend = l_randomSourceCountry.getD_armies() > 1 ? l_randomSourceCountry.getD_armies() : 1;
-
-        return "advance " + l_randomSourceCountry.getD_countryName() + " " + l_randomTargetCountry.getD_countryName()
-                + " " + l_armiesToSend;
+    private Country getRandomCountry(ArrayList<Country> p_listOfCountries) {
+        Random l_random = new Random();
+        return p_listOfCountries.get(l_random.nextInt(p_listOfCountries.size()));
     }
 
     /**
