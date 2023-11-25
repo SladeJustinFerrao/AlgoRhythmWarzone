@@ -4,6 +4,11 @@ import java.io.IOException;
 import java.util.*;
 import java.util.Map;
 
+/**
+ * This is the class of an Aggressive Player.
+ * An Aggressive player, gathers all his armies, attacks from his strongest
+ * territory and deploys armies to maximize his forces on one country.
+ */
 public class AggressivePlayer extends PlayerBehavior {
 
     /**
@@ -58,17 +63,20 @@ public class AggressivePlayer extends PlayerBehavior {
         return String.format("deploy %s %d", l_strongestCountry.getD_countryName(), l_armiesToDeploy);
     }
 
+    /**
+     * Get the strongest country the player owns
+     *
+     * @param p_player    Player
+     * @param p_gameState Current game state
+     * @return Strongest country
+     */
     private Country getStrongestCountry(Player p_player, GameState p_gameState) {
         List<Country> l_countriesOwnedByPlayer = p_player.getD_coutriesOwned();
-        return calculateStrongestCountry(l_countriesOwnedByPlayer);
-    }
-
-    private Country calculateStrongestCountry(List<Country> p_listOfCountries) {
-        LinkedHashMap<Country, Integer> l_countryWithArmies = new LinkedHashMap<Country, Integer>();
+        LinkedHashMap<Country, Integer> l_countryWithArmies = new LinkedHashMap<>();
 
         int l_largestNoOfArmies;
         Country l_country = null;
-        for (Country country : p_listOfCountries) {
+        for (Country country : l_countriesOwnedByPlayer) {
             l_countryWithArmies.put(country, country.getD_armies());
         }
         l_largestNoOfArmies = Collections.max(l_countryWithArmies.values());
@@ -103,6 +111,13 @@ public class AggressivePlayer extends PlayerBehavior {
                 + " " + l_armiesToSend;
     }
 
+    /**
+     * Move armies from neighbor to maximize number of armies attacking.
+     *
+     * @param p_player              Player
+     * @param p_randomSourceCountry Source country
+     * @param p_gameState           Game state
+     */
     private void moveArmiesFromItsNeighbors(Player p_player, Country p_randomSourceCountry, GameState p_gameState) {
         List<Integer> l_adjacentCountryIds = p_randomSourceCountry.getD_neighbourCountryId();
         List<Country> l_listOfNeighbors = new ArrayList<>();
@@ -123,6 +138,12 @@ public class AggressivePlayer extends PlayerBehavior {
         p_randomSourceCountry.setD_armies(l_ArmiesToMove);
     }
 
+    /**
+     * This method returns random country.
+     *
+     * @param p_listOfCountries List of countries
+     * @return Random country
+     */
     private Country getRandomCountry(List<Country> p_listOfCountries) {
         Random l_random = new Random();
         return p_listOfCountries.get(l_random.nextInt(p_listOfCountries.size()));
@@ -163,6 +184,13 @@ public class AggressivePlayer extends PlayerBehavior {
         return null;
     }
 
+    /**
+     * Get random enemy player.
+     *
+     * @param p_player    Player
+     * @param p_gameState Game state
+     * @return Random enemy player
+     */
     private Player getRandomEnemyPlayer(Player p_player, GameState p_gameState) {
         ArrayList<Player> l_playerList = new ArrayList<>();
         Random l_random = new Random();
@@ -181,6 +209,6 @@ public class AggressivePlayer extends PlayerBehavior {
      */
     @Override
     public String getPlayerBehavior() {
-        return null;
+        return "Aggressive";
     }
 }
