@@ -100,6 +100,9 @@ public class Country {
      * @return  neighbour Country Id
      */
     public List<Integer> getD_neighbourCountryId() {
+        if(d_neighbourCountryId==null){
+            d_neighbourCountryId=new ArrayList<Integer>();
+        }
         return d_neighbourCountryId;
     }
     /**
