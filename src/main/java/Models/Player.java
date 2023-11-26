@@ -10,8 +10,7 @@ import java.util.List;
 import java.util.Random;
 
 import Constants.GameConstants;
-import Services.PlayerServices;
-import Utils.Command;
+
 
 /**
  * This class contains data members and functions of player.
@@ -85,7 +84,7 @@ public class Player implements Serializable {
         this.d_name = p_playerName;
         this.d_noOfUnallocatedArmies = 0;
         this.d_coutriesOwned = new ArrayList<Country>();
-        this.d_orderList = new ArrayList<>();
+        this.d_orderList = new ArrayList<Order>();
         this.d_moreOrders = true;
 
     }
@@ -263,14 +262,10 @@ public class Player implements Serializable {
      *
      */
     public void assignCard() {
-        if (!d_oneCardPerTurn) {
             Random l_random = new Random();
             this.d_cardsOwnedByPlayer.add(Arrays.asList("bomb", "blockade", "airlift", "negotiate").get(l_random.nextInt(4)));
             this.setD_playerLog("Player: "+ this.d_name+ " has earned card as reward for the successful conquest- " + this.d_cardsOwnedByPlayer.get(this.d_cardsOwnedByPlayer.size()-1), "log");
             this.setD_oneCardPerTurn(true);
-        }else{
-            this.setD_playerLog("Player: "+this.d_name+ " has already earned maximum cards that can be allotted in a turn", "error");
-        }
     }
 
     /**
