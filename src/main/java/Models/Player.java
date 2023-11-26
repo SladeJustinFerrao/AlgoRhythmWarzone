@@ -458,6 +458,7 @@ public class Player implements Serializable {
                         && checkAdjacency(p_gameState, l_sourceCountry, l_targetCountry)) {
                     this.d_orderList
                             .add(new Advance(this, l_sourceCountry, l_targetCountry, Integer.parseInt(l_noOfArmies)));
+                    d_orderList.get(d_orderList.size() - 1).printOrder();
                     this.setD_playerLog("Advance order has been added to queue for execution. For player: " + this.d_name, "log");
                 }
             } else {
@@ -498,6 +499,7 @@ public class Player implements Serializable {
                 this.d_orderList.add(new Deploy(this, l_targetCountry, Integer.parseInt(l_noOfArmies)));
                 Integer l_unallocatedarmies = this.getD_noOfUnallocatedArmies() - Integer.parseInt(l_noOfArmies);
                 this.setD_noOfUnallocatedArmies(l_unallocatedarmies);
+                d_orderList.get(d_orderList.size() - 1).printOrder();
                 this.setD_playerLog("Deploy order has been added to queue for execution. For player: " + this.d_name, "log");
 
             }
@@ -612,6 +614,7 @@ public class Player implements Serializable {
                             Integer.parseInt(p_commandEntered.split(" ")[3]), this);
                     if (l_newOrder.checkValidOrder(p_gameState)) {
                         this.d_orderList.add(l_newOrder);
+                        l_newOrder.printOrder();
                         this.setD_playerLog("Card Command Added to Queue for Execution Successfully!", "log");
                         p_gameState.updateLog(getD_playerLog(), GameConstants.OUTCOME);
                     }
@@ -620,6 +623,7 @@ public class Player implements Serializable {
                     Card l_blockadeOrder = new Blockade(this, p_commandEntered.split(" ")[1]);
                     if (l_blockadeOrder.checkValidOrder(p_gameState)) {
                         this.d_orderList.add(l_blockadeOrder);
+                        l_blockadeOrder.printOrder();
                         this.setD_playerLog("Card Command Added to Queue for Execution Successfully!", "log");
                         p_gameState.updateLog(getD_playerLog(), GameConstants.OUTCOME);
                     }
@@ -628,6 +632,7 @@ public class Player implements Serializable {
                     Card l_bombOrder = new Bomb(this, p_commandEntered.split(" ")[1]);
                     if (l_bombOrder.checkValidOrder(p_gameState)) {
                         this.d_orderList.add(l_bombOrder);
+                        l_bombOrder.printOrder();
                         this.setD_playerLog("Card Command Added to Queue for Execution Successfully!", "log");
                         p_gameState.updateLog(getD_playerLog(), GameConstants.OUTCOME);
                     }
@@ -636,6 +641,7 @@ public class Player implements Serializable {
                     Card l_negotiateOrder = new Diplomacy(p_commandEntered.split(" ")[1],this);
                     if (l_negotiateOrder.checkValidOrder(p_gameState)) {
                         this.d_orderList.add(l_negotiateOrder);
+                        l_negotiateOrder.printOrder();
                         this.setD_playerLog("Card Command Added to Queue for Execution Successfully!", "log");
                         p_gameState.updateLog(getD_playerLog(), GameConstants.OUTCOME);
                     }
