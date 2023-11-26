@@ -397,18 +397,28 @@ public class Player implements Serializable {
     /**
      * Checks if there are more order to be accepted for player in next turn or not.
      *
+     * @param p_isTournamentMode if game is being played in tournament mode
      * @throws IOException exception in reading inputs from user
      */
-    void checkForMoreOrders() throws IOException {
-        BufferedReader l_reader = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("\nDo you still want to give order for player : " + this.getPlayerName()
-                + " in next turn ? \nPress Y for Yes or N for No");
-        String l_nextOrderCheck = l_reader.readLine();
-        if (l_nextOrderCheck.equalsIgnoreCase("Y") || l_nextOrderCheck.equalsIgnoreCase("N")) {
-            this.setD_moreOrders(l_nextOrderCheck.equalsIgnoreCase("Y") ? true : false);
+    void checkForMoreOrders(boolean p_isTournamentMode) throws IOException {
+        String l_nextOrderCheck = new String();
+        if (p_isTournamentMode || !this.getD_playerBehavior().getPlayerBehavior().equalsIgnoreCase("Human")) {
+            Random l_random = new Random();
+            System.out.println("Trying to execute next boolean logic");
+            boolean l_moreOrders = l_random.nextBoolean();
+            this.setD_moreOrders(l_moreOrders);
         } else {
-            System.err.println("Invalid Input Passed.");
-            this.checkForMoreOrders();
+            BufferedReader l_reader = new BufferedReader(new InputStreamReader(System.in));
+            System.out.println("\nDo you still want to give order for player : " + this.getPlayerName()
+                    + " in next turn ? \nPress Y for Yes or N for No");
+            l_nextOrderCheck = l_reader.readLine();
+
+            if (l_nextOrderCheck.equalsIgnoreCase("Y") || l_nextOrderCheck.equalsIgnoreCase("N")) {
+                this.setD_moreOrders(l_nextOrderCheck.equalsIgnoreCase("Y") ? true : false);
+            } else {
+                System.err.println("Invalid Input Passed.");
+                this.checkForMoreOrders(p_isTournamentMode);
+            }
         }
     }
 
