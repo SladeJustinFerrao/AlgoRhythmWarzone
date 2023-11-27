@@ -36,7 +36,7 @@ public class GameEngine {
 	public void setIssueOrderPhase(){
 		this.setD_gameEngineLog("Issue Order Phase", GameConstants.PHASE);
 		setD_CurrentPhase(new IssueOrderPhase(this, d_gameState));
-		getD_CurrentPhase().initPhase();
+		//getD_CurrentPhase().initPhase(); // Yug changes
 	}
 
 	/**
@@ -45,7 +45,7 @@ public class GameEngine {
 	public void setOrderExecutionPhase(){
 		this.setD_gameEngineLog("Order Execution Phase", GameConstants.PHASE);
 		setD_CurrentPhase(new OrderExecutionPhase(this, d_gameState));
-		getD_CurrentPhase().initPhase();
+		//getD_CurrentPhase().initPhase(); //Yug changes
 	}
 
 	/**
@@ -83,6 +83,6 @@ public class GameEngine {
 		l_game.getD_CurrentPhase().getD_gameState().updateLog(GameConstants.GAMESTART+System.lineSeparator(), GameConstants.STARTLOG);
 		l_game.setD_gameEngineLog(GameConstants.GAMESTART, GameConstants.PHASE);
 		System.out.println(GameConstants.AVAILABLECOMMANDS);
-		l_game.getD_CurrentPhase().initPhase();
+		//l_game.getD_CurrentPhase().initPhase(); //Yug Changes
 	}
 }
