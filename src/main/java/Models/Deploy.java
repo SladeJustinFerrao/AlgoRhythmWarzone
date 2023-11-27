@@ -2,10 +2,12 @@ package Models;
 
 import Constants.GameConstants;
 
+import java.io.Serializable;
+
 /**
  * Concrete command of command pattern
  */
-public class Deploy implements Order {
+public class Deploy implements Order, Serializable {
     /**
      * Name of target country
      */
