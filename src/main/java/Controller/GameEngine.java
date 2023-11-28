@@ -79,6 +79,26 @@ public class GameEngine implements Serializable {
 	}
 
 	/**
+	 * Handle load game feature by setting phase from Object stream.
+	 *
+	 * @param p_phase to set new Phase
+	 */
+	public void loadPhase(Phase p_phase){
+		d_currentPhase = p_phase;
+		d_gameState = p_phase.getD_gameState();
+		getD_CurrentPhase().initPhase(d_isTournamentMode);
+	}
+
+	/**
+	 * These methods update the current phase to StartUp Phase as per State Pattern.
+	 */
+	public void setStartUpPhase(){
+		this.setD_gameEngineLog("Start Up Phase", "phase");
+		setD_CurrentPhase(new StartUpPhase(this, d_gameState));
+		getD_CurrentPhase().initPhase(d_isTournamentMode);
+	}
+
+	/**
 	 * These methods update the current phase to Issue Order Phase as per State Pattern.
 	 */
 	public void setIssueOrderPhase(){
