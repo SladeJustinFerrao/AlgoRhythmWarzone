@@ -5,15 +5,33 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.List;
 
+/**
+ * This is the class of Random Player, that deploys armies randomly,
+ * attacks random neighboring countries and moves armies on their own territories randomly.
+ */
 public class RandomPlayer extends PlayerBehavior{
 
+    /**
+     * List containing deploy order countries.
+     */
     ArrayList<Country> d_deployCountries = new ArrayList<Country>();
 
+    /**
+     * This method returns the player behavior
+     * @return String Player Behavior
+     */
     @Override
     public String getPlayerBehavior() {
         return "Random";
     }
 
+    /**
+     * Choose a random player to negotiate
+     *
+     * @param p_player Player object
+     * @param p_gameState current Gamestate
+     * @return Player object
+     */
     private Player getRandomPlayer(Player p_player, GameState p_gameState){
         ArrayList<Player> l_playerList = new ArrayList<Player>();
         Random l_random = new Random();
@@ -25,6 +43,15 @@ public class RandomPlayer extends PlayerBehavior{
         return l_playerList.get(l_random.nextInt(l_playerList.size()));
     }
 
+    /**
+     * This method creates a new order.
+     *
+     * @param p_player Object of Player class
+     * @param p_gameState Object of GameState class
+     *
+     * @return Order object of Order class
+     * @throws IOException
+     */
     @Override
     public String createOrder(Player p_player, GameState p_gameState) throws IOException {
         String l_command;
@@ -71,11 +98,24 @@ public class RandomPlayer extends PlayerBehavior{
         return l_command;
     }
 
+    /**
+     * returns a Random country owned by player.
+     *
+     * @param p_listOfCountries list of Countries owned by player
+     * @return Random country from list
+     */
     private Country getRandomCountry(List<Country> p_listOfCountries){
         Random l_random = new Random();
         return p_listOfCountries.get(l_random.nextInt(p_listOfCountries.size()));
     }
 
+    /**
+     * Thismethod creates new Advance order.
+     *
+     * @param p_player Object of Player class
+     * @param p_gameState Object of GameState class
+     * @return Order object to Advance
+     */
     @Override
     public String createDeployOrder(Player p_player, GameState p_gameState) {
         if (p_player.getD_noOfUnallocatedArmies()>0) {
@@ -101,6 +141,12 @@ public class RandomPlayer extends PlayerBehavior{
         return null;
     }
 
+    /**
+     * Check if it is first turn.
+     *
+     * @param p_player Object of Player class
+     * @return boolean
+     */
     private Boolean checkIfArmiesDeployed(Player p_player){
         if(p_player.getD_coutriesOwned().stream().anyMatch(l_country -> l_country.getD_armies()>0)){
             return true;
