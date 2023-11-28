@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import Services.PlayerServices;
+
 public class CheaterPlayer extends PlayerBehavior {
 
 
@@ -81,7 +83,22 @@ public class CheaterPlayer extends PlayerBehavior {
 
     }
     private void conquerTargetCountry(GameState p_gameState, Player p_targetCPlayer, Player p_cheaterPlayer, Country p_targetCountry) {
+        p_targetCPlayer.getD_coutriesOwned().remove(p_targetCountry);
+        p_targetCPlayer.getD_coutriesOwned().add(p_targetCountry);
+        // Add Log Here
+        this.updateContinents(p_cheaterPlayer, p_targetCPlayer, p_gameState);
+    }
 
+    private void updateContinents(Player p_cheaterPlayer, Player p_targetCPlayer,
+                                  GameState p_gameState) {
+        List<Player> l_playesList = new ArrayList<>();
+        p_cheaterPlayer.setD_continentsOwned(new ArrayList<>());
+        p_targetCPlayer.setD_continentsOwned(new ArrayList<>());
+        l_playesList.add(p_cheaterPlayer);
+        l_playesList.add(p_targetCPlayer);
+
+        PlayerServices l_playerService = new PlayerServices();
+        l_playerService.performContinentAssignment(l_playesList, p_gameState.getD_map().getD_continents());
     }
     private Player getCountryOwner(GameState p_gameState, Integer p_countryId){
         List<Player> l_players = p_gameState.getD_players();
