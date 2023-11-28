@@ -38,6 +38,16 @@ public class GameState {
     LogEntryBuffer d_logEntryBuffer = new LogEntryBuffer();
 
     /**
+     * Number of turns in tournament.
+     */
+    int d_maxNumberOfTurns = 0;
+
+    /**
+     * Number of remaining turns in tournament.
+     */
+    int d_numberOfTurnsLeft = 0;
+
+    /**
      * getter method to get the map.
      *
      * @return map object
@@ -139,5 +149,41 @@ public class GameState {
      */
     public void setD_loadCommand() {
         this.d_loadCommand = true;
+    }
+
+    /**
+     * Returns max number of turns allowed in tournament.
+     *
+     * @return int number of turns
+     */
+    public int getD_maxNumberOfTurns() {
+        return d_maxNumberOfTurns;
+    }
+
+    /**
+     * Sets max number of turns allowed in tournament.
+     *
+     * @param d_maxNumberOfTurns number of turns
+     */
+    public void setD_maxNumberOfTurns(int d_maxNumberOfTurns) {
+        this.d_maxNumberOfTurns = d_maxNumberOfTurns;
+    }
+
+    /**
+     * Gets number of turns left at any stage of tournament.
+     *
+     * @return number of remaining turns
+     */
+    public int getD_numberOfTurnsLeft() {
+        return d_numberOfTurnsLeft;
+    }
+
+    /**
+     * Sets number of turns left at any stage of tournament.
+     *
+     * @param d_numberOfTurnsLeft number of remaining turns
+     */
+    public void setD_numberOfTurnsLeft(int d_numberOfTurnsLeft) {
+        this.d_numberOfTurnsLeft = d_numberOfTurnsLeft;
     }
 }
