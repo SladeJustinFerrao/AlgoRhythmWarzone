@@ -110,11 +110,11 @@ public class RandomPlayer extends PlayerBehavior{
     }
 
     /**
-     * Thismethod creates new Advance order.
+     * This method creates new Deploy order.
      *
      * @param p_player Object of Player class
      * @param p_gameState Object of GameState class
-     * @return Order object to Advance
+     * @return Order object to Deploy
      */
     @Override
     public String createDeployOrder(Player p_player, GameState p_gameState) {
@@ -131,13 +131,66 @@ public class RandomPlayer extends PlayerBehavior{
         }
     }
 
+    /**
+     * This method creates new Advance order.
+     *
+     * @param p_player Object of Player class
+     * @param p_gameState Object of GameState class
+     * @return Order object to Deploy
+     */
     @Override
     public String createAdvanceOrder(Player p_player, GameState p_gameState) {
-        return null;
+        int l_armiesToSend;
+        Random l_random = new Random();
+        Country l_randomOwnCountry = getRandomCountry(d_deployCountries);
+        int l_randomIndex = l_random.nextInt(l_randomOwnCountry.getD_neighbourCountryId().size());
+        Country l_randomNeighbor;
+        if (l_randomOwnCountry.getD_neighbourCountryId().size()>1) {
+            l_randomNeighbor = p_gameState.getD_map().retrieveCountry(l_randomOwnCountry.getD_neighbourCountryId().get(l_randomIndex));
+        } else {
+            l_randomNeighbor = p_gameState.getD_map().retrieveCountry(l_randomOwnCountry.getD_neighbourCountryId().get(0));
+        }
+
+        if (l_randomOwnCountry.getD_armies()>1) {
+            l_armiesToSend = l_random.nextInt(l_randomOwnCountry.getD_armies() - 1) + 1;
+        } else {
+            l_armiesToSend = 1;
+        }
+        return "advance "+l_randomOwnCountry.getD_countryName()+" "+l_randomNeighbor.getD_countryName()+" "+ l_armiesToSend;
     }
 
+    /**
+     * This method creates new Card order.
+     *
+     * @param p_player Object of Player class
+     * @param p_gameState Object of GameState class
+     * @param p_cardName Card name for created Order
+     * @return Card Object
+     */
     @Override
     public String createCardOrder(Player p_player, GameState p_gameState, String p_cardName) {
+        int l_armiesToSend;
+        Random l_random = new Random();
+        Country l_randomOwnCountry = getRandomCountry(p_player.getD_coutriesOwned());
+
+        Country l_randomNeighbour = p_gameState.getD_map().retrieveCountry(l_randomOwnCountry.getD_neighbourCountryId().get(l_random.nextInt(l_randomOwnCountry.getD_neighbourCountryId().size())));
+        Player l_randomPlayer = getRandomPlayer(p_player, p_gameState);
+
+        if (l_randomOwnCountry.getD_armies()>1) {
+            l_armiesToSend = l_random.nextInt(l_randomOwnCountry.getD_armies() - 1) + 1;
+        } else {
+            l_armiesToSend = 1;
+        }
+        switch(p_cardName){
+            case "bomb":
+                return "bomb "+ l_randomNeighbour.getD_countryName();
+            case "blockade":
+                return "blockade "+ l_randomOwnCountry.getD_countryName();
+            case "airlift":
+                return "airlift "+ l_randomOwnCountry.getD_countryName()+" "+getRandomCountry(p_player.getD_coutriesOwned()).getD_countryName()+" "+l_armiesToSend;
+            case "negotiate":
+                return "negotiate"+" "+l_randomPlayer.getPlayerName();
+        }
         return null;
     }
 
