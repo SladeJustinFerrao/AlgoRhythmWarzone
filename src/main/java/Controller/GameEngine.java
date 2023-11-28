@@ -48,6 +48,29 @@ public class GameEngine implements Serializable {
 	Phase d_currentPhase = new StartUpPhase(this, d_gameState);
 
 	/**
+	 * Tournament mode or single game mode.
+	 */
+	static boolean d_isTournamentMode = false;
+
+	/**
+	 * Tournament mode information.
+	 *
+	 * @return true if tournament is being played or else false
+	 */
+	public boolean isD_isTournamentMode() {
+		return d_isTournamentMode;
+	}
+
+	/**
+	 * Sets tournament mode information.
+	 *
+	 * @param p_isTournamentMode true if tournament is being played or else false
+	 */
+	public void setD_isTournamentMode(boolean p_isTournamentMode) {
+		GameEngine.d_isTournamentMode = p_isTournamentMode;
+	}
+
+	/**
 	 *
 	 * @param p_phase new Phase to set in Game context
 	 */
