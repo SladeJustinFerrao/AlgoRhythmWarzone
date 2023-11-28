@@ -7,6 +7,7 @@ import java.util.List;
 import Constants.GameConstants;
 import Controller.GameEngine;
 import Services.MapService;
+import Utils.Command;
 
 public class Tournament implements Serializable {
     /**
@@ -182,6 +183,22 @@ public class Tournament implements Serializable {
                     "effect");
             return false;
         }
+        return true;
+    }
+
+    public boolean requiredTournamentArgPresent(List<java.util.Map<String, String>> p_operations_list, Command p_command) {
+        String l_argumentKey = new String();
+        if (p_operations_list.size() != 4)
+            return false;
+
+        for (java.util.Map<String, String> l_map : p_operations_list) {
+            if (p_command.checkRequiredKeysPresent(GameConstants.ARGUMENTS, l_map)
+                    && p_command.checkRequiredKeysPresent(GameConstants.OPERATIONS, l_map)) {
+                l_argumentKey.concat(l_map.get(GameConstants.OPERATIONS));
+            }
+        }
+        if (!l_argumentKey.equalsIgnoreCase("MPGD"))
+            return false;
         return true;
     }
 
