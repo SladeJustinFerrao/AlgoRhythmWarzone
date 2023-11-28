@@ -1,5 +1,8 @@
 package Constants;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * This class contains all the constants that are going to be used in the application
  */
@@ -11,7 +14,6 @@ public final class GameConstants {
     public static final String COMMAND = "command";
     public static final String ORDER = "order";
     public static final String PHASE = "phase";
-
     public static final String OUTCOME = "outcome";
     public static final String ERROR = "error";
     public static final String STARTLOG = "start";
@@ -24,8 +26,12 @@ public final class GameConstants {
     public static final String GAMESTART = "---------- Starting the game the Game ----------";
     public static final String LOGFILENAME = "LogRecord.txt";
     public static final String INVALIDCOMMAND = "Invalid Command!!";
+
+    public static final String INVALIDCOMMANDTOURNAMENTMODE = "Invalid Command Tournament Mode!!";
     public static final String ARGUMENTS = "arguments";
     public static final String OPERATIONS = "operation";
+
+    public static final List<String> TOURNAMENT_BEHAVIORS = Arrays.asList("Aggressive", "Random", "Benevolent", "Cheater");
 
     public static final String AVAILABLECOMMANDS = "------------AVAILABLE COMMANDS------------\n"+
             "editmap filename\n" +
