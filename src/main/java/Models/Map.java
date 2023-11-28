@@ -413,6 +413,21 @@ public class Map {
     }
 
     /**
+     * Returns continent object that matches with continent id
+     *
+     * @param p_continentId Id of continent to retrieve
+     * @return Continent object
+     */
+    public Continent retrieveContinentById(Integer p_continentId) {
+        for (Continent continent : d_continents) {
+            if (p_continentId.equals(continent.getD_continentID())) {
+                return continent;
+            }
+        }
+        return null;
+    }
+
+    /**
      * Remove Continent from map
      *
      * @param p_continentName Continent to remove
