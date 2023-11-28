@@ -158,4 +158,32 @@ public class Tournament implements Serializable {
         }
     }
 
+    private boolean parseMapArguments(String p_argument, GameEngine p_gameEngine) throws Exception {
+        String[] l_listOfMapFiles = p_argument.split(" ");
+        int l_mapFilesSize = l_listOfMapFiles.length;
+
+        if (l_mapFilesSize >= 1 & l_mapFilesSize <= 5) {
+            for (String l_mapToLoad : l_listOfMapFiles) {
+                GameState l_gameState = new GameState();
+                // Loads the map if it is valid or resets the game state
+                Models.Map l_loadedMap = d_mapService.loadMap(l_gameState, l_mapToLoad);
+                l_loadedMap.setD_mapFile(l_mapToLoad);
+                if (l_loadedMap.Validate()) {
+                    l_gameState.setD_loadCommand();
+                    p_gameEngine.setD_gameEngineLog(l_mapToLoad + " has been loaded to start the game", "effect");
+                    d_gameStateList.add(l_gameState);
+                } else {
+                    d_mapService.resetMap(l_gameState, l_mapToLoad);
+                    return false;
+                }
+            }
+        } else {
+            p_gameEngine.setD_gameEngineLog("User entered invalid number of maps in command, Range of map :- 1<=map<=5",
+                    "effect");
+            return false;
+        }
+        return true;
+    }
+
+
 }
