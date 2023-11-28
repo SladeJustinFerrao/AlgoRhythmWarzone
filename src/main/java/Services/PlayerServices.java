@@ -117,7 +117,7 @@ public class PlayerServices implements Serializable {
                     l_addNewPlayer.setStrategy(new AggressivePlayer());
                     break;
                 case "Random":
-                    //todo after Random Class implementation
+                    l_addNewPlayer.setStrategy(new RandomPlayer());
                     break;
                 case "Benevolent":
                     l_addNewPlayer.setStrategy(new BenevolentPlayer());
@@ -309,7 +309,7 @@ public class PlayerServices implements Serializable {
         for (Player l_pl : p_gameState.getD_players()) {
             Integer l_armies = this.calculateArmiesForPlayer(l_pl);
             System.out.println("Player : " + l_pl.getPlayerName() + " has been assigned with " + l_armies + " armies");
-
+            p_gameState.updateLog(this.d_playerLog, GameConstants.OUTCOME);
             l_pl.setD_noOfUnallocatedArmies(l_armies);
         }
     }
@@ -343,6 +343,7 @@ public class PlayerServices implements Serializable {
         }
         return false;
     }
+
 
     /**
      * The method checks if there are any unassigned armies left or not
