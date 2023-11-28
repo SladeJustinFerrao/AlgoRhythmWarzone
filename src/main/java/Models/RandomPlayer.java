@@ -3,7 +3,7 @@ package Models;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
-
+import java.util.List;
 
 public class RandomPlayer extends PlayerBehavior{
 
@@ -60,9 +60,24 @@ public class RandomPlayer extends PlayerBehavior{
         return l_command;
     }
 
+    private Country getRandomCountry(List<Country> p_listOfCountries){
+        Random l_random = new Random();
+        return p_listOfCountries.get(l_random.nextInt(p_listOfCountries.size()));
+    }
+
     @Override
     public String createDeployOrder(Player p_player, GameState p_gameState) {
-        return null;
+        if (p_player.getD_noOfUnallocatedArmies()>0) {
+            Random l_random = new Random();
+            System.out.println(p_player.getD_coutriesOwned().size());
+            Country l_randomCountry = getRandomCountry(p_player.getD_coutriesOwned());
+            d_deployCountries.add(l_randomCountry);
+            int l_armiesToDeploy = l_random.nextInt(p_player.getD_noOfUnallocatedArmies()) + 1;
+
+            return String.format("deploy %s %d", l_randomCountry.getD_countryName(), l_armiesToDeploy);
+        } else {
+            return createAdvanceOrder(p_player,p_gameState);
+        }
     }
 
     @Override
