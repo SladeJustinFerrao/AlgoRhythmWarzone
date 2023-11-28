@@ -6,8 +6,13 @@ import java.util.List;
 
 import Constants.GameConstants;
 import Controller.GameEngine;
+import Services.MapService;
 
 public class Tournament implements Serializable {
+    /**
+     * Map service object.
+     */
+    MapService d_mapService = new MapService();
 
     /**
      * Game states of the tournament.
@@ -122,4 +127,35 @@ public class Tournament implements Serializable {
             }
         }
     }
+
+    private boolean parseNoOfGameArgument(String p_argument, GameEngine p_gameEngine) throws Exception {
+        int l_noOfGames = Integer.parseInt(p_argument.split(" ")[0]);
+
+        if (l_noOfGames >= 1 && l_noOfGames <= 5) {
+            List<GameState> l_additionalGameStates = new ArrayList<>();
+
+            for (int l_gameNumber = 0; l_gameNumber < l_noOfGames - 1; l_gameNumber++) {
+                for (GameState l_gameState : d_gameStateList) {
+                    GameState l_gameStateToAdd = new GameState();
+                    Models.Map l_loadedMap = d_mapService.loadMap(l_gameStateToAdd,
+                            l_gameState.getD_map().getD_mapFile());
+                    l_loadedMap.setD_mapFile(l_gameState.getD_map().getD_mapFile());
+
+                    List<Player> l_playersToCopy = getPlayersToAdd(l_gameState.getD_players());
+                    l_gameStateToAdd.setD_players(l_playersToCopy);
+
+                    l_gameStateToAdd.setD_loadCommand();
+                    l_additionalGameStates.add(l_gameStateToAdd);
+                }
+            }
+            d_gameStateList.addAll(l_additionalGameStates);
+            return true;
+        } else {
+            p_gameEngine.setD_gameEngineLog(
+                    "User entered invalid number of games in command, Range of games :- 1<=number of games<=5",
+                    "effect");
+            return false;
+        }
+    }
+
 }
