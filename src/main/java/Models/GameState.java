@@ -1,11 +1,13 @@
 package Models;
 
+import java.io.Serializable;
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * This class is used to test functionality of GameState class functions.
  */
-public class GameState {
+public class GameState implements Serializable {
 
     /**
      * map object.
@@ -46,6 +48,16 @@ public class GameState {
      * Number of remaining turns in tournament.
      */
     int d_numberOfTurnsLeft = 0;
+
+    /**
+     * Maintains list of players lost in the game.
+     */
+    List<Player> d_playersFailed = new ArrayList<Player>();
+
+    /**
+     * Winner Player.
+     */
+    Player d_winner;
 
     /**
      * getter method to get the map.
@@ -132,9 +144,7 @@ public class GameState {
      * Gets the current log.
      * @return Current Log
      */
-    public String getRecentLog(){
-        return d_logEntryBuffer.getCurrentLog();
-    }
+    public String getRecentLog(){return d_logEntryBuffer.getCurrentLog();}
 
     /**
      * Returns if load command is used.
@@ -186,4 +196,12 @@ public class GameState {
     public void setD_numberOfTurnsLeft(int d_numberOfTurnsLeft) {
         this.d_numberOfTurnsLeft = d_numberOfTurnsLeft;
     }
+
+    public void removePlayer(Player p_player){d_playersFailed.add(p_player);}
+
+    public List<Player> getD_playersFailed() {return d_playersFailed;}
+
+    public Player getD_winner(){return d_winner;}
+
+    public void setD_winner(Player p_player){d_winner = p_player;}
 }
