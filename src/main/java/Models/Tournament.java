@@ -29,7 +29,17 @@ public class Tournament implements Serializable {
         return d_gameStateList;
     }
 
-
+    /**
+     * Parses a tournament command into a tournament object, considering the current state of the game,
+     * the given operation, the argument values provided in the command, and the game engine.
+     *
+     * @param p_gameState    The current state of the game.
+     * @param p_operation    The operation specified in the command.
+     * @param p_argument     The argument values provided in the command.
+     * @param p_gameEngine   The game engine responsible for managing the tournament.
+     * @return True if parsing is successful, false otherwise.
+     * @throws Exception     Thrown if the map given in the command is invalid.
+     */
     public boolean parseTournamentCommand(GameState p_gameState, String p_operation, String p_argument,
                                           GameEngine p_gameEngine) throws  Exception {
 
@@ -151,6 +161,14 @@ public class Tournament implements Serializable {
         }
     }
 
+    /**
+     * Parses the number of games given in a tournament command into an object.
+     *
+     * @param p_argument     The number of games specified in the tournament command.
+     * @param p_gameEngine   The game engine responsible for managing the tournament.
+     * @return True if parsing is successful, false otherwise.
+     * @throws Exception   Thrown if the map given in the command is invalid.
+     */
     private boolean parseNoOfGameArgument(String p_argument, GameEngine p_gameEngine) throws Exception {
         int l_noOfGames = Integer.parseInt(p_argument.split(" ")[0]);
 
@@ -181,6 +199,14 @@ public class Tournament implements Serializable {
         }
     }
 
+    /**
+     * Parses map arguments given in a command into the tournament object.
+     *
+     * @param p_argument     List of maps information provided in the command.
+     * @param p_gameEngine   The game engine object responsible for managing the tournament.
+     * @return True if parsing of maps to the tournament object is successful, false otherwise.
+     * @throws Exception   Thrown if the map given in the command is invalid.
+     */
     private boolean parseMapArguments(String p_argument, GameEngine p_gameEngine) throws Exception {
         String[] l_listOfMapFiles = p_argument.split(" ");
         int l_mapFilesSize = l_listOfMapFiles.length;
@@ -208,6 +234,13 @@ public class Tournament implements Serializable {
         return true;
     }
 
+    /**
+     * Validates a tournament command and checks if the required information is present in the command.
+     *
+     * @param p_operations_list List of operations given in the command.
+     * @param p_command         The tournament command.
+     * @return True if the command is valid, false otherwise.
+     */
     public boolean requiredTournamentArgPresent(List<java.util.Map<String, String>> p_operations_list, Command p_command) {
         String l_argumentKey = new String();
         if (p_operations_list.size() != 4)
