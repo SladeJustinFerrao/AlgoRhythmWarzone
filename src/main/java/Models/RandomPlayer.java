@@ -14,6 +14,17 @@ public class RandomPlayer extends PlayerBehavior{
         return "Random";
     }
 
+    private Player getRandomPlayer(Player p_player, GameState p_gameState){
+        ArrayList<Player> l_playerList = new ArrayList<Player>();
+        Random l_random = new Random();
+
+        for(Player l_player : p_gameState.getD_players()){
+            if(!l_player.equals(p_player))
+                l_playerList.add(p_player);
+        }
+        return l_playerList.get(l_random.nextInt(l_playerList.size()));
+    }
+
     @Override
     public String createOrder(Player p_player, GameState p_gameState) throws IOException {
         String l_command;
