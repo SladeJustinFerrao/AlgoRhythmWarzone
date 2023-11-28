@@ -1,5 +1,6 @@
 package Models;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -33,6 +34,26 @@ public class CheaterPlayer extends PlayerBehavior {
         return null;
     }
     private void doubleArmyOnEnemyNeighboredCounties(Player p_player, GameState p_gameState){
+        List<Country> l_countriesOwned = p_player.getD_coutriesOwned();
+
+        for(Country l_ownedCountry : l_countriesOwned) {
+            ArrayList<Integer> l_countryEnemies = getEnemies(p_player, l_ownedCountry);
+
+            if(l_countryEnemies.size() == 0) continue;
+
+            Integer l_arimiesInTerritory = l_ownedCountry.getD_armies();
+
+            if(l_arimiesInTerritory == 0) continue;
+
+            l_ownedCountry.setD_armies(l_arimiesInTerritory*2);
+
+            String l_logMessage = "Cheater Player: " + p_player.getPlayerName() +
+                    " doubled the armies ( Now: " + l_arimiesInTerritory*2 +
+                    ") in " + l_ownedCountry.getD_countryName();
+
+            p_gameState.updateLog(l_logMessage, "effect");
+
+        }
     }
     private Country getRandomCountry(List<Country> p_listOfCountries){
         Random l_random = new Random();
@@ -41,7 +62,15 @@ public class CheaterPlayer extends PlayerBehavior {
     private void conquerNeighboringEnemies(Player p_player, GameState p_gameState){
     }
 
+    private ArrayList<Integer> getEnemies(Player p_player, Country p_country){
+        ArrayList<Integer> l_enemyNeighbors = new ArrayList<Integer>();
 
+        for(Integer l_countryID : p_country.getD_neighbourCountryId()){
+            if(!p_player.getCountryIDs().contains(l_countryID))
+                l_enemyNeighbors.add(l_countryID);
+        }
+        return l_enemyNeighbors;
+    }
 
 
     @Override
