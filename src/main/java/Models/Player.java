@@ -10,8 +10,7 @@ import java.util.List;
 import java.util.Random;
 
 import Constants.GameConstants;
-import Services.PlayerServices;
-import Utils.Command;
+
 
 /**
  * This class contains data members and functions of player.
@@ -85,7 +84,7 @@ public class Player implements Serializable {
         this.d_name = p_playerName;
         this.d_noOfUnallocatedArmies = 0;
         this.d_coutriesOwned = new ArrayList<Country>();
-        this.d_orderList = new ArrayList<>();
+        this.d_orderList = new ArrayList<Order>();
         this.d_moreOrders = true;
 
     }
@@ -263,14 +262,10 @@ public class Player implements Serializable {
      *
      */
     public void assignCard() {
-        if (!d_oneCardPerTurn) {
             Random l_random = new Random();
             this.d_cardsOwnedByPlayer.add(Arrays.asList("bomb", "blockade", "airlift", "negotiate").get(l_random.nextInt(4)));
             this.setD_playerLog("Player: "+ this.d_name+ " has earned card as reward for the successful conquest- " + this.d_cardsOwnedByPlayer.get(this.d_cardsOwnedByPlayer.size()-1), "log");
             this.setD_oneCardPerTurn(true);
-        }else{
-            this.setD_playerLog("Player: "+this.d_name+ " has already earned maximum cards that can be allotted in a turn", "error");
-        }
     }
 
     /**
@@ -397,18 +392,28 @@ public class Player implements Serializable {
     /**
      * Checks if there are more order to be accepted for player in next turn or not.
      *
+     * @param p_isTournamentMode if game is being played in tournament mode
      * @throws IOException exception in reading inputs from user
      */
-    void checkForMoreOrders() throws IOException {
-        BufferedReader l_reader = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("\nDo you still want to give order for player : " + this.getPlayerName()
-                + " in next turn ? \nPress Y for Yes or N for No");
-        String l_nextOrderCheck = l_reader.readLine();
-        if (l_nextOrderCheck.equalsIgnoreCase("Y") || l_nextOrderCheck.equalsIgnoreCase("N")) {
-            this.setD_moreOrders(l_nextOrderCheck.equalsIgnoreCase("Y") ? true : false);
+    void checkForMoreOrders(boolean p_isTournamentMode) throws IOException {
+        String l_nextOrderCheck = new String();
+        if (p_isTournamentMode || !this.getD_playerBehavior().getPlayerBehavior().equalsIgnoreCase("Human")) {
+            Random l_random = new Random();
+            System.out.println("Trying to execute next boolean logic");
+            boolean l_moreOrders = l_random.nextBoolean();
+            this.setD_moreOrders(l_moreOrders);
         } else {
-            System.err.println("Invalid Input Passed.");
-            this.checkForMoreOrders();
+            BufferedReader l_reader = new BufferedReader(new InputStreamReader(System.in));
+            System.out.println("\nDo you still want to give order for player : " + this.getPlayerName()
+                    + " in next turn ? \nPress Y for Yes or N for No");
+            l_nextOrderCheck = l_reader.readLine();
+
+            if (l_nextOrderCheck.equalsIgnoreCase("Y") || l_nextOrderCheck.equalsIgnoreCase("N")) {
+                this.setD_moreOrders(l_nextOrderCheck.equalsIgnoreCase("Y") ? true : false);
+            } else {
+                System.err.println("Invalid Input Passed.");
+                this.checkForMoreOrders(p_isTournamentMode);
+            }
         }
     }
 
@@ -448,6 +453,7 @@ public class Player implements Serializable {
                         && checkAdjacency(p_gameState, l_sourceCountry, l_targetCountry)) {
                     this.d_orderList
                             .add(new Advance(this, l_sourceCountry, l_targetCountry, Integer.parseInt(l_noOfArmies)));
+                    d_orderList.get(d_orderList.size() - 1).printOrder();
                     this.setD_playerLog("Advance order has been added to queue for execution. For player: " + this.d_name, "log");
                 }
             } else {
@@ -488,6 +494,7 @@ public class Player implements Serializable {
                 this.d_orderList.add(new Deploy(this, l_targetCountry, Integer.parseInt(l_noOfArmies)));
                 Integer l_unallocatedarmies = this.getD_noOfUnallocatedArmies() - Integer.parseInt(l_noOfArmies);
                 this.setD_noOfUnallocatedArmies(l_unallocatedarmies);
+                d_orderList.get(d_orderList.size() - 1).printOrder();
                 this.setD_playerLog("Deploy order has been added to queue for execution. For player: " + this.d_name, "log");
 
             }
@@ -602,6 +609,7 @@ public class Player implements Serializable {
                             Integer.parseInt(p_commandEntered.split(" ")[3]), this);
                     if (l_newOrder.checkValidOrder(p_gameState)) {
                         this.d_orderList.add(l_newOrder);
+                        l_newOrder.printOrder();
                         this.setD_playerLog("Card Command Added to Queue for Execution Successfully!", "log");
                         p_gameState.updateLog(getD_playerLog(), GameConstants.OUTCOME);
                     }
@@ -610,6 +618,7 @@ public class Player implements Serializable {
                     Card l_blockadeOrder = new Blockade(this, p_commandEntered.split(" ")[1]);
                     if (l_blockadeOrder.checkValidOrder(p_gameState)) {
                         this.d_orderList.add(l_blockadeOrder);
+                        l_blockadeOrder.printOrder();
                         this.setD_playerLog("Card Command Added to Queue for Execution Successfully!", "log");
                         p_gameState.updateLog(getD_playerLog(), GameConstants.OUTCOME);
                     }
@@ -618,6 +627,7 @@ public class Player implements Serializable {
                     Card l_bombOrder = new Bomb(this, p_commandEntered.split(" ")[1]);
                     if (l_bombOrder.checkValidOrder(p_gameState)) {
                         this.d_orderList.add(l_bombOrder);
+                        l_bombOrder.printOrder();
                         this.setD_playerLog("Card Command Added to Queue for Execution Successfully!", "log");
                         p_gameState.updateLog(getD_playerLog(), GameConstants.OUTCOME);
                     }
@@ -626,6 +636,7 @@ public class Player implements Serializable {
                     Card l_negotiateOrder = new Diplomacy(p_commandEntered.split(" ")[1],this);
                     if (l_negotiateOrder.checkValidOrder(p_gameState)) {
                         this.d_orderList.add(l_negotiateOrder);
+                        l_negotiateOrder.printOrder();
                         this.setD_playerLog("Card Command Added to Queue for Execution Successfully!", "log");
                         p_gameState.updateLog(getD_playerLog(), GameConstants.OUTCOME);
                     }
