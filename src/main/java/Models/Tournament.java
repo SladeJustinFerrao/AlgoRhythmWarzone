@@ -15,6 +15,15 @@ public class Tournament implements Serializable {
     List<GameState> d_gameStateList = new ArrayList<GameState>();
 
     /**
+     * Gets the list of game states
+     *
+     * @return List of game states
+     */
+    public List<GameState> getD_gameStateList() {
+        return d_gameStateList;
+    }
+
+    /**
      * Parses number of turns given in tournament command to an object.
      *
      * @param p_argument   no of turns
