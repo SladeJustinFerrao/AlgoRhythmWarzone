@@ -94,8 +94,22 @@ public class Tournament implements Serializable {
      * @return list of players to be added
      */
     private List<Player> getPlayersToAdd(List<Player> p_playersList) {
-        //Add Player strategies to list
-        return p_playersList;
+        List<Player> p_playersToCopy = new ArrayList<>();
+        for (Player l_pl : p_playersList) {
+            Player l_player = new Player(l_pl.getPlayerName());
+
+            if (l_pl.getD_playerBehavior() instanceof AggressivePlayer)
+                l_player.setStrategy(new AggressivePlayer());
+//            else if (l_pl.getD_playerBehaviorStrategy() instanceof RandomPlayer)
+//                l_player.setStrategy(new RandomPlayer());
+            else if (l_pl.getD_playerBehavior() instanceof BenevolentPlayer)
+                l_player.setStrategy(new BenevolentPlayer());
+//            else if (l_pl.getD_playerBehaviorStrategy() instanceof CheaterPlayer)
+//                l_player.setStrategy(new CheaterPlayer());
+
+            p_playersToCopy.add(l_player);
+        }
+        return p_playersToCopy;
     }
 
     private void setTournamentPlayers(GameEngine p_gameEngine, String[] p_listOfPlayerStrategies, List<Player> p_listOfPlayers, List<Player> p_playersInTheGame) {
