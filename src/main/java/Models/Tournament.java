@@ -29,6 +29,28 @@ public class Tournament implements Serializable {
         return d_gameStateList;
     }
 
+
+    public boolean parseTournamentCommand(GameState p_gameState, String p_operation, String p_argument,
+                                          GameEngine p_gameEngine) throws  Exception {
+
+        // tournament -M listofmapfiles -P listofplayerstrategies -G numberofgames -D
+        // maxnumberofturns
+
+        if (p_operation.equalsIgnoreCase("M")) {
+            return parseMapArguments(p_argument, p_gameEngine);
+        }
+        if (p_operation.equalsIgnoreCase("P")) {
+            return parseStrategyArguments(p_gameState, p_argument, p_gameEngine);
+        }
+        if (p_operation.equalsIgnoreCase("G")) {
+            return parseNoOfGameArgument(p_argument, p_gameEngine);
+        }
+        if (p_operation.equalsIgnoreCase("D")) {
+            return parseNoOfTurnsArguments(p_argument, p_gameEngine);
+        }
+        throw new Exception(GameConstants.INVALIDCOMMANDTOURNAMENTMODE);
+    }
+
     /**
      * Parses number of turns given in tournament command to an object.
      *
