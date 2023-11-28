@@ -9,6 +9,9 @@ import Controller.GameEngine;
 import Services.MapService;
 import Utils.Command;
 
+/**
+ * Implements the tournament mode in the gameplay
+ */
 public class Tournament implements Serializable {
     /**
      * Map service object.
@@ -84,6 +87,14 @@ public class Tournament implements Serializable {
         }
     }
 
+    /**
+     * Parses strategy arguments into tournament object.
+     *
+     * @param p_gameState  current state of the game
+     * @param p_argument   strategy arguments provided in game
+     * @param p_gameEngine game engine object
+     * @return true if parsing of strategy information is successful or else false
+     */
     private boolean parseStrategyArguments(GameState p_gameState, String p_argument, GameEngine p_gameEngine) {
         String[] l_listOfPlayerStrategies = p_argument.split(" ");
         int l_playerStrategiesSize = l_listOfPlayerStrategies.length;
@@ -138,18 +149,26 @@ public class Tournament implements Serializable {
 
             if (l_pl.getD_playerBehavior() instanceof AggressivePlayer)
                 l_player.setStrategy(new AggressivePlayer());
-//            else if (l_pl.getD_playerBehaviorStrategy() instanceof RandomPlayer)
-//                l_player.setStrategy(new RandomPlayer());
+            else if (l_pl.getD_playerBehavior() instanceof RandomPlayer)
+                l_player.setStrategy(new RandomPlayer());
             else if (l_pl.getD_playerBehavior() instanceof BenevolentPlayer)
                 l_player.setStrategy(new BenevolentPlayer());
-//            else if (l_pl.getD_playerBehaviorStrategy() instanceof CheaterPlayer)
-//                l_player.setStrategy(new CheaterPlayer());
+            else if (l_pl.getD_playerBehavior() instanceof CheaterPlayer)
+                l_player.setStrategy(new CheaterPlayer());
 
             p_playersToCopy.add(l_player);
         }
         return p_playersToCopy;
     }
 
+    /**
+     * Sets information about players which are to be added for playing tournament.
+     *
+     * @param p_gameEngine             game engine object
+     * @param p_listOfPlayerStrategies list of player strategies given in command
+     * @param p_listOfPlayers          list of players in game state
+     * @param p_playersInTheGame       players of the tournament
+     */
     private void setTournamentPlayers(GameEngine p_gameEngine, String[] p_listOfPlayerStrategies, List<Player> p_listOfPlayers, List<Player> p_playersInTheGame) {
         for (String l_strategy : p_listOfPlayerStrategies) {
             for (Player l_pl : p_listOfPlayers) {
