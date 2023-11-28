@@ -249,14 +249,13 @@ public class StartUpPhase extends Phase {
     /**
      * {@inheritDoc}
      */
-    public void initPhase() {
+    public void initPhase(boolean p_isTournamentMode) {
         BufferedReader l_reader = new BufferedReader(new InputStreamReader(System.in));
 
         while (d_gameEngine.getD_CurrentPhase() instanceof StartUpPhase) {
             try {
                 System.out.println("Enter Game Commands or type 'exit' for quitting");
                 String l_commandEntered = l_reader.readLine();
-
                 handleCommand(l_commandEntered);
             } catch (Exception l_exception) {
                 d_gameEngine.setD_gameEngineLog(l_exception.getMessage(), GameConstants.OUTCOME);

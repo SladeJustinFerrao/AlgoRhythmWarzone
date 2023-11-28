@@ -302,6 +302,6 @@ public abstract class Phase {
     /**
      * This method signifies the main functionality executed on phase change.
      */
-    public abstract void initPhase();
+    public abstract void initPhase(boolean p_isTournamentMode);
 
 }
