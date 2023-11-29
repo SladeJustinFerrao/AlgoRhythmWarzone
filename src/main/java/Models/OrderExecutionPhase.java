@@ -190,7 +190,7 @@ public class OrderExecutionPhase extends Phase {
      * {@inheritDoc}
      */
     @Override
-    public void initPhase() {
+    public void initPhase(boolean p_isTournamentMode) {
         while (d_gameEngine.getD_CurrentPhase() instanceof OrderExecutionPhase) {
             executeOrders();
 
