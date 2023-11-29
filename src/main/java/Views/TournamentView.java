@@ -51,4 +51,63 @@ public class TournamentView {
         }
         System.out.format("+%s+%n", l_separator.toString());
     }
+
+    /**
+     * Renders the name of Map File and Game Number.
+     *
+     * @param p_gameIndex game Index
+     * @param p_mapName map name
+     */
+    private void renderMapName(Integer p_gameIndex, String p_mapName){
+        String l_formattedString = String.format("%s %s %d %s", p_mapName, " (Game Number: ",p_gameIndex, " )" );
+        renderSeparator();
+        renderCenteredString(GameConstants.CONSOLE_WIDTH, l_formattedString);
+        renderSeparator();
+    }
+
+    /**
+     * Renders info of each game.
+     *
+     * @param p_gameState gamestate object.
+     */
+    private void renderGames(GameState p_gameState){
+        String l_winner;
+        String l_conclusion;
+        if(p_gameState.getD_winner()==null){
+            l_winner = " ";
+            l_conclusion = "Draw!";
+        } else{
+            System.out.println("Entered Here");
+            l_winner = p_gameState.getD_winner().getPlayerName();
+            l_conclusion = "Winning Player Strategy: "+ p_gameState.getD_winner().getD_playerBehavior();
+        }
+        String l_winnerString = String.format("%s %s", "Winner -> ", l_winner);
+        StringBuilder l_commaSeparatedPlayers = new StringBuilder();
+
+        for(int i=0; i<p_gameState.getD_playersFailed().size(); i++) {
+            l_commaSeparatedPlayers.append(p_gameState.getD_playersFailed().get(i).getPlayerName());
+            if(i<p_gameState.getD_playersFailed().size()-1)
+                l_commaSeparatedPlayers.append(", ");
+        }
+        String l_losingPlayers = "Losing Players -> "+ l_commaSeparatedPlayers.toString();
+        String l_conclusionString = String.format("%s %s", "Conclusion of Game -> ", l_conclusion);
+        System.out.println(l_winnerString);
+        System.out.println(l_losingPlayers);
+        System.out.println(l_conclusionString);
+    }
+
+    /**
+     * Renders the View of tournament results.
+     */
+    public void viewTournament(){
+        int l_counter = 0;
+        System.out.println();
+        if(d_tournament!=null && d_gameStateObjects!=null){
+            for(GameState l_gameState: d_tournament.getD_gameStateList()){
+                l_counter++;
+                renderMapName(l_counter, l_gameState.getD_map().getD_mapFile());
+                renderGames(l_gameState);
+            }
+        }
+    }
 }

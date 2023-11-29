@@ -6,6 +6,8 @@ import Services.MapService;
 import Services.PlayerServices;
 import Utils.Command;
 
+import java.io.IOException;
+
 public abstract class Phase {
 
     /**
@@ -32,6 +34,11 @@ public abstract class Phase {
      * Manages player-related operations, including editing players and issuing orders.
      */
     PlayerServices d_playerService = new PlayerServices();
+
+    /**
+     * Manages the tournament mode.
+     */
+    Tournament d_tournament = new Tournament();
 
     /**
      * Constructor for initializing the current game engine and game state.
@@ -153,6 +160,18 @@ public abstract class Phase {
                 performShowMap(l_command, p_player);
                 break;
             }
+            case "tournament": {
+                tournamentGamePlay(l_command);
+                break;
+            }
+            case "savegame": {
+                performSaveGame(l_command, p_player);
+                break;
+            }
+            case "loadgame": {
+                performLoadGame(l_command, p_player);
+                break;
+            }
             case "exit": {
                 d_gameEngine.setD_gameEngineLog("Exit Command Entered, Game Ends!", GameConstants.OUTCOME);
                 System.exit(0);
@@ -263,6 +282,33 @@ public abstract class Phase {
      * @throws Exception Indicates a failure
      */
     protected abstract void performAdvance(String p_command, Player p_player) throws Exception;
+
+    /**
+     * Handels the tournament gameplay.
+     *
+     * @param p_command Command entered by the user
+     * @throws Exception
+     */
+    protected abstract void tournamentGamePlay(Command p_command) throws Exception;
+
+    /**
+     * Handles Game Load Feature.
+     *
+     * @param p_command command entered by user
+     * @param p_player  player instance
+     * @throws IOException indicates failure in I/O operation
+     */
+    protected abstract void performLoadGame(Command p_command, Player p_player) throws IOException;
+
+    /**
+     * Handles Game Save Feature.
+     *
+     * @param p_command command entered by user
+     * @param p_player  player instance
+     * @throws IOException indicates failure in I/O operation
+     */
+    protected abstract void performSaveGame(Command p_command, Player p_player) throws IOException;
+
 
     /**
      * Handles the card commands.
