@@ -165,6 +165,9 @@ public class RandomPlayer extends PlayerBehavior{
         } else {
             l_armiesToSend = 0;
         }
+        if(l_armiesToSend==0){
+            return "nocommand";
+        }
         l_randomOwnCountry.setD_currentArmies(l_randomOwnCountry.getD_currentArmies()-l_armiesToSend);
         return "advance "+l_randomOwnCountry.getD_countryName()+" "+l_randomNeighbor.getD_countryName()+" "+ l_armiesToSend;
     }

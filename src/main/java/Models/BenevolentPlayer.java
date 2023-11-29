@@ -89,7 +89,11 @@ public class BenevolentPlayer extends PlayerBehavior {
         } else {
             l_armiesToSend = 0;
         }
+        if(l_armiesToSend==0){
+            return "nocommand";
+        }
         l_randomSourceCountry.setD_currentArmies(l_randomSourceCountry.getD_currentArmies()-l_armiesToSend);
+
         System.out.println("advance " + l_randomSourceCountry.getD_countryName() + " " + l_weakestTargetCountry.getD_countryName() + " " + l_armiesToSend);
         return "advance " + l_randomSourceCountry.getD_countryName() + " " + l_weakestTargetCountry.getD_countryName() + " " + l_armiesToSend;
     }
@@ -112,7 +116,7 @@ public class BenevolentPlayer extends PlayerBehavior {
         switch(p_cardName) {
             case "bomb":
                 System.err.println("I am benevolent player, I don't hurt anyone.");
-                return "bomb false";
+                return "nocommand";
             case "blockade":
                 return "blockade " + l_randomOwnCountry.getD_countryName();
             case "airlift":
