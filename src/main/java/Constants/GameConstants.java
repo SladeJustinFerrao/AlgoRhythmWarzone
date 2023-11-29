@@ -26,7 +26,9 @@ public final class GameConstants {
     public static final String GAMESTART = "---------- Starting the game the Game ----------";
     public static final String LOGFILENAME = "LogRecord.txt";
     public static final String INVALIDCOMMAND = "Invalid Command!!";
-
+    public static final String INVALIDCOMMANDERRORSAVEGAME = "Invalid command. Kindly provide command in Format of : savegame filename";
+    public static final String INVALIDCOMMANDERRORLOADGAME = "Invalid command. Kindly provide command in Format of : loadgame filename";
+    public static final String INVALIDCOMMANDERRORASSIGNCOUNTRIES = "Invalid command. Kindly provide command in Format of : assigncountries";
     public static final String INVALIDCOMMANDTOURNAMENTMODE = "Invalid Command Tournament Mode!!";
     public static final String ARGUMENTS = "arguments";
     public static final String OPERATIONS = "operation";
