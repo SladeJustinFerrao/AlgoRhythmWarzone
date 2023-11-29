@@ -1,11 +1,13 @@
 package Models;
 
+import java.io.Serializable;
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * This class is used to test functionality of GameState class functions.
  */
-public class GameState {
+public class GameState implements Serializable {
 
     /**
      * map object.
@@ -46,6 +48,16 @@ public class GameState {
      * Number of remaining turns in tournament.
      */
     int d_numberOfTurnsLeft = 0;
+
+    /**
+     * Maintains list of players lost in the game.
+     */
+    List<Player> d_playersFailed = new ArrayList<Player>();
+
+    /**
+     * Winner Player.
+     */
+    Player d_winner;
 
     /**
      * getter method to get the map.
@@ -132,9 +144,7 @@ public class GameState {
      * Gets the current log.
      * @return Current Log
      */
-    public String getRecentLog(){
-        return d_logEntryBuffer.getCurrentLog();
-    }
+    public String getRecentLog(){return d_logEntryBuffer.getCurrentLog();}
 
     /**
      * Returns if load command is used.
@@ -186,4 +196,32 @@ public class GameState {
     public void setD_numberOfTurnsLeft(int d_numberOfTurnsLeft) {
         this.d_numberOfTurnsLeft = d_numberOfTurnsLeft;
     }
+
+    /**
+     * Adds the Failed Player in GameState.
+     *
+     * @param p_player Player instance to be removed
+     */
+    public void removePlayer(Player p_player){d_playersFailed.add(p_player);}
+
+    /**
+     * Retrieves the list of failed players.
+     *
+     * @return List of Players that lost the game.
+     */
+    public List<Player> getD_playersFailed() {return d_playersFailed;}
+
+    /**
+     * Returns the winner player object.
+     *
+     * @return returns winning player
+     */
+    public Player getD_winner(){return d_winner;}
+
+    /**
+     * Sets the winner player object.
+     *
+     * @param p_player winner player object
+     */
+    public void setD_winner(Player p_player){d_winner = p_player;}
 }
