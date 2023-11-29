@@ -91,6 +91,8 @@ public class TournamentView {
         }
         String l_losingPlayers = "Losing Players -> "+ l_commaSeparatedPlayers.toString();
         String l_conclusionString = String.format("%s %s", "Conclusion of Game -> ", l_conclusion);
+        String l_mapInfoString = "Map :" + p_gameState.getD_map();
+        System.out.println(l_mapInfoString);
         System.out.println(l_winnerString);
         System.out.println(l_losingPlayers);
         System.out.println(l_conclusionString);

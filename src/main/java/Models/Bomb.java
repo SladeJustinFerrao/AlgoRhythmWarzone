@@ -2,7 +2,9 @@ package Models;
 
 import Constants.GameConstants;
 
-public class Bomb implements Card{
+import java.io.Serializable;
+
+public class Bomb implements Card , Serializable {
 
     /**
      * Bomb card will be owned by this player.
