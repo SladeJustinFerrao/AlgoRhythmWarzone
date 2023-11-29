@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.Observable;
 import java.util.Observer;
@@ -49,7 +48,7 @@ public class LogWriter implements Observer {
      * @return Boolean if it's the start of the game or not.
      */
     private boolean isGameStartLog(String p_log) {
-        return p_log.equals(GameConstants.GAMESTART + System.lineSeparator() + System.lineSeparator());
+        return p_log == null ? false : p_log.equals(GameConstants.GAMESTART + System.lineSeparator() + System.lineSeparator());
     }
 
     /**
@@ -68,7 +67,7 @@ public class LogWriter implements Observer {
      * @throws IOException
      */
     private void appendLog(File p_logFile, String p_log) throws IOException {
-        Files.write(p_logFile.toPath(), p_log.getBytes(StandardCharsets.US_ASCII),
+        Files.write(p_logFile.toPath(), (p_log == null ? "" : p_log).getBytes(StandardCharsets.US_ASCII),
                 StandardOpenOption.CREATE, StandardOpenOption.APPEND);
     }
 }

@@ -1,8 +1,11 @@
 package Services;
 
+import Constants.GameConstants;
 import Models.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -10,7 +13,7 @@ import java.util.Random;
  * Services class for Player to fetch the specific methods to be used for players in the game
  * @author Darshan Kansara
  */
-public class PlayerServices {
+public class PlayerServices implements Serializable {
 
 
     /**
@@ -98,13 +101,38 @@ public class PlayerServices {
      * @param p_playerNameAlreadyExist true if player to be added already exists
      */
     private void addGamePlayer(List<Player> p_updatedPlayers, String p_enteredPlayerName,
-            boolean p_playerNameAlreadyExist) {
+                               boolean p_playerNameAlreadyExist) {
+        Random l_random = new Random();
+
         if (p_playerNameAlreadyExist) {
-            System.out.print("Player with name : " + p_enteredPlayerName + "  Exists already. Changes not made.");
+            setD_playerLog("Player with name : " + p_enteredPlayerName + " already Exists. Changes are not made.");
         } else {
             Player l_addNewPlayer = new Player(p_enteredPlayerName);
+            //String l_playerStrategy = "Benevolent";
+            String l_playerStrategy = Arrays.asList("Human", "Aggressive", "Random", "Benevolent", "Cheater").get(l_random.nextInt(Arrays.asList("Human", "Aggressive", "Random", "Benevolent", "Cheater").size()));
+            // use the above code to randomly assign behaviour of the player
+            switch(l_playerStrategy) {
+                case "Human":
+                    l_addNewPlayer.setStrategy(new HumanPlayer());
+                    break;
+                case "Aggressive":
+                    l_addNewPlayer.setStrategy(new AggressivePlayer());
+                    break;
+                case "Random":
+                    l_addNewPlayer.setStrategy(new RandomPlayer());
+                    break;
+                case "Benevolent":
+                    l_addNewPlayer.setStrategy(new BenevolentPlayer());
+                    break;
+                case "Cheater":
+                    l_addNewPlayer.setStrategy(new CheaterPlayer());
+                    break;
+                default:
+                    setD_playerLog("Incorrect Behavior of Player");
+                    break;
+            }
             p_updatedPlayers.add(l_addNewPlayer);
-            System.out.println("Player name : " + p_enteredPlayerName + "  added successfully.");
+            setD_playerLog("Player with name : " + p_enteredPlayerName +" and strategy: "+l_playerStrategy+ " has been added successfully.");
         }
     }
 
@@ -117,7 +145,10 @@ public class PlayerServices {
         for (Player l_player : p_playersList) {
             if (!l_player.getPlayerName().equalsIgnoreCase("Neutral"))
                 l_player.setD_moreOrders(true);
-            l_player.setD_oneCardPerTurn(false);
+            if(l_player.getD_oneCardPerTurn()) {
+                l_player.assignCard();
+                l_player.setD_oneCardPerTurn(false);
+            }
             l_player.resetNegotiation();
         }
     }
@@ -129,7 +160,6 @@ public class PlayerServices {
      */
     public boolean checkPlayersAvailability(GameState p_gameState) {
         if (p_gameState.getD_players() == null || p_gameState.getD_players().isEmpty()) {
-            System.out.println("Please add players before assigning countries");
             return false;
         }
         return true;
@@ -141,14 +171,22 @@ public class PlayerServices {
      * @param p_gameState game state or phase of the current game
      */
     public void assignCountries(GameState p_gameState) {
-        if (!checkPlayersAvailability(p_gameState))
+        if (!checkPlayersAvailability(p_gameState)){
+            p_gameState.updateLog("Kindly add players before assigning countries",  GameConstants.OUTCOME);
             return;
+        }
 
         List<Country> l_countries = p_gameState.getD_map().getD_countries();
-        int l_countriesPerPlayer = Math.floorDiv(l_countries.size(), p_gameState.getD_players().size());
+        int l_playerSize = p_gameState.getD_players().size();
+        Player l_neutralPlayer = p_gameState.getD_players().stream()
+                .filter(l_player -> l_player.getPlayerName().equalsIgnoreCase("Neutral")).findFirst().orElse(null);
+        if (l_neutralPlayer != null)
+            l_playerSize = l_playerSize - 1;
+        int l_countriesPerPlayer = Math.floorDiv(l_countries.size(), l_playerSize);
 
-        this.performRandomCountryAssignment(l_countriesPerPlayer, l_countries, p_gameState.getD_players());
+        this.performRandomCountryAssignment(l_countriesPerPlayer, l_countries, p_gameState.getD_players(), p_gameState);
         this.performContinentAssignment(p_gameState.getD_players(), p_gameState.getD_map().getD_continents());
+        p_gameState.updateLog(d_assignmentLog, "effect");
         System.out.println("Countries have been assigned to Players.");
 
     }
@@ -161,30 +199,34 @@ public class PlayerServices {
      * @param p_players            list of players
      */
     private void performRandomCountryAssignment(int p_countriesPerPlayer, List<Country> p_countries,
-            List<Player> p_players) {
+                                                List<Player> p_players, GameState p_gameState) {
         List<Country> l_unassignedCountries = new ArrayList<>(p_countries);
         for (Player l_pl : p_players) {
-            if (l_unassignedCountries.isEmpty())
-                break;
-            // Based on number of countries to be assigned to player, it generates random
-            // country and assigns to player
-            for (int i = 0; i < p_countriesPerPlayer; i++) {
-                Random l_random = new Random();
-                int l_randomIndex = l_random.nextInt(l_unassignedCountries.size());
-                Country l_randomCountry = l_unassignedCountries.get(l_randomIndex);
+            if(!l_pl.getPlayerName().equalsIgnoreCase("Neutral")) {
+                if (l_unassignedCountries.isEmpty())
+                    break;
+                // Based on number of countries to be assigned to player, it generates random
+                // country and assigns to player
+                for (int i = 0; i < p_countriesPerPlayer; i++) {
+                    Random l_random = new Random();
+                    int l_randomIndex = l_random.nextInt(l_unassignedCountries.size());
+                    Country l_randomCountry = l_unassignedCountries.get(l_randomIndex);
 
-                if (l_pl.getD_coutriesOwned() == null)
-                    l_pl.setD_coutriesOwned(new ArrayList<>());
-                l_pl.getD_coutriesOwned().add(l_randomCountry);
-                System.out.println("Player : " + l_pl.getPlayerName() + " is assigned with country : "
-                        + l_randomCountry.getD_countryName());
-                l_unassignedCountries.remove(l_randomCountry);
+                    if (l_pl.getD_coutriesOwned() == null)
+                        l_pl.setD_coutriesOwned(new ArrayList<>());
+                    l_pl.getD_coutriesOwned().add(p_gameState.getD_map().getCountryByName(l_randomCountry.getD_countryName()));
+                    System.out.println("Player : " + l_pl.getPlayerName() + " is assigned with country : "
+                            + l_randomCountry.getD_countryName());
+                    d_assignmentLog += "\n Player : " + l_pl.getPlayerName() + " is assigned with country : "
+                            + l_randomCountry.getD_countryName();
+                    l_unassignedCountries.remove(l_randomCountry);
+                }
             }
         }
         // If any countries are still left for assignment, it will redistribute those
         // among players
         if (!l_unassignedCountries.isEmpty()) {
-            performRandomCountryAssignment(1, l_unassignedCountries, p_players);
+            performRandomCountryAssignment(1, l_unassignedCountries, p_players, p_gameState);
         }
     }
 
@@ -220,6 +262,8 @@ public class PlayerServices {
                         l_pl.getD_continentsOwned().add(l_cont);
                         System.out.println("Player : " + l_pl.getPlayerName() + " is assigned with continent : "
                                 + l_cont.getD_continentName());
+                        d_assignmentLog += "\n Player : " + l_pl.getPlayerName() + " is assigned with continent : "
+                                + l_cont.getD_continentName();
                     }
                 }
             }
@@ -258,6 +302,7 @@ public class PlayerServices {
         return l_armies;
     }
 
+
     /**
      * This function assign the armies in the game state and to the players
      * @param p_gameState game state or phase of the current game
@@ -266,7 +311,7 @@ public class PlayerServices {
         for (Player l_pl : p_gameState.getD_players()) {
             Integer l_armies = this.calculateArmiesForPlayer(l_pl);
             System.out.println("Player : " + l_pl.getPlayerName() + " has been assigned with " + l_armies + " armies");
-
+            p_gameState.updateLog(this.d_playerLog, GameConstants.OUTCOME);
             l_pl.setD_noOfUnallocatedArmies(l_armies);
         }
     }
@@ -301,6 +346,7 @@ public class PlayerServices {
         return false;
     }
 
+
     /**
      * The method checks if there are any unassigned armies left or not
      * @param p_playersList list of players available
@@ -321,14 +367,25 @@ public class PlayerServices {
      * @param p_argument arguments which gives list of players
      */
     public void updatePlayers(GameState p_gameState, String p_operation, String p_argument) {
-        if (!isMapLoaded(p_gameState)) {
-            System.out.println("Kindly load the map first to add player: " + p_argument);
-            return;
-        }
         List<Player> l_updatedPlayers = this.addRemovePlayers(p_gameState.getD_players(), p_operation, p_argument);
 
-        if (l_updatedPlayers != null) {
+        if (l_updatedPlayers!=null) {
             p_gameState.setD_players(l_updatedPlayers);
+            p_gameState.updateLog(d_playerLog, GameConstants.OUTCOME);
+        }
+    }
+
+    /**
+     * Adds the lost player to the failed list in gamestate.
+     *
+     * @param p_gameState gamestate object.
+     */
+    public void updatePlayersInGame(GameState p_gameState){
+        for(Player l_player : p_gameState.getD_players()){
+            if(l_player.getD_coutriesOwned().size()==0 && !l_player.getPlayerName().equals("Neutral") && !p_gameState.getD_playersFailed().contains(l_player)){
+                this.setD_playerLog("Player: "+l_player.getPlayerName()+" has lost the game and is left with no countries!");
+                p_gameState.removePlayer(l_player);
+            }
         }
     }
 

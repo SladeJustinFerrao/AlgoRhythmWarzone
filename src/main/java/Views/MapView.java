@@ -150,9 +150,11 @@ public class MapView {
         renderCenteredString(GameConstants.CONSOLE_WIDTH, "GAME PLAYERS");
         renderSeparator();
         for (Player p : d_players) {
-            l_count++;
-            renderPlayerInformation(l_count, p);
-            renderCardsOwnedByPlayer(p);
+            if(!d_gameState.getD_playersFailed().contains(p)) {
+                l_count++;
+                renderPlayerInformation(l_count, p);
+                renderCardsOwnedByPlayer(p);
+            }
         }
         System.out.println();
     }
@@ -180,9 +182,6 @@ public class MapView {
      */
     private Integer getArmiesOfCountry(String p_countryName) {
         Integer l_armies = d_gameState.getD_map().getCountryByName(p_countryName).getD_armies();
-        if (l_armies == null) {
-            return 0;
-        }
         return l_armies;
     }
 
@@ -207,7 +206,7 @@ public class MapView {
                 renderContinentName(l_continent.getD_continentName());
                 List<Country> l_continentCountries = l_continent.getD_countries();
                 final int[] l_countryIndex = { 1 };
-                if (l_continentCountries.size() != 0) {
+                if (!l_continentCountries.isEmpty()) {
                     l_continentCountries.forEach(l_country -> {
                         String l_countryNameFormatted = getCountryNameFormatted(l_countryIndex[0]++, l_country.getD_countryName());
                         System.out.println(l_countryNameFormatted);

@@ -2,11 +2,15 @@ package Models;
 
 import Constants.GameConstants;
 import Controller.GameEngine;
+import Services.GamePlayService;
 import Utils.Command;
+import Utils.UncaughtExceptionHandler;
 import Views.MapView;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 
 public class IssueOrderPhase extends Phase {
 
@@ -36,13 +40,11 @@ public class IssueOrderPhase extends Phase {
      * @throws Exception Indicates a failure
      */
     public void askForOrder(Player p_player) throws Exception {
-        BufferedReader l_reader = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("\nPlease enter command to issue order for player : " + p_player.getPlayerName()
-                + " or give showmap command to view current state of the game.");
-        String l_commandEntered = l_reader.readLine();
+        String l_commandEntered = p_player.getPlayerOrder(d_gameState);
 
-        d_gameState.updateLog("(Player: " + p_player.getPlayerName() + ") " + l_commandEntered, GameConstants.ORDER);
+        if (l_commandEntered == null) return;
 
+        d_gameState.updateLog("(Player: " + p_player.getPlayerName() + ") " + l_commandEntered, "order");
         handleCommand(l_commandEntered, p_player);
     }
 
@@ -128,11 +130,64 @@ public class IssueOrderPhase extends Phase {
     }
 
     /**
+     * Handles the tournament gameplay.
+     *
+     * @param p_command Command entered by the user
+     * @throws Exception Exception
+     */
+    @Override
+    protected void tournamentGamePlay(Command p_command) throws Exception {
+        printInvalidCommandInState();
+    }
+
+    /**
+     * Handles Game Load Feature.
+     *
+     * @param p_command command entered by user
+     * @param p_player  player instance
+     * @throws IOException indicates failure in I/O operation
+     */
+    @Override
+    protected void performLoadGame(Command p_command, Player p_player) throws Exception {
+        printInvalidCommandInState();
+        askForOrder(p_player);
+    }
+
+    /**
+     * Handles Game Save Feature.
+     *
+     * @param p_command command entered by user
+     * @param p_player  player instance
+     * @throws IOException indicates failure in I/O operation
+     */
+    @Override
+    protected void performSaveGame(Command p_command, Player p_player) throws Exception {
+        List<java.util.Map<String, String>> l_operations_list = p_command.getTaskandArguments();
+
+        Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler(d_gameState));
+
+        if (l_operations_list == null || l_operations_list.isEmpty()) {
+            throw new Exception(GameConstants.INVALIDCOMMANDERRORSAVEGAME);
+        }
+
+        for (java.util.Map<String, String> l_map : l_operations_list) {
+            if (p_command.checkRequiredKeysPresent(GameConstants.ARGUMENTS, l_map)) {
+                String l_filename = l_map.get(GameConstants.ARGUMENTS);
+                GamePlayService.saveGame(this, l_filename);
+                d_gameEngine.setD_gameEngineLog("Game Saved Successfully to " + l_filename, "effect");
+
+            } else {
+                throw new Exception(GameConstants.INVALIDCOMMANDERRORSAVEGAME);
+            }
+        }
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
     protected void performCardHandle(String p_enteredCommand, Player p_player) throws Exception {
-        if(p_player.getD_cardsOwnedByPlayer().contains(p_enteredCommand.split(" ")[0])) {
+        if (p_player.getD_cardsOwnedByPlayer().contains(p_enteredCommand.split(" ")[0])) {
             p_player.handleCardCommands(p_enteredCommand, d_gameState);
         }
     }
@@ -141,7 +196,7 @@ public class IssueOrderPhase extends Phase {
      * {@inheritDoc}
      */
     @Override
-    protected void performAssignCountries(Command p_command, Player p_player) throws Exception {
+    protected void performAssignCountries(Command p_command, Player p_player, boolean isTournamentMode, GameState p_gameState) throws Exception {
         printInvalidCommandInState();
         askForOrder(p_player);
     }
@@ -167,9 +222,17 @@ public class IssueOrderPhase extends Phase {
         }
     }
 
+    /**
+     * Accepts orders from players.
+     *
+     * @param p_isTournamentMode if game is being played in tournament mode
+     */
     private void issueOrders(boolean p_isTournamentMode) {
         do {
             for (Player l_player : d_gameState.getD_players()) {
+                if (l_player.getD_coutriesOwned().size() == 0) {
+                    l_player.setD_moreOrders(false);
+                }
                 if (l_player.getD_moreOrders() && !l_player.getPlayerName().equals("Neutral")) {
                     try {
                         l_player.issue_order(this);
@@ -183,4 +246,5 @@ public class IssueOrderPhase extends Phase {
 
         d_gameEngine.setOrderExecutionPhase();
     }
+
 }

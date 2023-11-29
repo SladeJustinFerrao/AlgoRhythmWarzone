@@ -22,7 +22,7 @@ public class MapService implements Serializable {
      *
      * @param p_gameState Current State of the game
      * @param p_editFile File name
-     * @throws IOException
+     * @throws IOException Exception
      */
     public void editMap(GameState p_gameState, String p_editFile) throws IOException {
 
@@ -50,7 +50,7 @@ public class MapService implements Serializable {
      * @param p_argument Arguments
      * @param p_operation Operation
      * @param p_switch Switch parameter
-     * @throws IOException
+     * @throws IOException Exception
      */
     public void editFunctions(GameState p_gameState, String p_argument, String p_operation, Integer p_switch) throws Exception {
         Map l_updatedMap;
@@ -163,7 +163,6 @@ public class MapService implements Serializable {
      */
     public boolean saveMap(GameState p_gameState, String p_fileName){
         try {
-
             if (!p_fileName.equalsIgnoreCase(p_gameState.getD_map().getD_mapFile())) {
                 p_gameState.setError("Filename to save does not match with the name provided for edit. Kindly provide the same name.");
                 return false;
@@ -242,6 +241,7 @@ public class MapService implements Serializable {
      */
     public Map loadMap(GameState p_gameState, String p_fileName) {
         Map l_map = new Map();
+        l_map.setD_mapFile(p_fileName);
         String l_filepath = this.getFilePath(p_fileName);
         List<String> l_linesOfFile = loadFile(l_filepath,p_gameState);
 
