@@ -374,6 +374,20 @@ public class PlayerServices implements Serializable {
     }
 
     /**
+     * Adds the lost player to the failed list in gamestate.
+     *
+     * @param p_gameState gamestate object.
+     */
+    public void updatePlayersInGame(GameState p_gameState){
+        for(Player l_player : p_gameState.getD_players()){
+            if(l_player.getD_coutriesOwned().size()==0 && !l_player.getPlayerName().equals("Neutral") && !p_gameState.getD_playersFailed().contains(l_player)){
+                this.setD_playerLog("Player: "+l_player.getPlayerName()+" has lost the game and is left with no countries!");
+                p_gameState.removePlayer(l_player);
+            }
+        }
+    }
+
+    /**
      * This method is to check if the map is loaded properly
      * 
      * @param p_gameState game state or phase of the current game
