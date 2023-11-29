@@ -70,7 +70,7 @@ public class AggressivePlayer extends PlayerBehavior {
      * @param p_gameState Current game state
      * @return Strongest country
      */
-    private Country getStrongestCountry(Player p_player, GameState p_gameState) {
+    public Country getStrongestCountry(Player p_player, GameState p_gameState) {
         List<Country> l_countriesOwnedByPlayer = p_player.getD_coutriesOwned();
         LinkedHashMap<Country, Integer> l_countryWithArmies = new LinkedHashMap<>();
 

@@ -1,13 +1,13 @@
 package Models;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Class to Test the working of Random Player Behavior Strategy.
@@ -32,7 +32,7 @@ public class RandomPlayerTest {
     /**
      * Setup For testing Random Behavior Strategy.
      */
-    @Before
+    @BeforeEach
     public void setup() {
 
         Continent l_continent = new Continent("Asia");
@@ -64,6 +64,6 @@ public class RandomPlayerTest {
      */
     @Test
     public void testOrderCreation() throws IOException {
-        assertEquals(d_player.getPlayerOrder(d_gameState).split(" ")[0], "deploy");
+        assertEquals("deploy", d_player.getPlayerOrder(d_gameState).split(" ")[0]);
     }
 }
