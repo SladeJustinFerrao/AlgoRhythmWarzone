@@ -5,6 +5,7 @@ import Models.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -108,7 +109,8 @@ public class PlayerServices implements Serializable {
         } else {
             Player l_addNewPlayer = new Player(p_enteredPlayerName);
             String l_playerStrategy = "Benevolent";
-
+            //String l_playerStrategy = Arrays.asList("Human", "Aggressive", "Random", "Benevolent", "Cheater").get(l_random.nextInt(Arrays.asList("Human", "Aggressive", "Random", "Benevolent", "Cheater").size()));
+            // use the above code to randomly assign behaviour of the player
             switch(l_playerStrategy) {
                 case "Human":
                     l_addNewPlayer.setStrategy(new HumanPlayer());
@@ -370,6 +372,20 @@ public class PlayerServices implements Serializable {
         if (l_updatedPlayers!=null) {
             p_gameState.setD_players(l_updatedPlayers);
             p_gameState.updateLog(d_playerLog, GameConstants.OUTCOME);
+        }
+    }
+
+    /**
+     * Adds the lost player to the failed list in gamestate.
+     *
+     * @param p_gameState gamestate object.
+     */
+    public void updatePlayersInGame(GameState p_gameState){
+        for(Player l_player : p_gameState.getD_players()){
+            if(l_player.getD_coutriesOwned().size()==0 && !l_player.getPlayerName().equals("Neutral") && !p_gameState.getD_playersFailed().contains(l_player)){
+                this.setD_playerLog("Player: "+l_player.getPlayerName()+" has lost the game and is left with no countries!");
+                p_gameState.removePlayer(l_player);
+            }
         }
     }
 
