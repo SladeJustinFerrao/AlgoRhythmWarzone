@@ -80,16 +80,16 @@ public class BenevolentPlayer extends PlayerBehavior {
         int l_armiesToSend;
         Random l_random = new Random();
 
-        Country l_randomSourceCountry = getRandomCountry(d_deployCountries);
+        Country l_randomSourceCountry = getRandomCountry(p_Player.getD_coutriesOwned());
         System.out.println("Source Country " + l_randomSourceCountry.getD_countryName());
         Country l_weakestTargetCountry = getWeakestNeighbor(l_randomSourceCountry, p_gameState);
         System.out.println("Target Country " + l_weakestTargetCountry.getD_countryName());
-        if(l_randomSourceCountry.getD_armies() > 1) {
-            l_armiesToSend = l_random.nextInt(l_randomSourceCountry.getD_armies() - 1) + 1;
+        if(l_randomSourceCountry.getD_currentArmies() > 0) {
+            l_armiesToSend = l_random.nextInt(l_randomSourceCountry.getD_currentArmies() - 1);
         } else {
-            l_armiesToSend = 1;
+            l_armiesToSend = 0;
         }
-
+        l_randomSourceCountry.setD_currentArmies(l_randomSourceCountry.getD_currentArmies()-l_armiesToSend);
         System.out.println("advance " + l_randomSourceCountry.getD_countryName() + " " + l_weakestTargetCountry.getD_countryName() + " " + l_armiesToSend);
         return "advance " + l_randomSourceCountry.getD_countryName() + " " + l_weakestTargetCountry.getD_countryName() + " " + l_armiesToSend;
     }
@@ -103,10 +103,10 @@ public class BenevolentPlayer extends PlayerBehavior {
                 .retrieveCountry(randomEnemyNeighbor(p_Player, l_randomOwnCountry)
                         .get(l_random.nextInt(randomEnemyNeighbor(p_Player, l_randomOwnCountry).size())));
 
-        if(l_randomOwnCountry.getD_armies() > 1) {
-            l_armiesToSend = l_random.nextInt(l_randomOwnCountry.getD_armies() - 1) + 1;
+        if(l_randomOwnCountry.getD_armies() > 0) {
+            l_armiesToSend = l_random.nextInt(l_randomOwnCountry.getD_currentArmies() - 1);
         } else {
-            l_armiesToSend = 1;
+            l_armiesToSend = 0;
         }
 
         switch(p_cardName) {
@@ -132,7 +132,16 @@ public class BenevolentPlayer extends PlayerBehavior {
 
     private Country getRandomCountry(List<Country> p_listOfCountries) {
         Random l_random = new Random();
-        return p_listOfCountries.get(l_random.nextInt(p_listOfCountries.size()));
+        Country l_country;
+        int count = 0;
+        do{
+            l_country = p_listOfCountries.get(l_random.nextInt(p_listOfCountries.size()));
+            if(l_country.getD_currentArmies()>0){
+                break;
+            }
+            count++;
+        }while(count < p_listOfCountries.size());
+        return l_country;
     }
 
     public Country getWeakestCountry(Player p_Player) {
