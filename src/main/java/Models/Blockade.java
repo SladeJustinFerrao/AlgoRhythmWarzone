@@ -2,7 +2,9 @@ package Models;
 
 import Constants.GameConstants;
 
-public class Blockade implements Card{
+import java.io.Serializable;
+
+public class Blockade implements Card , Serializable {
 
     /**
      * Blockade card will be owned by this player.

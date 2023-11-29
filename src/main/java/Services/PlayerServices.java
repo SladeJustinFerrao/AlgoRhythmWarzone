@@ -108,8 +108,8 @@ public class PlayerServices implements Serializable {
             setD_playerLog("Player with name : " + p_enteredPlayerName + " already Exists. Changes are not made.");
         } else {
             Player l_addNewPlayer = new Player(p_enteredPlayerName);
-            String l_playerStrategy = "Benevolent";
-            //String l_playerStrategy = Arrays.asList("Human", "Aggressive", "Random", "Benevolent", "Cheater").get(l_random.nextInt(Arrays.asList("Human", "Aggressive", "Random", "Benevolent", "Cheater").size()));
+            //String l_playerStrategy = "Benevolent";
+            String l_playerStrategy = Arrays.asList("Human", "Aggressive", "Random", "Benevolent", "Cheater").get(l_random.nextInt(Arrays.asList("Human", "Aggressive", "Random", "Benevolent", "Cheater").size()));
             // use the above code to randomly assign behaviour of the player
             switch(l_playerStrategy) {
                 case "Human":
@@ -398,9 +398,6 @@ public class PlayerServices implements Serializable {
     public boolean isMapLoaded(GameState p_gameState) {
         return !(p_gameState.getD_map() == null);
     }
-
-
-
 
 
     /**
