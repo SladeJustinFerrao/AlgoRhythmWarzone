@@ -23,6 +23,11 @@ public class Country {
      * How much armies it contains
      */
     int d_armies;
+
+    /**
+     * How many armies it currently contains
+     */
+    int d_currentArmies;
     /**
      * list of countries neighbour to the given country
      */
@@ -39,6 +44,8 @@ public class Country {
         this.d_countryId = p_countryId;
         this.d_countryName = p_countryName;
         this.d_continentId = p_continentId;
+        d_neighbourCountryId = new ArrayList<>();
+        d_armies = 0;
     }
 
     /**
@@ -73,6 +80,22 @@ public class Country {
      */
     public void setD_armies(int p_armies) {
         this.d_armies = p_armies;
+        this.d_currentArmies = p_armies;
+    }
+    /**
+     * getter method to get the armies.
+     * @return armies
+     */
+    public int getD_currentArmies() {
+        return d_currentArmies;
+    }
+    /**
+     * setter method to set armies
+     * @param p_armies armies
+     */
+    public void setD_currentArmies(int p_armies) {
+        this.d_currentArmies = p_armies;
+
     }
     /**
       * getter method to get country ID

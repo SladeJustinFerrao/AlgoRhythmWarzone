@@ -46,8 +46,7 @@ public class Tournament implements Serializable {
     public boolean parseTournamentCommand(GameState p_gameState, String p_operation, String p_argument,
                                           GameEngine p_gameEngine) throws  Exception {
 
-        // tournament -M listofmapfiles -P listofplayerstrategies -G numberofgames -D
-        // maxnumberofturns
+        // tournament -M listofmapfiles -P listofplayerstrategies -G numberofgames -D maxnumberofturns
 
         if (p_operation.equalsIgnoreCase("M")) {
             return parseMapArguments(p_argument, p_gameEngine);

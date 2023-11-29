@@ -70,7 +70,7 @@ public class AggressivePlayer extends PlayerBehavior {
      * @param p_gameState Current game state
      * @return Strongest country
      */
-    private Country getStrongestCountry(Player p_player, GameState p_gameState) {
+    public Country getStrongestCountry(Player p_player, GameState p_gameState) {
         List<Country> l_countriesOwnedByPlayer = p_player.getD_coutriesOwned();
         LinkedHashMap<Country, Integer> l_countryWithArmies = new LinkedHashMap<>();
 
@@ -97,15 +97,16 @@ public class AggressivePlayer extends PlayerBehavior {
      */
     @Override
     public String createAdvanceOrder(Player p_player, GameState p_gameState) {
-        Country l_randomSourceCountry = getRandomCountry(d_deployCountries);
-        moveArmiesFromItsNeighbors(p_player, l_randomSourceCountry, p_gameState);
+        Country l_randomSourceCountry = getRandomCountry(p_player.getD_coutriesOwned());
+        //moveArmiesFromItsNeighbors(p_player, l_randomSourceCountry, p_gameState);
 
         Random l_random = new Random();
         Country l_randomTargetCountry = p_gameState.getD_map()
                 .retrieveCountry(l_randomSourceCountry.getD_neighbourCountryId()
                         .get(l_random.nextInt(l_randomSourceCountry.getD_neighbourCountryId().size())));
 
-        int l_armiesToSend = l_randomSourceCountry.getD_armies() > 1 ? l_randomSourceCountry.getD_armies() : 1;
+        int l_armiesToSend = l_randomSourceCountry.getD_currentArmies() >= 1 ? l_randomSourceCountry.getD_currentArmies() : 0;
+        l_randomSourceCountry.setD_currentArmies(l_randomSourceCountry.getD_currentArmies()-l_armiesToSend);
 
         return "advance " + l_randomSourceCountry.getD_countryName() + " " + l_randomTargetCountry.getD_countryName()
                 + " " + l_armiesToSend;
@@ -146,7 +147,16 @@ public class AggressivePlayer extends PlayerBehavior {
      */
     private Country getRandomCountry(List<Country> p_listOfCountries) {
         Random l_random = new Random();
-        return p_listOfCountries.get(l_random.nextInt(p_listOfCountries.size()));
+        Country l_country;
+        int count = 0;
+        do{
+            l_country = p_listOfCountries.get(l_random.nextInt(p_listOfCountries.size()));
+            if(l_country.getD_currentArmies()>0){
+                break;
+            }
+            count++;
+        }while(count < p_listOfCountries.size());
+        return l_country;
     }
 
     /**
@@ -161,10 +171,17 @@ public class AggressivePlayer extends PlayerBehavior {
     public String createCardOrder(Player p_player, GameState p_gameState, String p_cardName) {
         Random l_random = new Random();
         Country l_StrongestSourceCountry = getStrongestCountry(p_player, d_gameState);
-
-        Country l_randomTargetCountry = p_gameState.getD_map()
-                .retrieveCountry(l_StrongestSourceCountry.getD_neighbourCountryId()
-                        .get(l_random.nextInt(l_StrongestSourceCountry.getD_neighbourCountryId().size())));
+        int count = 0;
+        Country l_randomTargetCountry;
+        do {
+            l_randomTargetCountry = p_gameState.getD_map()
+                    .retrieveCountry(l_StrongestSourceCountry.getD_neighbourCountryId()
+                            .get(l_random.nextInt(l_StrongestSourceCountry.getD_neighbourCountryId().size())));
+            if(!p_player.getD_coutriesOwned().contains(l_randomTargetCountry)){
+                break;
+            }
+            count++;
+        }while(count<l_StrongestSourceCountry.getD_neighbourCountryId().size());
 
         Player l_randomPlayer = getRandomEnemyPlayer(p_player, p_gameState);
 
@@ -179,7 +196,7 @@ public class AggressivePlayer extends PlayerBehavior {
                 return "airlift " + l_StrongestSourceCountry.getD_countryName() + " "
                         + getRandomCountry(p_player.getD_coutriesOwned()).getD_countryName() + " " + l_armiesToSend;
             case "negotiate":
-                return "negotiate" + " " + l_randomPlayer;
+                return "negotiate" + " " + l_randomPlayer.getPlayerName();
         }
         return null;
     }
