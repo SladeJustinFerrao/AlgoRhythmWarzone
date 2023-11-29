@@ -172,6 +172,9 @@ public abstract class Phase {
                 performLoadGame(l_command, p_player);
                 break;
             }
+            case "nocommand": {
+                break;
+            }
             case "exit": {
                 d_gameEngine.setD_gameEngineLog("Exit Command Entered, Game Ends!", GameConstants.OUTCOME);
                 System.exit(0);

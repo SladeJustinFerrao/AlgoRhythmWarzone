@@ -106,8 +106,10 @@ public class AggressivePlayer extends PlayerBehavior {
                         .get(l_random.nextInt(l_randomSourceCountry.getD_neighbourCountryId().size())));
 
         int l_armiesToSend = l_randomSourceCountry.getD_currentArmies() >= 1 ? l_randomSourceCountry.getD_currentArmies() : 0;
+        if(l_armiesToSend==0){
+            return "nocommand";
+        }
         l_randomSourceCountry.setD_currentArmies(l_randomSourceCountry.getD_currentArmies()-l_armiesToSend);
-
         return "advance " + l_randomSourceCountry.getD_countryName() + " " + l_randomTargetCountry.getD_countryName()
                 + " " + l_armiesToSend;
     }
