@@ -68,7 +68,7 @@ public class ConquestMapReader implements Serializable {
         int l_continentId = 1;
 
         for (String l_continent : p_continentList) {
-            String[] l_data = l_continent.split(" ");
+            String[] l_data = l_continent.split("=");
             l_continents.add(new Continent(l_continentId, l_data[0], Integer.parseInt(l_data[1])));
             l_continentId++;
         }
