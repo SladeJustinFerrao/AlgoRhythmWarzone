@@ -163,7 +163,6 @@ public class MapService implements Serializable {
      */
     public boolean saveMap(GameState p_gameState, String p_fileName){
         try {
-
             if (!p_fileName.equalsIgnoreCase(p_gameState.getD_map().getD_mapFile())) {
                 p_gameState.setError("Filename to save does not match with the name provided for edit. Kindly provide the same name.");
                 return false;
@@ -242,6 +241,7 @@ public class MapService implements Serializable {
      */
     public Map loadMap(GameState p_gameState, String p_fileName) {
         Map l_map = new Map();
+        l_map.setD_mapFile(p_fileName);
         String l_filepath = this.getFilePath(p_fileName);
         List<String> l_linesOfFile = loadFile(l_filepath,p_gameState);
 
