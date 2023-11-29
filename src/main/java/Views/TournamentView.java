@@ -84,13 +84,10 @@ public class TournamentView {
         String l_winnerString = String.format("%s %s", "Winner -> ", l_winner);
         StringBuilder l_commaSeparatedPlayers = new StringBuilder();
 
-        for(Player l_player : p_gameState.getD_players()) {
-            if(l_player != p_gameState.getD_winner()) {
-                if(!Objects.equals(l_player.getPlayerName(), "Neutral")) {
-                    l_commaSeparatedPlayers.append(l_player.getPlayerName());
-                    l_commaSeparatedPlayers.append(", ");
-                }
-            }
+        for(int i=0; i<p_gameState.getD_playersFailed().size(); i++) {
+            l_commaSeparatedPlayers.append(p_gameState.getD_playersFailed().get(i).getPlayerName());
+            if(i<p_gameState.getD_playersFailed().size()-1)
+                l_commaSeparatedPlayers.append(", ");
         }
         
         String l_losingPlayers = "Losing Players -> "+ l_commaSeparatedPlayers.toString();
