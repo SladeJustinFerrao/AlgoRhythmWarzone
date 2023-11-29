@@ -5,6 +5,7 @@ import Models.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -108,7 +109,8 @@ public class PlayerServices implements Serializable {
         } else {
             Player l_addNewPlayer = new Player(p_enteredPlayerName);
             String l_playerStrategy = "Benevolent";
-
+            //String l_playerStrategy = Arrays.asList("Human", "Aggressive", "Random", "Benevolent", "Cheater").get(l_random.nextInt(Arrays.asList("Human", "Aggressive", "Random", "Benevolent", "Cheater").size()));
+            // use the above code to randomly assign behaviour of the player
             switch(l_playerStrategy) {
                 case "Human":
                     l_addNewPlayer.setStrategy(new HumanPlayer());
