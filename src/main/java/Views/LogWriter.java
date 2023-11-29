@@ -67,7 +67,7 @@ public class LogWriter implements Observer {
      * @throws IOException
      */
     private void appendLog(File p_logFile, String p_log) throws IOException {
-        Files.write(p_logFile.toPath(), p_log.getBytes(StandardCharsets.US_ASCII),
+        Files.write(p_logFile.toPath(), (p_log == null ? "" : p_log).getBytes(StandardCharsets.US_ASCII),
                 StandardOpenOption.CREATE, StandardOpenOption.APPEND);
     }
 }
