@@ -102,6 +102,42 @@ public class OrderExecutionPhase extends Phase {
         printInvalidCommandInState();
     }
 
+    /**
+     * Handels the tournament gameplay.
+     *
+     * @param p_command Command entered by the user
+     * @throws Exception
+     */
+    @Override
+    protected void tournamentGamePlay(Command p_command) throws Exception {
+
+
+    }
+
+    /**
+     * Handles Game Load Feature.
+     *
+     * @param p_command command entered by user
+     * @param p_player  player instance
+     * @throws IOException indicates failure in I/O operation
+     */
+    @Override
+    protected void performLoadGame(Command p_command, Player p_player) throws Exception {
+
+    }
+
+    /**
+     * Handles Game Save Feature.
+     *
+     * @param p_command command entered by user
+     * @param p_player  player instance
+     * @throws IOException indicates failure in I/O operation
+     */
+    @Override
+    protected void performSaveGame(Command p_command, Player p_player) throws IOException {
+
+    }
+
 
     /**
      * {@inheritDoc}
@@ -115,7 +151,7 @@ public class OrderExecutionPhase extends Phase {
      * {@inheritDoc}
      */
     @Override
-    protected void performAssignCountries(Command p_command, Player p_player) throws Exception {
+    protected void performAssignCountries(Command p_command, Player p_player, boolean isTournamentMode, GameState p_gameState) throws Exception {
         printInvalidCommandInState();
     }
 
@@ -211,7 +247,7 @@ public class OrderExecutionPhase extends Phase {
                         break;
                     } else if(l_continue.equalsIgnoreCase("Y")){
                         d_playerService.assignArmies(d_gameState);
-                        d_gameEngine.setIssueOrderPhase();
+                        d_gameEngine.setIssueOrderPhase(p_isTournamentMode);
                     } else {
                         System.out.println("Invalid Input");
                     }
