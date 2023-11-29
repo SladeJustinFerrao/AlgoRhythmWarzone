@@ -237,14 +237,6 @@ public class Advance implements Order, Serializable {
 			p_gameState.updateLog(orderExecutionLog(), GameConstants.OUTCOME);
 			return false;
 		}
-		if (this.d_numberOfArmiesToPlace == l_country.getD_armies()) {
-			this.setD_orderExecutionLog(this.currentOrder() + " is not executed as source country : "
-							+ this.d_sourceCountryName + " has " + l_country.getD_armies()
-							+ " army units and all of those cannot be given advance order, atleast one army unit has to retain the territory.",
-					"error");
-			p_gameState.updateLog(orderExecutionLog(), GameConstants.OUTCOME);
-			return false;
-		}
 		if(!d_playerInitiator.negotiationValidation(this.d_targetCountryName)){
 			this.setD_orderExecutionLog(this.currentOrder() + " is not executed as "+ d_playerInitiator.getPlayerName()+ " has negotiation pact with the target country's player!", "error");
 			p_gameState.updateLog(orderExecutionLog(), GameConstants.OUTCOME);
