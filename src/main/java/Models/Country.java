@@ -39,6 +39,8 @@ public class Country {
         this.d_countryId = p_countryId;
         this.d_countryName = p_countryName;
         this.d_continentId = p_continentId;
+        d_neighbourCountryId = new ArrayList<>();
+        d_armies = 0;
     }
 
     /**
