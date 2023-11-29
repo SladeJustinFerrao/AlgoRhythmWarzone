@@ -296,8 +296,24 @@ public class StartUpPhase extends Phase {
      * @throws IOException indicates failure in I/O operation
      */
     @Override
-    protected void performSaveGame(Command p_command, Player p_player) throws IOException {
+    protected void performSaveGame(Command p_command, Player p_player) throws Exception {
+        List<java.util.Map<String, String>> l_operations_list = p_command.getTaskandArguments();
 
+        Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler(d_gameState));
+
+        if (l_operations_list == null || l_operations_list.isEmpty()) {
+            throw new Exception(GameConstants.INVALIDCOMMANDERRORSAVEGAME);
+        }
+
+        for (Map<String, String> l_map : l_operations_list) {
+            if (p_command.checkRequiredKeysPresent(GameConstants.ARGUMENTS, l_map)) {
+                String l_filename = l_map.get(GameConstants.ARGUMENTS);
+                GamePlayService.saveGame(this, l_filename);
+                d_gameEngine.setD_gameEngineLog("Game Saved Successfully to "+l_filename, "effect");
+            } else {
+                throw new Exception(GameConstants.INVALIDCOMMANDERRORSAVEGAME);
+            }
+        }
     }
 
     /**
