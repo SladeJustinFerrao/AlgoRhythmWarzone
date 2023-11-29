@@ -151,7 +151,8 @@ public class IssueOrderPhase extends Phase {
      */
     @Override
     protected void performLoadGame(Command p_command, Player p_player) throws Exception {
-
+        printInvalidCommandInState();
+        askForOrder(p_player);
     }
 
     /**
