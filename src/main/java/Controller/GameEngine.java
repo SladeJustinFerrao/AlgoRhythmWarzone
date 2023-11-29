@@ -104,7 +104,7 @@ public class GameEngine implements Serializable {
 	public void setIssueOrderPhase(boolean p_isTournamentMode){
 		this.setD_gameEngineLog("Issue Order Phase", GameConstants.PHASE);
 		setD_CurrentPhase(new IssueOrderPhase(this, d_gameState));
-		//getD_CurrentPhase().initPhase(); // Yug changes
+		getD_CurrentPhase().initPhase(d_isTournamentMode);
 	}
 
 	/**
@@ -113,7 +113,7 @@ public class GameEngine implements Serializable {
 	public void setOrderExecutionPhase(){
 		this.setD_gameEngineLog("Order Execution Phase", GameConstants.PHASE);
 		setD_CurrentPhase(new OrderExecutionPhase(this, d_gameState));
-		//getD_CurrentPhase().initPhase(); //Yug changes
+		getD_CurrentPhase().initPhase(d_isTournamentMode);
 	}
 
 	/**
@@ -142,6 +142,6 @@ public class GameEngine implements Serializable {
 		l_game.getD_CurrentPhase().getD_gameState().updateLog(GameConstants.GAMESTART+System.lineSeparator(), GameConstants.STARTLOG);
 		l_game.setD_gameEngineLog(GameConstants.GAMESTART, GameConstants.PHASE);
 		System.out.println(GameConstants.AVAILABLECOMMANDS);
-		//l_game.getD_CurrentPhase().initPhase(); //Yug Changes
+		l_game.getD_CurrentPhase().initPhase(d_isTournamentMode);
 	}
 }
