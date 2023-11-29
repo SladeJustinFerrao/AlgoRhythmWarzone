@@ -40,13 +40,11 @@ public class IssueOrderPhase extends Phase {
      * @throws Exception Indicates a failure
      */
     public void askForOrder(Player p_player) throws Exception {
-        BufferedReader l_reader = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("\nPlease enter command to issue order for player : " + p_player.getPlayerName()
-                + " or give showmap command to view current state of the game.");
-        String l_commandEntered = l_reader.readLine();
+        String l_commandEntered = p_player.getPlayerOrder(d_gameState);
 
-        d_gameState.updateLog("(Player: " + p_player.getPlayerName() + ") " + l_commandEntered, GameConstants.ORDER);
+        if (l_commandEntered == null) return;
 
+        d_gameState.updateLog("(Player: " + p_player.getPlayerName() + ") " + l_commandEntered, "order");
         handleCommand(l_commandEntered, p_player);
     }
 
@@ -135,11 +133,11 @@ public class IssueOrderPhase extends Phase {
      * Handles the tournament gameplay.
      *
      * @param p_command Command entered by the user
-     * @throws Exception
+     * @throws Exception Exception
      */
     @Override
     protected void tournamentGamePlay(Command p_command) throws Exception {
-
+        printInvalidCommandInState();
     }
 
     /**
@@ -176,7 +174,7 @@ public class IssueOrderPhase extends Phase {
             if (p_command.checkRequiredKeysPresent(GameConstants.ARGUMENTS, l_map)) {
                 String l_filename = l_map.get(GameConstants.ARGUMENTS);
                 GamePlayService.saveGame(this, l_filename);
-                d_gameEngine.setD_gameEngineLog("Game Saved Successfully to "+l_filename, "effect");
+                d_gameEngine.setD_gameEngineLog("Game Saved Successfully to " + l_filename, "effect");
 
             } else {
                 throw new Exception(GameConstants.INVALIDCOMMANDERRORSAVEGAME);
@@ -189,7 +187,7 @@ public class IssueOrderPhase extends Phase {
      */
     @Override
     protected void performCardHandle(String p_enteredCommand, Player p_player) throws Exception {
-        if(p_player.getD_cardsOwnedByPlayer().contains(p_enteredCommand.split(" ")[0])) {
+        if (p_player.getD_cardsOwnedByPlayer().contains(p_enteredCommand.split(" ")[0])) {
             p_player.handleCardCommands(p_enteredCommand, d_gameState);
         }
     }
@@ -232,6 +230,9 @@ public class IssueOrderPhase extends Phase {
     private void issueOrders(boolean p_isTournamentMode) {
         do {
             for (Player l_player : d_gameState.getD_players()) {
+                if (l_player.getD_coutriesOwned().size() == 0) {
+                    l_player.setD_moreOrders(false);
+                }
                 if (l_player.getD_moreOrders() && !l_player.getPlayerName().equals("Neutral")) {
                     try {
                         l_player.issue_order(this);
