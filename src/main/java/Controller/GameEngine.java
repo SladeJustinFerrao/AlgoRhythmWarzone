@@ -101,7 +101,7 @@ public class GameEngine implements Serializable {
 	/**
 	 * These methods update the current phase to Issue Order Phase as per State Pattern.
 	 */
-	public void setIssueOrderPhase(){
+	public void setIssueOrderPhase(boolean p_isTournamentMode){
 		this.setD_gameEngineLog("Issue Order Phase", GameConstants.PHASE);
 		setD_CurrentPhase(new IssueOrderPhase(this, d_gameState));
 		//getD_CurrentPhase().initPhase(); // Yug changes

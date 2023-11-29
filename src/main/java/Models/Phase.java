@@ -153,7 +153,7 @@ public abstract class Phase {
                 break;
             }
             case "assigncountries": {
-                performAssignCountries(l_command, p_player);
+                performAssignCountries(l_command, p_player, false, d_gameState);
                 break;
             }
             case "showmap": {
@@ -298,7 +298,7 @@ public abstract class Phase {
      * @param p_player  player instance
      * @throws IOException indicates failure in I/O operation
      */
-    protected abstract void performLoadGame(Command p_command, Player p_player) throws IOException;
+    protected abstract void performLoadGame(Command p_command, Player p_player) throws Exception;
 
     /**
      * Handles Game Save Feature.
@@ -327,7 +327,7 @@ public abstract class Phase {
      * @param p_player  Instance of the Player Object
      * @throws Exception Indicates a failure
      */
-    protected abstract void performAssignCountries(Command p_command, Player p_player) throws Exception;
+    protected abstract void performAssignCountries(Command p_command, Player p_player, boolean p_isTournamentMode, GameState p_gameState) throws Exception;
 
     /**
      * Handles the 'show map' command.
