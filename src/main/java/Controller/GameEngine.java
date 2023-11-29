@@ -74,7 +74,7 @@ public class GameEngine implements Serializable {
 	 *
 	 * @param p_phase new Phase to set in Game context
 	 */
-	private void setD_CurrentPhase(Phase p_phase){
+	public void setD_CurrentPhase(Phase p_phase){
 		d_currentPhase = p_phase;
 	}
 

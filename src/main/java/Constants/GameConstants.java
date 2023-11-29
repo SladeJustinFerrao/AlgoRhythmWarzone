@@ -30,6 +30,7 @@ public final class GameConstants {
     public static final String INVALIDCOMMANDERRORLOADGAME = "Invalid command. Kindly provide command in Format of : loadgame filename";
     public static final String INVALIDCOMMANDERRORASSIGNCOUNTRIES = "Invalid command. Kindly provide command in Format of : assigncountries";
     public static final String INVALIDCOMMANDTOURNAMENTMODE = "Invalid Command Tournament Mode!!";
+    public static final String INVALIDCOMMANDERRORSAVEGAME = "INVALID COMMAND ERROR SAVEGAME!!";
     public static final String ARGUMENTS = "arguments";
     public static final String OPERATIONS = "operation";
 

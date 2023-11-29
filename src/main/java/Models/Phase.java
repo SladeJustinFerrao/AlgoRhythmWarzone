@@ -287,7 +287,7 @@ public abstract class Phase {
      * Handels the tournament gameplay.
      *
      * @param p_command Command entered by the user
-     * @throws Exception
+     * @throws Exception Exception
      */
     protected abstract void tournamentGamePlay(Command p_command) throws Exception;
 
@@ -296,7 +296,7 @@ public abstract class Phase {
      *
      * @param p_command command entered by user
      * @param p_player  player instance
-     * @throws IOException indicates failure in I/O operation
+     * @throws Exception indicates failure in operation
      */
     protected abstract void performLoadGame(Command p_command, Player p_player) throws Exception;
 
@@ -305,9 +305,9 @@ public abstract class Phase {
      *
      * @param p_command command entered by user
      * @param p_player  player instance
-     * @throws IOException indicates failure in I/O operation
+     * @throws Exception indicates failure in operation
      */
-    protected abstract void performSaveGame(Command p_command, Player p_player) throws IOException;
+    protected abstract void performSaveGame(Command p_command, Player p_player) throws Exception;
 
 
     /**
