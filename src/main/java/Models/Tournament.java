@@ -104,7 +104,7 @@ public class Tournament implements Serializable {
         for (String l_strategy : l_listOfPlayerStrategies) {
             if (l_uniqueStrategies.contains(l_strategy)) {
                 p_gameEngine.setD_gameEngineLog(
-                        "Repeatative strategy : " + l_strategy + " given. Kindly provide set of unique strategies.",
+                        "Repeti    tive strategy : " + l_strategy + " given. Kindly provide set of unique strategies.",
                         "effect");
                 return false;
             }
@@ -127,7 +127,7 @@ public class Tournament implements Serializable {
         }
         if (l_playersInTheGame.size() < 2) {
             p_gameEngine.setD_gameEngineLog(
-                    "There has to be atleast 2 or more non human players eligible to play the tournament.", "effect");
+                    "There has to be at least 2 or more non human players eligible to play the tournament.", "effect");
             return false;
         }
         for (GameState l_gameState : d_gameStateList) {

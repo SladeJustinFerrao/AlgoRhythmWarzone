@@ -22,7 +22,7 @@ public class MapService implements Serializable {
      *
      * @param p_gameState Current State of the game
      * @param p_editFile File name
-     * @throws IOException
+     * @throws IOException Exception
      */
     public void editMap(GameState p_gameState, String p_editFile) throws IOException {
 
@@ -50,7 +50,7 @@ public class MapService implements Serializable {
      * @param p_argument Arguments
      * @param p_operation Operation
      * @param p_switch Switch parameter
-     * @throws IOException
+     * @throws IOException Exception
      */
     public void editFunctions(GameState p_gameState, String p_argument, String p_operation, Integer p_switch) throws Exception {
         Map l_updatedMap;

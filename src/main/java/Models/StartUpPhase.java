@@ -7,7 +7,6 @@ import Utils.Command;
 import Utils.UncaughtExceptionHandler;
 import Views.MapView;
 import Views.TournamentView;
-import jdk.jshell.spi.ExecutionControlProvider;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -174,32 +173,24 @@ public class StartUpPhase extends Phase {
      * {@inheritDoc}
      */
     public void createPlayers(Command p_command, Player p_player) throws Exception {
-        if (!l_isMapLoaded) {
-            d_gameEngine.setD_gameEngineLog("No map found, Please `loadmap` before adding game players", GameConstants.OUTCOME);
-            return;
-        }
-
         List<Map<String, String>> l_operations_list = p_command.getTaskandArguments();
 
         Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler(d_gameState));
         if (l_operations_list == null || l_operations_list.isEmpty()) {
             throw new Exception(GameConstants.INVALIDCOMMAND);
         } else {
-            if (d_gameState.getD_loadCommand()) {
-                for (Map<String, String> l_map : l_operations_list) {
-                    if (p_command.checkRequiredKeysPresent(GameConstants.ARGUMENTS, l_map)
-                            && p_command.checkRequiredKeysPresent(GameConstants.OPERATIONS, l_map)) {
-                        d_playerService.updatePlayers(d_gameState, l_map.get(GameConstants.OPERATIONS),
-                                l_map.get(GameConstants.ARGUMENTS));
-                    } else {
-                        throw new Exception(GameConstants.INVALIDCOMMAND);
-                    }
+            for (Map<String, String> l_map : l_operations_list) {
+                if (p_command.checkRequiredKeysPresent(GameConstants.ARGUMENTS, l_map)
+                        && p_command.checkRequiredKeysPresent(GameConstants.OPERATIONS, l_map)) {
+                    d_playerService.updatePlayers(d_gameState, l_map.get(GameConstants.OPERATIONS),
+                            l_map.get(GameConstants.ARGUMENTS));
+                } else {
+                    throw new Exception(GameConstants.INVALIDCOMMAND);
                 }
-            } else {
-                d_gameEngine.setD_gameEngineLog("Please load a valid map first via loadmap command!", GameConstants.OUTCOME);
             }
         }
     }
+
 
     /**
      * {@inheritDoc}
