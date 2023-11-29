@@ -12,10 +12,7 @@ import java.io.InputStreamReader;
 public class IssueOrderPhase extends Phase {
 
     /**
-     * Constructor for initializing the current game engine and game state.
-     *
-     * @param p_gameEngine Instance of the game engine to update the state
-     * @param p_gameState  Instance of the game state
+     * {@inheritDoc}
      */
     public IssueOrderPhase(GameEngine p_gameEngine, GameState p_gameState) {
         super(p_gameEngine, p_gameState);
@@ -129,10 +126,10 @@ public class IssueOrderPhase extends Phase {
     }
 
     /**
-     * Handels the tournament gameplay.
+     * Handel's the tournament gameplay.
      *
      * @param p_command Command entered by the user
-     * @throws Exception
+     * @throws Exception Exception
      */
     @Override
     protected void tournamentGamePlay(Command p_command) throws Exception {
@@ -203,6 +200,9 @@ public class IssueOrderPhase extends Phase {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     private void issueOrders(boolean p_isTournamentMode) {
         do {
             for (Player l_player : d_gameState.getD_players()) {
