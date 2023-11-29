@@ -2,12 +2,15 @@ package Models;
 
 import Constants.GameConstants;
 import Controller.GameEngine;
+import Services.GamePlayService;
 import Utils.Command;
+import Utils.UncaughtExceptionHandler;
 import Views.MapView;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 
 public class IssueOrderPhase extends Phase {
 
@@ -129,7 +132,7 @@ public class IssueOrderPhase extends Phase {
     }
 
     /**
-     * Handels the tournament gameplay.
+     * Handles the tournament gameplay.
      *
      * @param p_command Command entered by the user
      * @throws Exception
@@ -159,8 +162,25 @@ public class IssueOrderPhase extends Phase {
      * @throws IOException indicates failure in I/O operation
      */
     @Override
-    protected void performSaveGame(Command p_command, Player p_player) throws IOException {
+    protected void performSaveGame(Command p_command, Player p_player) throws Exception {
+        List<java.util.Map<String, String>> l_operations_list = p_command.getTaskandArguments();
 
+        Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler(d_gameState));
+
+        if (l_operations_list == null || l_operations_list.isEmpty()) {
+            throw new Exception(GameConstants.INVALIDCOMMANDERRORSAVEGAME);
+        }
+
+        for (java.util.Map<String, String> l_map : l_operations_list) {
+            if (p_command.checkRequiredKeysPresent(GameConstants.ARGUMENTS, l_map)) {
+                String l_filename = l_map.get(GameConstants.ARGUMENTS);
+                GamePlayService.saveGame(this, l_filename);
+                d_gameEngine.setD_gameEngineLog("Game Saved Successfully to "+l_filename, "effect");
+
+            } else {
+                throw new Exception(GameConstants.INVALIDCOMMANDERRORSAVEGAME);
+            }
+        }
     }
 
     /**
@@ -203,6 +223,11 @@ public class IssueOrderPhase extends Phase {
         }
     }
 
+    /**
+     * Accepts orders from players.
+     *
+     * @param p_isTournamentMode if game is being played in tournament mode
+     */
     private void issueOrders(boolean p_isTournamentMode) {
         do {
             for (Player l_player : d_gameState.getD_players()) {
@@ -219,4 +244,5 @@ public class IssueOrderPhase extends Phase {
 
         d_gameEngine.setOrderExecutionPhase();
     }
+
 }
