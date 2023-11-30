@@ -93,7 +93,6 @@ public class TournamentTest {
      */
     @Test
     public void testValidTournament() throws Exception {
-        StartUpPhase l_startUpPhase = new StartUpPhase(new GameEngine(), d_gameState);
         Tournament l_tournament = new Tournament();
         GameEngine l_gameEngine = new GameEngine();
         l_tournament.parseTournamentCommand(d_gameState, "M",
