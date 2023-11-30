@@ -3,9 +3,21 @@ package Models;
 import java.util.*;
 import java.util.Map;
 
+/**
+ * Class for benevolent player who will only defend, never attack
+ */
 public class BenevolentPlayer extends PlayerBehavior {
+    /**
+     * List containing deploy order countries
+     */
     ArrayList<Country> d_deployCountries = new ArrayList<>();
 
+    /**
+     * Method to create a new order
+     * @param p_Player Object of Player class
+     * @param p_gameState Object of GameState class
+     * @return String
+     */
     @Override
     public String createOrder(Player p_Player, GameState p_gameState) {
         String l_command;
@@ -58,6 +70,12 @@ public class BenevolentPlayer extends PlayerBehavior {
         return l_command;
     }
 
+    /**
+     * Method to create deploy order
+     * @param p_Player Object of Player class
+     * @param p_gameState Object of GameState class
+     * @return String
+     */
     @Override
     public String createDeployOrder(Player p_Player, GameState p_gameState) {
         if(p_Player.getD_noOfUnallocatedArmies() > 0) {
@@ -74,6 +92,12 @@ public class BenevolentPlayer extends PlayerBehavior {
         }
     }
 
+    /**
+     * Method to create advance order
+     * @param p_Player Object of Player class
+     * @param p_gameState Object of GameState class
+     * @return String
+     */
     @Override
     public String createAdvanceOrder(Player p_Player, GameState p_gameState) {
         //Advance on the weakest country
@@ -98,6 +122,13 @@ public class BenevolentPlayer extends PlayerBehavior {
         return "advance " + l_randomSourceCountry.getD_countryName() + " " + l_weakestTargetCountry.getD_countryName() + " " + l_armiesToSend;
     }
 
+    /**
+     * Method to create card order
+     * @param p_Player Object of Player class
+     * @param p_gameState Object of GameState class
+     * @param p_cardName Card name for created Order
+     * @return String
+     */
     @Override
     public String createCardOrder(Player p_Player, GameState p_gameState, String p_cardName) {
         int l_armiesToSend;
@@ -129,11 +160,20 @@ public class BenevolentPlayer extends PlayerBehavior {
         return null;
     }
 
+    /**
+     * Method to get player behaviour
+     * @return String
+     */
     @Override
     public String getPlayerBehavior() {
         return "Benevolent";
     }
 
+    /**
+     * Method to get random country
+     * @param p_listOfCountries list of countries
+     * @return random country from the list given
+     */
     private Country getRandomCountry(List<Country> p_listOfCountries) {
         Random l_random = new Random();
         Country l_country;
@@ -148,12 +188,23 @@ public class BenevolentPlayer extends PlayerBehavior {
         return l_country;
     }
 
+    /**
+     * Method to get the weakest country
+     * @param p_Player player object
+     * @return weakest country given player has
+     */
     public Country getWeakestCountry(Player p_Player) {
         List<Country> l_countriesOwnedByPlayer = p_Player.getD_coutriesOwned();
         Country l_Country = calculateWeakestCountry(l_countriesOwnedByPlayer);
         return l_Country;
     }
 
+    /**
+     * Method to get the weakest neighbour country
+     * @param l_randomSourceCountry random source country
+     * @param p_gameState current game state
+     * @return weakest neighbour country
+     */
     public Country getWeakestNeighbor(Country l_randomSourceCountry, GameState p_gameState) {
         List<Integer> l_neighbourCountryIds = l_randomSourceCountry.getD_neighbourCountryId();
         List<Country> l_listOfNeighbors = new ArrayList<Country>();
@@ -167,6 +218,11 @@ public class BenevolentPlayer extends PlayerBehavior {
         return l_Country;
     }
 
+    /**
+     * Method to calculate the weakest country
+     * @param l_listOfCountries list of countries
+     * @return weakest country
+     */
     public Country calculateWeakestCountry(List<Country> l_listOfCountries) {
         LinkedHashMap<Country, Integer> l_CountryWithArmies = new LinkedHashMap<Country, Integer>();
         int l_smallestNoOfArmies;
@@ -185,6 +241,12 @@ public class BenevolentPlayer extends PlayerBehavior {
         return l_Country;
     }
 
+    /**
+     * Method to get random enemy neighbour country
+     * @param p_Player player object
+     * @param p_Country country object
+     * @return random country
+     */
     private ArrayList<Integer> randomEnemyNeighbor(Player p_Player, Country p_Country) {
         ArrayList<Integer> l_enemyNeighbors = new ArrayList<>();
         for(Integer l_countryID : p_Country.getD_neighbourCountryId()) {
@@ -195,6 +257,11 @@ public class BenevolentPlayer extends PlayerBehavior {
         return l_enemyNeighbors;
     }
 
+    /**
+     * Method to check if armies are deployed by the player or not
+     * @param p_Player player object
+     * @return true is armies are deployed or false
+     */
     private Boolean checkIfArmiesDeployed(Player p_Player) {
         if(p_Player.getD_coutriesOwned().stream().anyMatch(l_country -> l_country.getD_armies() > 0)) {
             return true;
