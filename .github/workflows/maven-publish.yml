@@ -43,7 +43,7 @@ jobs:
       uses: MathieuSoysal/Javadoc-publisher.yml@v2.4.0
       with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          javadoc-branch: build3dev
+          javadoc-branch: dev
           java-version: 20
           target-folder: documentation/JavaDoc # url will be https://<username>.github.io/<repo>/documentation/JavaDoc, This can be left as nothing to generate javadocs in the root folder.
           project: maven 
