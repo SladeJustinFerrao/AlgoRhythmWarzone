@@ -36,7 +36,7 @@ Grand Bank,t1,t2,Great Horn Island,Gray,Barron
 Gras,t1,t2,Greenwood Island,Galyn,Gilead,Quag,Mylon
 Galyn,t1,t2,Greenwood Island,Gras,Gilead,Gorshen
 Gilead,t1,t2,Greenwood Island,Gras,Galyn,Gorshen,Queew
-Gorshen,t1,t2,Greenwood Island,Galyn,Gilead,Polaris
+Gorshen,t1,t2,Greenwood Island,Galyn,Gilead,Polaris,Rufus
 Polaris,t1,t2,Polar Island,Moonbay,Gorshen,Rand
 Queensryche,t1,t2,Queensbasin,Cylac,Cirius,Quell,Quay,Quandry
 Quell,t1,t2,Queensbasin,Cirius,Ceed,Queensryche,Quandry,Mylon
@@ -50,5 +50,5 @@ Queew,t1,t2,Queensbasin,Quot,Quag,Gilead
 Relish,t1,t2,Republic of Cranberra,Rhone,Rand,Marrian
 Rhone,t1,t2,Republic of Cranberra,Relish,Riviera,Rand,Mastic,Marrian
 Riviera,t1,t2,Republic of Cranberra,Rhone,Rand,Mastic,Banyan,Bella,Bot
-Rand,t1,t2,Republic of Cranberra,Relish,Rhone,Riviera,Bot,Byland,Polaris
+Rand,t1,t2,Republic of Cranberra,Relish,Rhone,Riviera,Rufus,Bot,Byland,Polaris
 Rufus,t1,t2,Republic of Cranberra,Rand,Gorshen
