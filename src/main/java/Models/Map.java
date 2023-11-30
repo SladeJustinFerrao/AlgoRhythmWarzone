@@ -1,5 +1,6 @@
 package Models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -9,7 +10,7 @@ import java.util.List;
 /**
  * This class contains functions for map manipulations and validation
  */
-public class Map {
+public class Map implements Serializable {
     /**
      * stores the map file name.
      */
@@ -83,6 +84,14 @@ public class Map {
     public void setD_countries(List<Country> d_countries) {
         this.d_countries = d_countries;
     }
+    /**
+     * Adds the continent to the list of continents
+     *
+     * @param p_continent Continent to add to list
+     */
+    public void appendContinent(Continent p_continent) {
+        d_continents.add(p_continent);
+    }
 
     /**
      * adds country to the list of countries
@@ -122,14 +131,6 @@ public class Map {
         }
     }
 
-    /**
-     * Adds the continent to the list of continents
-     *
-     * @param p_continent Continent to add to list
-     */
-    public void appendContinent(Continent p_continent) {
-        d_continents.add(p_continent);
-    }
 
     /**
      * Obtain a list of all the Continent IDs in play
@@ -172,13 +173,16 @@ public class Map {
     public Boolean checkNullObjects() {
         if(d_continents==null || d_continents.isEmpty()){
             System.out.println("Map must contain at least one continent!");
+            return false;
         }
         if(d_countries==null || d_countries.isEmpty()){
             System.out.println("Map must contain at least one country!");
+            return false;
         }
         for(Country c: d_countries){
             if(c.getD_neighbourCountryId().isEmpty()){
                 System.out.println(c.getD_countryName()+" does not possess any neighbour, hence isn't reachable!");
+                return false;
             }
         }
         return true;
@@ -220,6 +224,7 @@ public class Map {
             if (!entry.getValue()) {
                 Country l_country = retrieveCountry(entry.getKey());
                 System.out.println(l_country.getD_countryName() + " is not connected");
+                return !l_countriesInContinent.containsValue(true);
             }
         }
         return !l_countriesInContinent.containsValue(false);
@@ -258,6 +263,7 @@ public class Map {
             }
         } else {
             System.out.println(p_country.getD_countryName() + " doesn't contain any neighbour countries");
+            return null;
         }
         return l_neighbourCountries;
     }
@@ -290,6 +296,7 @@ public class Map {
         for (java.util.Map.Entry<Integer, Boolean> entry : d_countryConnectedStatus.entrySet()) {
             if (!entry.getValue()) {
                 System.out.println(retrieveCountry(entry.getKey()).getD_countryName() + " country is not accessible");
+                return !d_countryConnectedStatus.containsValue(true);
             }
         }
         return !d_countryConnectedStatus.containsValue(false);
@@ -323,6 +330,14 @@ public class Map {
             }
         }
         return null;
+    }
+    /**
+     * adds the country to the map.
+     *
+     * @param p_country country to add
+     */
+    public void addCountry(Country p_country){
+        d_countries.add(p_country);
     }
 
     /**
@@ -374,6 +389,14 @@ public class Map {
             System.out.println(p_countryName+" Country"+" does not exist!");
         }
     }
+    /**
+     * adds the continent to the map.
+     *
+     * @param p_continent continent to add
+     */
+    public void addContinent(Continent p_continent){
+        d_continents.add(p_continent);
+    }
 
     /**
      * Adds continent to the map
@@ -390,6 +413,7 @@ public class Map {
                 d_continents.add(new Continent(l_continentID, p_continentName, p_continentControlBonus));
             } else {
                 System.out.println("Continent is already created");
+
             }
         } else {
             d_continents = new ArrayList<>();
@@ -406,6 +430,21 @@ public class Map {
     public Continent retrieveContinent(String p_continentName) {
         for (Continent continent : d_continents) {
             if (p_continentName.equals(continent.getD_continentName())) {
+                return continent;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Returns continent object that matches with continent id
+     *
+     * @param p_continentId Id of continent to retrieve
+     * @return Continent object
+     */
+    public Continent retrieveContinentById(Integer p_continentId) {
+        for (Continent continent : d_continents) {
+            if (p_continentId.equals(continent.getD_continentID())) {
                 return continent;
             }
         }

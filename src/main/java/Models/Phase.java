@@ -6,7 +6,10 @@ import Services.MapService;
 import Services.PlayerServices;
 import Utils.Command;
 
-public abstract class Phase {
+import java.io.IOException;
+import java.io.Serializable;
+
+public abstract class Phase implements Serializable {
 
     /**
      * Stores the information about the current GamePlay.
@@ -32,6 +35,11 @@ public abstract class Phase {
      * Manages player-related operations, including editing players and issuing orders.
      */
     PlayerServices d_playerService = new PlayerServices();
+
+    /**
+     * Manages the tournament mode.
+     */
+    Tournament d_tournament = new Tournament();
 
     /**
      * Constructor for initializing the current game engine and game state.
@@ -146,11 +154,26 @@ public abstract class Phase {
                 break;
             }
             case "assigncountries": {
-                performAssignCountries(l_command, p_player);
+                performAssignCountries(l_command, p_player, false, d_gameState);
                 break;
             }
             case "showmap": {
                 performShowMap(l_command, p_player);
+                break;
+            }
+            case "tournament": {
+                tournamentGamePlay(l_command);
+                break;
+            }
+            case "savegame": {
+                performSaveGame(l_command, p_player);
+                break;
+            }
+            case "loadgame": {
+                performLoadGame(l_command, p_player);
+                break;
+            }
+            case "nocommand": {
                 break;
             }
             case "exit": {
@@ -265,6 +288,33 @@ public abstract class Phase {
     protected abstract void performAdvance(String p_command, Player p_player) throws Exception;
 
     /**
+     * Handels the tournament gameplay.
+     *
+     * @param p_command Command entered by the user
+     * @throws Exception Exception
+     */
+    protected abstract void tournamentGamePlay(Command p_command) throws Exception;
+
+    /**
+     * Handles Game Load Feature.
+     *
+     * @param p_command command entered by user
+     * @param p_player  player instance
+     * @throws Exception indicates failure in operation
+     */
+    protected abstract void performLoadGame(Command p_command, Player p_player) throws Exception;
+
+    /**
+     * Handles Game Save Feature.
+     *
+     * @param p_command command entered by user
+     * @param p_player  player instance
+     * @throws Exception indicates failure in operation
+     */
+    protected abstract void performSaveGame(Command p_command, Player p_player) throws Exception;
+
+
+    /**
      * Handles the card commands.
      *
      * @param p_enteredCommand String representing the entered command
@@ -281,7 +331,7 @@ public abstract class Phase {
      * @param p_player  Instance of the Player Object
      * @throws Exception Indicates a failure
      */
-    protected abstract void performAssignCountries(Command p_command, Player p_player) throws Exception;
+    protected abstract void performAssignCountries(Command p_command, Player p_player, boolean p_isTournamentMode, GameState p_gameState) throws Exception;
 
     /**
      * Handles the 'show map' command.
@@ -302,6 +352,6 @@ public abstract class Phase {
     /**
      * This method signifies the main functionality executed on phase change.
      */
-    public abstract void initPhase();
+    public abstract void initPhase(boolean p_isTournamentMode);
 
 }

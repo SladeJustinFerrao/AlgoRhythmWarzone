@@ -1,5 +1,6 @@
 package Models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import Services.PlayerServices;
 /**
  * Concrete Command of Command pattern.
  */
-public class Advance implements Order {
+public class Advance implements Order, Serializable {
 	/**
 	 * name of the target country.
 	 */
@@ -72,7 +73,7 @@ public class Advance implements Order {
 				deployArmiesToTarget(l_targetCountry);
 			} else if (l_targetCountry.getD_armies() == 0) {
 				conquerTargetCountry(p_gameState, l_playerOfTargetCountry, l_targetCountry);
-				this.d_playerInitiator.assignCard();
+				this.d_playerInitiator.setD_oneCardPerTurn(true);
 			} else {
 				produceOrderResult(p_gameState, l_playerOfTargetCountry, l_targetCountry, l_sourceCountry);
 			}
@@ -193,7 +194,7 @@ public class Advance implements Order {
 							+ p_targetCountry.getD_countryName() + " and armies : " + p_targetCountry.getD_armies(),
 					"default");
 
-			this.d_playerInitiator.assignCard();
+			this.d_playerInitiator.setD_oneCardPerTurn(true);
 		} else {
 			p_targetCountry.setD_armies(p_defenderArmiesLeft);
 
@@ -233,14 +234,6 @@ public class Advance implements Order {
 			this.setD_orderExecutionLog(this.currentOrder()
 					+ " is not executed as armies given in advance order exceeds armies of source country : "
 					+ this.d_sourceCountryName, "error");
-			p_gameState.updateLog(orderExecutionLog(), GameConstants.OUTCOME);
-			return false;
-		}
-		if (this.d_numberOfArmiesToPlace == l_country.getD_armies()) {
-			this.setD_orderExecutionLog(this.currentOrder() + " is not executed as source country : "
-							+ this.d_sourceCountryName + " has " + l_country.getD_armies()
-							+ " army units and all of those cannot be given advance order, atleast one army unit has to retain the territory.",
-					"error");
 			p_gameState.updateLog(orderExecutionLog(), GameConstants.OUTCOME);
 			return false;
 		}

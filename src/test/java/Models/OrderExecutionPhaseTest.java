@@ -5,9 +5,14 @@ import java.util.Arrays;
 import java.util.List;
 
 import Controller.GameEngine;
+import Services.MapService;
+import Services.PlayerServices;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * JUnit test class for the Order Execution Phase functionality.
@@ -54,7 +59,17 @@ public class OrderExecutionPhaseTest {
      */
     @Test
     public void testEndOfTheGame() {
+        List<Player> d_exisitingPlayerList = new ArrayList<>();
+        d_exisitingPlayerList.add(new Player("Darshan"));
+        d_exisitingPlayerList.add(new Player("Slade"));
+        MapService d_mapservice = new MapService();
+        Map d_map = new Map();
+        d_map = d_mapservice.loadMap(d_gameState, "canada.map");
+        d_gameState.setD_map(d_map);
+        d_gameState.setD_players(d_exisitingPlayerList);
+        PlayerServices d_playerService = new PlayerServices();
+        d_playerService.assignCountries(d_gameState);
         OrderExecutionPhase l_orderExec = new OrderExecutionPhase(new GameEngine(), d_gameState);
-        assertTrue(l_orderExec.checkEndOftheGame(d_gameState));
+        assertFalse(l_orderExec.checkEndOftheGame(d_gameState));
     }
 }

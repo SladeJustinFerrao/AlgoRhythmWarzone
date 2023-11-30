@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Test class for Map.java
  */
-class MapTest {
+class   MapTest {
 
     /**
      * Invalid Test to see if all elements of the map are connected
@@ -34,7 +34,7 @@ class MapTest {
     }
 
     /**
-     * Valid test to see if all elements of map are connectedS
+     * Valid test to see if all elements of map are connected
      */
     @Test
     void validMapTest() {

@@ -2,12 +2,14 @@ package Models;
 
 import Views.LogWriter;
 import Constants.GameConstants;
+
+import java.io.Serializable;
 import java.util.Observable;
 
 /**
  * Class used for logging of the game.
  */
-public class LogEntryBuffer extends Observable {
+public class LogEntryBuffer extends Observable implements Serializable {
 
     String d_logInput;
 
