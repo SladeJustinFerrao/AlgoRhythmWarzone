@@ -241,7 +241,7 @@ public class OrderExecutionPhase extends Phase {
             if (l_player.getD_coutriesOwned().size() == (maxCountriesConquered == Integer.MIN_VALUE ? l_totalCountries : maxCountriesConquered)) {
                 d_gameState.setD_winner(l_player);
                 d_gameEngine.setD_gameEngineLog("Player : " + l_player.getPlayerName()
-                        + " has won the Game by conquering all countries. Exiting the Game .....", "end");
+                        + " has won the Game by conquering maximum countries. Exiting the Game .....", "end");
                 return true;
             }
         }

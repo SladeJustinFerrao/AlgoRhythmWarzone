@@ -74,7 +74,7 @@ class PlayerServicesTest {
 
         System.setOut(new PrintStream(d_outContent));
         d_playerService.addRemovePlayers(d_exisitingPlayerList, "add", "Slade");
-        assertEquals("Player with name : Slade  Exists already. Changes not made.", d_outContent.toString().trim());
+        assertEquals("Player with name : Slade already Exists. Changes are not made.", d_outContent.toString().trim());
     }
 
     /**
