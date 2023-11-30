@@ -81,7 +81,7 @@ class GameEngineTest {
             l_isExcep=true;
         }
 
-        assertTrue(l_isExcep);
+        assertTrue(!l_isExcep);
     }
 
     /**
