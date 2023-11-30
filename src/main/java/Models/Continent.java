@@ -1,12 +1,13 @@
 package Models;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.ArrayList;
 
 /**
  * This class contains the functions for managing continents
  */
-public class Continent {
+public class Continent implements Serializable {
 
     /**
      * Continent ID

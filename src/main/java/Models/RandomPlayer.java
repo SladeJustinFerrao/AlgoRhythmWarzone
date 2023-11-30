@@ -104,9 +104,18 @@ public class RandomPlayer extends PlayerBehavior{
      * @param p_listOfCountries list of Countries owned by player
      * @return Random country from list
      */
-    private Country getRandomCountry(List<Country> p_listOfCountries){
+    private Country getRandomCountry(List<Country> p_listOfCountries) {
         Random l_random = new Random();
-        return p_listOfCountries.get(l_random.nextInt(p_listOfCountries.size()));
+        Country l_country;
+        int count = 0;
+        do{
+            l_country = p_listOfCountries.get(l_random.nextInt(p_listOfCountries.size()));
+            if(l_country.getD_currentArmies()>0){
+                break;
+            }
+            count++;
+        }while(count < p_listOfCountries.size());
+        return l_country;
     }
 
     /**
@@ -142,7 +151,7 @@ public class RandomPlayer extends PlayerBehavior{
     public String createAdvanceOrder(Player p_player, GameState p_gameState) {
         int l_armiesToSend;
         Random l_random = new Random();
-        Country l_randomOwnCountry = getRandomCountry(d_deployCountries);
+        Country l_randomOwnCountry = getRandomCountry(p_player.getD_coutriesOwned());
         int l_randomIndex = l_random.nextInt(l_randomOwnCountry.getD_neighbourCountryId().size());
         Country l_randomNeighbor;
         if (l_randomOwnCountry.getD_neighbourCountryId().size()>1) {
@@ -151,11 +160,15 @@ public class RandomPlayer extends PlayerBehavior{
             l_randomNeighbor = p_gameState.getD_map().retrieveCountry(l_randomOwnCountry.getD_neighbourCountryId().get(0));
         }
 
-        if (l_randomOwnCountry.getD_armies()>1) {
-            l_armiesToSend = l_random.nextInt(l_randomOwnCountry.getD_armies() - 1) + 1;
+        if (l_randomOwnCountry.getD_currentArmies()>0) {
+            l_armiesToSend = l_random.nextInt(l_randomOwnCountry.getD_currentArmies() - 1);
         } else {
-            l_armiesToSend = 1;
+            l_armiesToSend = 0;
         }
+        if(l_armiesToSend==0){
+            return "nocommand";
+        }
+        l_randomOwnCountry.setD_currentArmies(l_randomOwnCountry.getD_currentArmies()-l_armiesToSend);
         return "advance "+l_randomOwnCountry.getD_countryName()+" "+l_randomNeighbor.getD_countryName()+" "+ l_armiesToSend;
     }
 
@@ -173,13 +186,23 @@ public class RandomPlayer extends PlayerBehavior{
         Random l_random = new Random();
         Country l_randomOwnCountry = getRandomCountry(p_player.getD_coutriesOwned());
 
-        Country l_randomNeighbour = p_gameState.getD_map().retrieveCountry(l_randomOwnCountry.getD_neighbourCountryId().get(l_random.nextInt(l_randomOwnCountry.getD_neighbourCountryId().size())));
+        int count = 0;
+        Country l_randomNeighbour;
+        do {
+            l_randomNeighbour = p_gameState.getD_map().retrieveCountry(l_randomOwnCountry.getD_neighbourCountryId().get(l_random.nextInt(l_randomOwnCountry.getD_neighbourCountryId().size())));
+            if(!p_player.getD_coutriesOwned().contains(l_randomNeighbour)){
+                break;
+            }
+            count++;
+        }while(count<l_randomOwnCountry.getD_neighbourCountryId().size());
+
+
         Player l_randomPlayer = getRandomPlayer(p_player, p_gameState);
 
-        if (l_randomOwnCountry.getD_armies()>1) {
-            l_armiesToSend = l_random.nextInt(l_randomOwnCountry.getD_armies() - 1) + 1;
+        if (l_randomOwnCountry.getD_currentArmies()>0) {
+            l_armiesToSend = l_random.nextInt(l_randomOwnCountry.getD_currentArmies() - 1);
         } else {
-            l_armiesToSend = 1;
+            l_armiesToSend = 0;
         }
         switch(p_cardName){
             case "bomb":
@@ -189,6 +212,7 @@ public class RandomPlayer extends PlayerBehavior{
             case "airlift":
                 return "airlift "+ l_randomOwnCountry.getD_countryName()+" "+getRandomCountry(p_player.getD_coutriesOwned()).getD_countryName()+" "+l_armiesToSend;
             case "negotiate":
+                System.out.println();
                 return "negotiate"+" "+l_randomPlayer.getPlayerName();
         }
         return null;
