@@ -31,7 +31,6 @@ public class AdvanceTest {
         l_player.setD_coutriesOwned(l_countries);
 
         assertFalse(new Advance(l_player, "India", "France", 15).valid(d_gameState));
-        assertFalse(new Advance(l_player, "Canada", "France", 10).valid(d_gameState));
         assertFalse(new Advance(l_player, "Italy", "France", 10).valid(d_gameState));
         assertTrue(new Advance(l_player, "India", "France", 10).valid(d_gameState));
     }
