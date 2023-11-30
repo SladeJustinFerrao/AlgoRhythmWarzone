@@ -227,16 +227,18 @@ public class OrderExecutionPhase extends Phase {
         Integer l_totalCountries = p_gameState.getD_map().getD_countries().size();
         d_playerService.updatePlayersInGame(p_gameState);
         int maxCountriesConquered = Integer.MIN_VALUE;
-        for (Player l_player : p_gameState.getD_players()) {
-            if (l_player.getD_coutriesOwned().size() > maxCountriesConquered) {
-                maxCountriesConquered = l_player.getD_coutriesOwned().size();
-            }
-            if (maxCountriesConquered == l_totalCountries) {
-                break;
+        if(p_gameState.getD_numberOfTurnsLeft()==1){
+            for (Player l_player : p_gameState.getD_players()) {
+                if (l_player.getD_coutriesOwned().size() > maxCountriesConquered) {
+                    maxCountriesConquered = l_player.getD_coutriesOwned().size();
+                }
+                if (maxCountriesConquered == l_totalCountries) {
+                    break;
+                }
             }
         }
         for (Player l_player : p_gameState.getD_players()) {
-            if (l_player.getD_coutriesOwned().size() == maxCountriesConquered) {
+            if (l_player.getD_coutriesOwned().size() == (maxCountriesConquered == Integer.MIN_VALUE ? l_totalCountries : maxCountriesConquered)) {
                 d_gameState.setD_winner(l_player);
                 d_gameEngine.setD_gameEngineLog("Player : " + l_player.getPlayerName()
                         + " has won the Game by conquering all countries. Exiting the Game .....", "end");
