@@ -3,7 +3,9 @@ package Utils;
 import Constants.GameConstants;
 import Models.GameState;
 
-public class UncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
+import java.io.Serializable;
+
+public class UncaughtExceptionHandler implements Thread.UncaughtExceptionHandler, Serializable {
 
     /**
      * GameState of the Exception

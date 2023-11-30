@@ -7,8 +7,9 @@ import Services.PlayerServices;
 import Utils.Command;
 
 import java.io.IOException;
+import java.io.Serializable;
 
-public abstract class Phase {
+public abstract class Phase implements Serializable {
 
     /**
      * Stores the information about the current GamePlay.
